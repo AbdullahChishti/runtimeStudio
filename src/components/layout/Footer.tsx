@@ -97,9 +97,16 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-light">
-            © {new Date().getFullYear()} Runtime Studio
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-light">
+              © {new Date().getFullYear()} Runtime Studio
+            </p>
+            {process.env.NEXT_PUBLIC_APP_VERSION ? (
+              <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-light">
+                v{process.env.NEXT_PUBLIC_APP_VERSION}
+              </span>
+            ) : null}
+          </div>
           <p className="text-sm text-muted">
             {siteConfig.email}
           </p>

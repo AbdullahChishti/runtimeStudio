@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:pages": "NEXT_PUBLIC_BASE_PATH=/runtimeStudio NEXT_PUBLIC_SITE_URL=https://abdullahchishti.github.io/runtimeStudio next build",
+    "build:pages:version": "NEXT_PUBLIC_BASE_PATH=/runtimeStudio/v${VERSION} NEXT_PUBLIC_SITE_URL=https://abdullahchishti.github.io/runtimeStudio/v${VERSION} NEXT_PUBLIC_APP_VERSION=${VERSION} next build",
     "start": "next start",
     "lint": "eslint"
   },

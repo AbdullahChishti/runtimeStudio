@@ -4,18 +4,18 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "v*"
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: gh-pages-deploy
+  cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,24 +30,42 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build static site
+      - name: Extract version from tag
+        if: startsWith(github.ref, 'refs/tags/')
+        id: version
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "base_path=/runtimeStudio/$TAG" >> "$GITHUB_OUTPUT"
+          echo "site_url=https://abdullahchishti.github.io/runtimeStudio/$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build static site (latest)
+        if: github.ref == 'refs/heads/main'
+        run: npm run build:pages
+
+      - name: Build static site (versioned)
+        if: startsWith(github.ref, 'refs/tags/')
         run: npm run build
         env:
-          NEXT_PUBLIC_BASE_PATH: /runtimeStudio
-          NEXT_PUBLIC_SITE_URL: https://abdullahchishti.github.io/runtimeStudio
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.version.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.version.outputs.site_url }}
+          NEXT_PUBLIC_APP_VERSION: ${{ steps.version.outputs.version }}
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy latest to site root
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: out
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          keep_files: true
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy version to subfolder
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          destination_dir: ${{ steps.version.outputs.tag }}
+          keep_files: true
