@@ -1,24 +1,26 @@
-import {
-  Hero,
-  TrustSection,
-  FinalCTA,
-} from "@/components/home/Hero";
-import { ServicesOverview } from "@/components/home/ServicesOverview";
-import { FeaturedWork } from "@/components/home/FeaturedWork";
-import { HowWeWork, WhyRuntimeStudio } from "@/components/home/HowWeWork";
-import { InsightsPreview } from "@/components/home/InsightsPreview";
+import { createMetadata } from "@/lib/metadata";
+import { HeroSection } from "@/components/home/HeroSection";
+import { ServicesSection } from "@/components/home/ServicesSection";
+import { CaseStudiesSection } from "@/components/home/CaseStudiesSection";
+import { ProcessSection } from "@/components/home/ProcessSection";
+import { TrustSection } from "@/components/home/TrustSection";
+import { WhyUsSection } from "@/components/home/WhyUsSection";
+import { InsightsSection } from "@/components/home/InsightsSection";
+import { CallToActionSection } from "@/components/home/CallToActionSection";
+
+export const metadata = createMetadata({});
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <HeroSection />
+      <ServicesSection />
+      <CaseStudiesSection />
+      <ProcessSection />
       <TrustSection />
-      <ServicesOverview />
-      <FeaturedWork />
-      <HowWeWork />
-      <WhyRuntimeStudio />
-      <InsightsPreview />
-      <FinalCTA />
+      <WhyUsSection />
+      <InsightsSection />
+      <CallToActionSection />
     </>
   );
 }

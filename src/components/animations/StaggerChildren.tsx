@@ -2,6 +2,14 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { type ReactNode } from "react";
+import {
+  motionDurations,
+  motionEasing,
+  reducedMotionTransition,
+  staggerContainerVariants,
+  staggerItemVariants,
+  viewportDefaults,
+} from "./motion";
 
 type StaggerChildrenProps = {
   children: ReactNode;
@@ -21,14 +29,12 @@ export function StaggerChildren({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ ...viewportDefaults, margin: "-60px" }}
       variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: shouldReduceMotion ? 0 : stagger,
-          },
-        },
+        hidden: staggerContainerVariants.hidden,
+        visible: shouldReduceMotion
+          ? {}
+          : staggerContainerVariants.visible(stagger),
       }}
     >
       {children}
@@ -49,18 +55,58 @@ export function StaggerItem({
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: shouldReduceMotion ? 0 : 0.5,
-            ease: [0.21, 0.47, 0.32, 0.98],
-          },
-        },
+        hidden: shouldReduceMotion
+          ? { opacity: 1, y: 0 }
+          : staggerItemVariants.hidden,
+        visible: shouldReduceMotion
+          ? { opacity: 1, y: 0, transition: reducedMotionTransition }
+          : staggerItemVariants.visible,
       }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+export function StaggerItemAccent({
+  children,
+  className,
+  accent = "indigo",
+}: {
+  children: ReactNode;
+  className?: string;
+  accent?: "indigo" | "coral" | "teal";
+}) {
+  const shouldReduceMotion = useReducedMotion();
+  const accentBorder = {
+    indigo: "border-l-accent-indigo",
+    coral: "border-l-accent-coral",
+    teal: "border-l-accent-teal",
+  }[accent];
+
+  return (
+    <motion.div
+      className={className}
+      variants={{
+        hidden: shouldReduceMotion
+          ? { opacity: 1, y: 0, borderLeftWidth: 2 }
+          : { ...staggerItemVariants.hidden, borderLeftWidth: 0 },
+        visible: shouldReduceMotion
+          ? { opacity: 1, y: 0, borderLeftWidth: 2, transition: reducedMotionTransition }
+          : {
+              ...staggerItemVariants.visible,
+              borderLeftWidth: 2,
+              transition: {
+                ...staggerItemVariants.visible.transition,
+                borderLeftWidth: {
+                  duration: motionDurations.fast,
+                  ease: motionEasing,
+                },
+              },
+            },
+      }}
+    >
+      <div className={`border-l-2 pl-4 ${accentBorder}`}>{children}</div>
     </motion.div>
   );
 }

@@ -1,27 +1,30 @@
-import Link from "next/link";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
-  getAllServiceSlugs,
   getServiceBySlug,
+  getAllServiceSlugs,
+  accentClasses,
 } from "@/content/services";
-import { getCaseStudyBySlug } from "@/content/caseStudies";
-import { FadeIn } from "@/components/animations/FadeIn";
-import { Button } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
-import { Section } from "@/components/ui/Section";
 import { createMetadata } from "@/lib/metadata";
+import { ServiceDetailHero } from "@/components/services/ServiceDetailHero";
+import { ServiceDetailSection } from "@/components/services/ServiceDetailSection";
+import { RelatedCaseStudies } from "@/components/services/RelatedCaseStudies";
+import { ServiceCTA } from "@/components/services/ServiceCTA";
+import { cn } from "@/lib/utils";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return getAllServiceSlugs().map((slug) => ({ slug }));
+  const slugs = getAllServiceSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
+
   if (!service) return {};
 
   return createMetadata({
@@ -35,152 +38,105 @@ export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
 
-  if (!service) notFound();
+  if (!service) {
+    notFound();
+  }
 
-  const relatedStudies = service.relatedCaseStudySlugs
-    .map((studySlug) => getCaseStudyBySlug(studySlug))
-    .filter(Boolean);
+  const accent = accentClasses[service.accent];
 
   return (
-    <>
-      <section className="border-b border-border pt-28 pb-16 lg:pt-36 lg:pb-20">
-        <Container>
-          <FadeIn>
-            <Link
-              href="/services"
-              className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted transition-colors hover:text-foreground"
-            >
-              ← All services
-            </Link>
-            <p className="mt-8 font-mono text-xs text-muted">{service.number}</p>
-            <h1 className="mt-3 max-w-3xl text-balance text-4xl font-medium tracking-tight text-foreground sm:text-5xl">
-              {service.title}
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-              {service.intro}
-            </p>
-          </FadeIn>
-        </Container>
-      </section>
+    <main className="min-h-screen">
+      <ServiceDetailHero service={service} />
 
-      <Section>
-        <div className="grid gap-16 lg:grid-cols-2">
-          <FadeIn>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-              Capabilities
-            </p>
-            <ul className="mt-6 space-y-3">
-              {service.capabilities.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 border-b border-border py-3 text-sm text-foreground last:border-b-0"
-                >
-                  <span className="mt-2 h-px w-4 shrink-0 bg-foreground" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </FadeIn>
+      <ServiceDetailSection
+        title="Capabilities"
+        accent={service.accent}
+        id="capabilities"
+      >
+        <ul className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+          {service.capabilities.map((capability) => (
+            <li key={capability} className="flex items-start gap-3">
+              <span
+                className={cn(
+                  "mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full",
+                  accent.dot,
+                )}
+                aria-hidden="true"
+              />
+              <span className="text-lg leading-relaxed text-foreground">
+                {capability}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </ServiceDetailSection>
 
-          <FadeIn delay={0.1}>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-              Problems we solve
-            </p>
-            <ul className="mt-6 space-y-4">
-              {service.problems.map((item) => (
-                <li key={item} className="text-sm leading-relaxed text-muted">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </FadeIn>
+      <ServiceDetailSection
+        title="The Problem"
+        accent={service.accent}
+        className="bg-surface-elevated"
+        id="problem"
+      >
+        <div className="max-w-2xl space-y-6">
+          {service.problems.map((problem) => (
+            <div key={problem} className="flex items-start gap-4">
+              <span className="font-mono text-muted" aria-hidden="true">
+                —
+              </span>
+              <p className="text-lg leading-relaxed text-muted">{problem}</p>
+            </div>
+          ))}
         </div>
-      </Section>
+      </ServiceDetailSection>
 
-      <Section border className="bg-surface-elevated">
-        <div className="grid gap-16 lg:grid-cols-2">
-          <FadeIn>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-              Our approach
-            </p>
-            <ol className="mt-6 space-y-4">
-              {service.approach.map((step, index) => (
-                <li key={step} className="flex gap-4 text-sm leading-relaxed text-muted">
-                  <span className="font-mono text-xs text-muted-light">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {step}
-                </li>
-              ))}
-            </ol>
-          </FadeIn>
+      <ServiceDetailSection
+        title="Approach"
+        accent={service.accent}
+        id="approach"
+      >
+        <ol className="space-y-10">
+          {service.approach.map((step, index) => (
+            <li key={step} className="flex gap-5">
+              <span
+                className={cn(
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-mono text-sm text-background",
+                  accent.dot,
+                )}
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p className="pt-0.5 text-lg leading-relaxed text-foreground">
+                {step}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </ServiceDetailSection>
 
-          <FadeIn delay={0.1}>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-              Outcomes
-            </p>
-            <ul className="mt-6 space-y-3">
-              {service.outcomes.map((item) => (
-                <li
-                  key={item}
-                  className="border border-border bg-background px-4 py-3 text-sm text-foreground"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </FadeIn>
-        </div>
-      </Section>
+      <ServiceDetailSection
+        title="Outcomes"
+        accent={service.accent}
+        className="bg-foreground text-background"
+        id="outcomes"
+      >
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {service.outcomes.map((outcome) => (
+            <li key={outcome} className="border-l border-white/20 pl-5">
+              <p className="text-xl font-medium tracking-tight text-background">
+                {outcome}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </ServiceDetailSection>
 
-      {relatedStudies.length > 0 && (
-        <Section border>
-          <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-            Related case studies
-          </p>
-          <div className="grid gap-6 lg:grid-cols-2">
-            {relatedStudies.map((study) =>
-              study ? (
-                <Link
-                  key={study.slug}
-                  href={`/work/${study.slug}`}
-                  className="group border border-border p-6 transition-colors hover:border-border-strong lg:p-8"
-                >
-                  <span className="text-2xl font-medium tracking-tight text-foreground">
-                    {study.metric}
-                  </span>
-                  <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
-                    {study.metricLabel}
-                  </span>
-                  <h3 className="mt-4 text-lg font-medium text-foreground group-hover:text-accent">
-                    {study.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted">{study.summary}</p>
-                </Link>
-              ) : null,
-            )}
-          </div>
-        </Section>
-      )}
+      <RelatedCaseStudies
+        slugs={service.relatedCaseStudySlugs}
+        accent={service.accent}
+      />
 
-      <Section className="bg-foreground">
-        <div className="text-center">
-          <h2 className="text-2xl font-medium tracking-tight text-background sm:text-3xl">
-            Ready to discuss {service.title.toLowerCase()}?
-          </h2>
-          <p className="mx-auto mt-4 max-w-md text-sm text-muted-light">
-            Tell us about your project and we&apos;ll respond within one business day.
-          </p>
-          <div className="mt-8">
-            <Button
-              href="/contact"
-              className="border-background/20 bg-background text-foreground hover:bg-background/90"
-            >
-              Start a project
-            </Button>
-          </div>
-        </div>
-      </Section>
-    </>
+      <ServiceCTA service={service} />
+    </main>
   );
 }

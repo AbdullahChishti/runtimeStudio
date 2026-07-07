@@ -13,9 +13,9 @@ function withBasePath(path: string) {
 
 export const siteConfig = {
   name: "Runtime Studio",
-  tagline: "Better software. Smarter systems. Built with confidence.",
+  tagline: "Systems engineered for confidence.",
   description:
-    "Runtime Studio is a technology consultancy specialising in quality engineering, AI systems, automation, and modern software development.",
+    "A senior engineering studio for quality engineering, AI systems, and modern software delivery. We build software teams can trust in production — measured, deliberate, and precise.",
   url: siteUrl,
   email: "hello@runtimestudio.com",
   linkedin: "https://linkedin.com/company/runtimestudio",

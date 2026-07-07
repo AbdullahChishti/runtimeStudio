@@ -1,14 +1,71 @@
+export type ServiceAccent = "teal" | "violet" | "amber" | "indigo";
+
 export type Service = {
   slug: string;
   number: string;
   title: string;
   shortDescription: string;
   intro: string;
+  accent: ServiceAccent;
   capabilities: string[];
   problems: string[];
   approach: string[];
   outcomes: string[];
   relatedCaseStudySlugs: string[];
+};
+
+export const accentClasses: Record<
+  ServiceAccent,
+  {
+    text: string;
+    textMuted: string;
+    bgSubtle: string;
+    bgWash: string;
+    border: string;
+    dot: string;
+    heroWash: string;
+  }
+> = {
+  teal: {
+    text: "text-accent-teal",
+    textMuted: "text-accent-teal-muted",
+    bgSubtle: "bg-accent-teal-subtle",
+    bgWash: "bg-accent-teal-wash",
+    border: "border-accent-teal-border",
+    dot: "bg-accent-teal",
+    heroWash:
+      "bg-[radial-gradient(ellipse_80%_60%_at_20%_0%,var(--accent-teal-subtle),transparent_70%)]",
+  },
+  violet: {
+    text: "text-accent-violet",
+    textMuted: "text-accent-violet-muted",
+    bgSubtle: "bg-accent-violet-subtle",
+    bgWash: "bg-accent-violet-wash",
+    border: "border-accent-violet-border",
+    dot: "bg-accent-violet",
+    heroWash:
+      "bg-[radial-gradient(ellipse_80%_60%_at_20%_0%,var(--accent-violet-subtle),transparent_70%)]",
+  },
+  amber: {
+    text: "text-accent-amber",
+    textMuted: "text-accent-amber-muted",
+    bgSubtle: "bg-accent-amber-subtle",
+    bgWash: "bg-accent-amber-wash",
+    border: "border-accent-amber-border",
+    dot: "bg-accent-amber",
+    heroWash:
+      "bg-[radial-gradient(ellipse_80%_60%_at_20%_0%,var(--accent-amber-subtle),transparent_70%)]",
+  },
+  indigo: {
+    text: "text-accent-indigo",
+    textMuted: "text-accent-indigo-muted",
+    bgSubtle: "bg-accent-indigo-subtle",
+    bgWash: "bg-accent-indigo-wash",
+    border: "border-accent-indigo-border",
+    dot: "bg-accent-indigo",
+    heroWash:
+      "bg-[radial-gradient(ellipse_80%_60%_at_20%_0%,var(--accent-indigo-subtle),transparent_70%)]",
+  },
 };
 
 export const services: Service[] = [
@@ -20,6 +77,7 @@ export const services: Service[] = [
       "Modern QA strategy, test automation, and release confidence for teams shipping at pace.",
     intro:
       "Quality engineering at Runtime Studio goes beyond manual testing. We help teams build automated quality systems — from CI pipelines to AI-aware test strategies — that keep pace with modern delivery.",
+    accent: "teal",
     capabilities: [
       "Test strategy & architecture",
       "End-to-end & API test automation",
@@ -62,6 +120,7 @@ export const services: Service[] = [
       "LLM evaluation, AI system design, and production-ready AI infrastructure for real-world applications.",
     intro:
       "We help companies move from AI prototypes to reliable production systems. Our work spans evaluation frameworks, RAG architecture, agent design, and the operational infrastructure AI systems require.",
+    accent: "violet",
     capabilities: [
       "LLM evaluation & benchmarking",
       "RAG system design & optimisation",
@@ -101,6 +160,7 @@ export const services: Service[] = [
       "Senior engineering for modern web applications, APIs, and platform infrastructure.",
     intro:
       "When you need experienced engineers embedded in your team, we deliver. From greenfield builds to critical refactors, we bring production-grade engineering practices and deep technical expertise.",
+    accent: "amber",
     capabilities: [
       "Full-stack web development",
       "API design & microservices",
@@ -140,6 +200,7 @@ export const services: Service[] = [
       "Strategic technical guidance for leaders navigating complex technology decisions.",
     intro:
       "For founders and engineering leaders facing critical decisions — build vs buy, team structure, technology selection, or delivery transformation — we provide honest, experienced perspective.",
+    accent: "indigo",
     capabilities: [
       "Technology strategy & roadmapping",
       "Architecture reviews & audits",

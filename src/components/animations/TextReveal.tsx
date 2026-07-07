@@ -1,12 +1,20 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import {
+  motionDurations,
+  motionEasing,
+  reducedMotionTransition,
+} from "./motion";
 
 type TextRevealProps = {
   text: string;
   className?: string;
   as?: "h1" | "h2" | "h3" | "p";
   delay?: number;
+  /** Word indices (0-based) to render with accent color */
+  accentIndices?: number[];
+  accentClassName?: string;
 };
 
 export function TextReveal({
@@ -14,12 +22,27 @@ export function TextReveal({
   className,
   as: Tag = "h1",
   delay = 0,
+  accentIndices = [],
+  accentClassName = "text-accent-indigo",
 }: TextRevealProps) {
   const shouldReduceMotion = useReducedMotion();
   const words = text.split(" ");
+  const accentSet = new Set(accentIndices);
 
   if (shouldReduceMotion) {
-    return <Tag className={className}>{text}</Tag>;
+    return (
+      <Tag className={className}>
+        {words.map((word, index) => (
+          <span
+            key={`${word}-${index}`}
+            className={accentSet.has(index) ? accentClassName : undefined}
+          >
+            {word}
+            {index < words.length - 1 ? " " : ""}
+          </span>
+        ))}
+      </Tag>
+    );
   }
 
   return (
@@ -27,13 +50,13 @@ export function TextReveal({
       {words.map((word, index) => (
         <span key={`${word}-${index}`} className="inline-block overflow-hidden">
           <motion.span
-            className="inline-block"
+            className={`inline-block ${accentSet.has(index) ? accentClassName : ""}`}
             initial={{ y: "100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
-              duration: 0.5,
+              duration: motionDurations.default,
               delay: delay + index * 0.04,
-              ease: [0.21, 0.47, 0.32, 0.98],
+              ease: motionEasing,
             }}
           >
             {word}

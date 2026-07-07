@@ -10,11 +10,18 @@ export const company = {
   trust: {
     label: "Trusted by teams building ambitious products",
     clients: [
-      "Series A startups",
-      "Scaleups",
-      "Enterprise innovation teams",
-      "AI-native companies",
+      "Vertex Financial",
+      "Lumina Health",
+      "Aether Logistics",
+      "Nidus Systems",
+      "Prism AI",
     ],
+    testimonial: {
+      quote:
+        "They didn't just write tests. They rebuilt our entire approach to quality and made our team self-sufficient.",
+      author: "VP of Engineering",
+      role: "B2B SaaS Scaleup",
+    },
   },
   howWeWork: [
     {
@@ -108,7 +115,7 @@ export const company = {
     headline: "Building something ambitious?",
     description:
       "Tell us about your project. We'll respond within one business day with thoughtful next steps.",
-    cta: "Start a conversation",
+    cta: "Start a project",
   },
 } as const;
 
