@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[14544,["/runtimeStudio/_next/static/chunks/1hcqy_ids7z0s.js","/runtimeStudio/_next/static/chunks/14mrh2-p_w84d.js","/runtimeStudio/_next/static/chunks/2d2l9gl8h1eul.js"],"FadeIn"]
+3:I[97367,["/runtimeStudio/_next/static/chunks/1hcqy_ids7z0s.js","/runtimeStudio/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","section",null,{"className":"pt-28 pb-16 lg:pt-36 lg:pb-24","children":["$","div",null,{"className":"mx-auto w-full px-6 lg:px-8 max-w-3xl","children":["$","$L2",null,{"children":[["$","h1",null,{"className":"text-3xl font-medium tracking-tight text-foreground sm:text-4xl","children":"Terms of Service"}],["$","p",null,{"className":"mt-6 text-sm leading-relaxed text-muted","children":"Placeholder terms of service. Update this page with your legal terms before launch. By using this website, you agree to these terms."}]]}]}]}],[["$","script","script-0",{"src":"/runtimeStudio/_next/static/chunks/2d2l9gl8h1eul.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"rqLp49ebV4HUHvabgbvHz"}
+5:null
