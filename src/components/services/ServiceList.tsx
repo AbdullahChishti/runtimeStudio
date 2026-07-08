@@ -41,13 +41,15 @@ export function ServiceList({ services }: ServiceListProps) {
               className="relative grid grid-cols-1 items-start gap-8 py-10 transition-colors duration-300 hover:bg-surface-elevated lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-14"
             >
               <div className="lg:col-span-2">
-                <span className={cn("label-mono text-2xl", accent.text)}>
+                <span
+                  className={cn("label-mono text-2xl", accent.text)}
+                >
                   {service.number}
                 </span>
               </div>
 
               <div className="lg:col-span-5">
-                <h3 className="text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent-indigo sm:text-3xl">
+                <h3 className="text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent sm:text-3xl">
                   {service.title}
                 </h3>
                 <p className="mt-3 description-standard">

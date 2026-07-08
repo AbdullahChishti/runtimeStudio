@@ -1,216 +1,79 @@
-# The Latent Field
+# Design Manifesto — Open Field
 
-### A next-gen, AI-native visual language for Runtime Studio
+## The Anti-Card Philosophy
 
-> Most "AI" websites look the same: a dark canvas, a violet-to-cyan
-> gradient blob, a glowing orb, a neural-network line drawing, and a
-> monospace headline promising "the future." That is a template. It
-> signals *AI* the way clip-art signals *business*.
->
-> **The Latent Field** rejects the costume. It treats the interface as
-> what an AI-native product actually is — a **living computational
-> substrate** — and lets that idea generate the aesthetic instead of
-> illustrating it.
+Runtime Studio is a technology consultancy: the work is measured, deliberate, and precise. The interface should feel the same way. The previous design language treated content as a collection of discrete, framed objects — cards. Cards are efficient, but they are also generic. They turn every idea into the same boxed unit and ask the reader to scan a grid instead of following a narrative.
 
----
+**Open Field rejects the card.** Content is not placed inside boxes; it is arranged on a continuous compositional field. The page is an editorial canvas: full-bleed sections, asymmetric rows, ruled timelines, sticky scroll narratives, and typographic hierarchy carry the structure. The result is calmer, more confident, and more distinct.
 
-## 1. The thesis
+## What replaces the card
 
-An AI-native brand should not *depict* computation with mascots and
-sci-fi tropes. It should *behave* computationally. So the identity is
-not a fixed set of assets — it is a small set of **axes and functions**
-from which every color, size, rhythm, and motion is *derived at runtime*.
+### 1. Full-bleed sections
 
-Three principles govern everything:
+Each major act on the page is a full-width section. It touches the edges of the viewport. Its boundaries are expressed by rhythm and a hairline rule, not by a box. The `Section` primitive supports `bleed`, `border`, and `accent` top rules so every section reads as a deliberate compositional gesture.
 
-| Principle | Meaning | Where it lives |
-|---|---|---|
-| **Computed Light** | Color is a function, not a swatch. Everything is expressed in OKLCH and sampled from a few axes. | `globals.css` `:root` axes |
-| **Adaptive Structure** | Type and space are fluid scales; the whole system re-renders itself for light or dark substrates. | fluid `--step-*` / `--space-*`, `prefers-color-scheme` |
-| **Emergent Motion** | Interfaces confirm, then *reveal*. Springs and generative fields, one decisive curve. | motion tokens, `GenerativeBackground` |
+### 2. Editorial rows
 
----
+Instead of a grid of equal cards, content is laid out as an editorial row: a label, a body, and an optional aside. This asymmetry lets one item carry more weight than another. The `EditorialRow` primitive replaces the card grid for services, case studies, process steps, and any content that used to be a card.
 
-## 2. Color — a generative function, not a palette
+### 3. Horizontal timelines and ledgers
 
-Traditional brand systems ship a handful of hex values. We ship a
-**generative color engine** built on three CSS custom-property axes:
+Processes, milestones, and metadata are presented as ruled sequences. A `Timeline` runs vertically or horizontally with a single rule and small ticks. A `Ledger` presents facts as a ruled datasheet. The row is the unit; the rule is the structure.
 
-```css
---signal-hue: 24;        /* rotate this and the whole accent re-tunes */
---signal-chroma: 0.205;
---ink-hue: 268;          /* the faint spectral cast in every neutral */
-```
+### 4. Asymmetric grids
 
-Every color in the system is computed from these axes in **OKLCH** —
-a *perceptual* color space where lightness is uniform and hue rotation
-doesn't shift perceived brightness. Two consequences:
+When a grid is needed, the columns are not equal. An `asymmetric-grid` might be 1fr / 0.65fr, or 0.45fr / 1fr. The imbalance creates visual tension and lets the dominant element breathe.
 
-1. **The brand color is a variable, not a constant.** Rotating
-   `--signal-hue` re-tunes CTAs, focus rings, status, and hero accents
-   *in perceptual lockstep*. A section, a route, or a data state can own
-   its own hue without anyone re-picking a palette. This is the
-   "data-driven aesthetics" idea made literal: **the accent can be
-   driven by data.**
+### 5. Floating and layered compositions
 
-2. **Dark mode is free and correct.** Because colors are derived from
-   lightness axes, the dark substrate is the same system with inverted
-   L values — not a hand-maintained second theme.
+Elements can break the grid with negative offsets (`floating-*`) or occupy shared planes (`layer-stack`). This is used sparingly for hero moments and abstract visuals, not for everyday content. The field is the container; the elements are the content.
 
-### The spectral ring
+### 6. Sticky scroll narratives
 
-For anything categorical — charts, tags, category coding, the
-`GenerativeBackground` — we sample a **perceptually even six-stop ring**
-around the OKLCH wheel (`--spectral-1 … --spectral-6`). Because the stops
-are equal-lightness, a bar chart made from them reads as *one family*,
-never as a random assortment. Data becomes texture.
+Long-form explanations are told as a sticky narrative: a figure or statement stays pinned while the body scrolls beside it. This keeps the reader oriented without boxing the content. The `StickyNarrative` primitive is the anti-card way to present a detailed story.
 
-### Why this defies the cliché
+### 7. Typographic treatments
 
-- No violet→cyan "AI gradient." The signal hue is a warm, high-chroma
-  **flux** by default (an ember, not a laser).
-- No neon-on-black. The default substrate is a **cool computed vellum**
-  with a faint spectral cast; dark mode is a graphite substrate, not
-  pure black.
-- Color is **rationed**. The saturated signal appears on intent (CTAs,
-  live status, one hero word). Because it's rare, it means something.
+Type carries the hierarchy. Display headings are large and tight. Section kickers are small, mono, and paired with a thin rule. Body copy is measured at a comfortable 68ch. The accent color is rationed: one weighted word in a headline, one status dot, one active rule.
 
----
+### 8. Abstract visuals and generative fields
 
-## 3. Typography — an adaptive scale, not a breakpoint ladder
+Decorative elements are not cards either. A `GenerativeBackground` is a live particle field sampled from the OKLCH tokens. A `Field` pattern is a drafting grid, dot field, or contour wash. These read as computational substrate, not ornament.
 
-Type is set on a **fluid modular scale** (`--step--2 … --step-8`) built
-from `clamp()`. Sizes interpolate continuously with the viewport, so
-there is no jarring jump at `md:` or `lg:` — the hierarchy *breathes*.
+## The surface vocabulary
 
-- **Voice:** Geist (grotesque display + text) with **Geist Mono** as the
-  technical register — used for labels, readouts, and tabular numerals
-  (`.data-readout`, `font-variant-numeric: tabular-nums`). The monospace
-  isn't decoration; it's the system speaking in its native, measured
-  tongue.
-- **Optical tightening:** display sizes carry negative tracking and
-  near-1.0 line-height; body stays open at 1.7 for long-form trust.
-- **`text-wrap: balance` / `pretty`** keep headlines and paragraphs
-  optically even without manual line breaks.
+- **Full-bleed sections** — the primary container.
+- **Hairline rules** — the primary separator.
+- **Editorial rows** — the primary content unit.
+- **Timelines and ledgers** — the primary sequence unit.
+- **Panels** — used only for technical readouts, code, and data viz. A panel is a ruled drafting surface, not a card. It is never used to wrap editorial content.
+- **Buttons, inputs, nav, and footer** — remain as functional chrome.
+- **No `.card*` classes** — no `card`, `card-interactive`, `card-signal`, `heading-card`, or any card-named token. The legacy `--card` and `--card-foreground` tokens have been removed.
 
-Advanced usage: `.text-gradient-spectral` clips the animated spectral
-ring into headline glyphs for a single, rare "generative" moment — a
-controlled defiance, not a default.
+## Color and motion
 
----
+The palette is still the OKLCH "computed light" system. `--signal-hue` rotates the brand accent; `--ink-hue` tints the neutrals. Dark mode is a true inversion, not an afterthought. Motion is one shared curve: confirm, then reveal. Entrances are decisive; interactions are springy but restrained.
 
-## 4. Space — a dynamic, fluid rhythm
+## How to use the system
 
-Spacing is a **fluid scale** (`--space-3xs … --space-3xl`), also
-`clamp()`-based. Section rhythm and container gutters sample from it, so
-**density adapts to the device** instead of snapping between fixed
-paddings. A phone gets a tighter, purposeful rhythm; a wide display gets
-room to breathe — from the *same tokens*.
+1. Reach for `Section` and `Container` first.
+2. Put content in `EditorialRow`, `Ledger`, `Timeline`, or `StickyNarrative`.
+3. Use `Heading` and `Text` for the typographic hierarchy.
+4. Use `Badge` and `Label` for meta information — they are inline markers, not pills.
+5. Use `Button` for actions.
+6. Use `Panel` only for technical surfaces: data viz, code, readouts.
+7. Never import a `Card` component. None exists in the new system.
 
-The `Container` measure is deliberately conservative (`max-w-*` +
-fluid gutters) so line length stays readable while the field layers
-behind it can go full-bleed (`bleed`).
+## Migration notes for the integration subagent
 
----
+- `src/components/ui/Card.tsx` has been deleted.
+- `Card` is no longer exported from `src/components/ui/index.ts`.
+- The CSS class `.heading-card` has been renamed to `.heading-block` in `globals.css`. Any component still using `heading-card` will fall back to browser defaults for that class and should be updated to `heading-block`.
+- Any component using `className="card ..."` (e.g., `StepCard`, `WhyUsCard`, `TrustReasonCard`, `ServiceCard`, `TeamMemberCard`, `ArticleCard`) will lose the card styling but will still render. These should be refactored into `EditorialRow`, `Ledger`, `Timeline`, or plain ruled blocks.
+- `CaseStudyCard` has already been migrated to an anti-card editorial link.
+- The `Badge` component now renders as an inline marker with a leading dot. The previous boxed variants (`default`, `outline`, `spectral`) are still accepted but may look different.
+- `InteractiveDataViz` now uses a ruled technical frame instead of a rounded panel.
 
-## 5. Structure — drawn by algorithm, not chrome
+## The point
 
-Depth and interest come from **algorithmic fields**, never from drop
-shadows, glassmorphism, or card soup:
-
-- `.field-lattice` — an adaptive drafting grid whose cell size tracks the
-  viewport, masked to fade at the edges.
-- `.field-dots` — the "sampled points" motif.
-- `.field-contour` — faint isolines: the trace of a scalar field.
-- `.field-noise` — an almost-imperceptible fractal-noise film (pure SVG
-  data-URI) so large fills read as *lit surfaces*, not flat paint.
-
-Surfaces are framed with **hairlines and corner ticks** (`.panel-ticks`,
-`.spectral-edge`) — an engineered, instrument-panel detail language.
-
-### `GenerativeBackground`
-
-A dependency-free `<canvas>` that advects particles through a smooth
-pseudo–flow field (layered trigonometric noise), leaving hairline traces
-that reveal the *shape of a field*. It is the manifesto in one component:
-
-- **Self-adapting:** it samples its colors straight from the CSS tokens,
-  so it follows light/dark and any `--signal-hue` rotation with zero
-  configuration.
-- **Responsible:** it pauses off-screen (IntersectionObserver) and when
-  the tab is hidden, caps DPR, and renders a **single static frame**
-  under `prefers-reduced-motion`.
-- **Structural, not loud:** ink hairlines by default, with only a small
-  `accentRatio` of live-hue particles.
-
----
-
-## 6. Motion — confirm, then reveal
-
-One expressive **expo-out** curve (`--ease-out`) governs entrances:
-short travel, quick settle. Interaction adds a **spring** token
-(`--ease-spring`) for emergent, physical feedback. Motion changes color
-and a hairline ring — never a bloom.
-
-- Entrances are decisive and small (mirrored in `motion.ts` for
-  framer-motion so CSS and JS stay unified).
-- Generative layers use a slow `--duration-drift` cycle.
-- **Every motion has a reduced-motion path.** Nothing is load-bearing on
-  animation.
-
----
-
-## 7. Data as a first-class aesthetic
-
-`InteractiveDataViz` treats a chart as an expression of the language, not
-a bolted-on widget:
-
-- The series is **generated algorithmically** (a seeded, deterministic
-  mean-reverting walk) so it renders identically on server and client for
-  static export — no hydration drift.
-- The palette is **the spectral ring**, so the chart is visually part of
-  the system.
-- It is **interactive** (pointer/keyboard reveals a live readout) and
-  **accessible** (the series is exposed as text; motion respects
-  preferences).
-
-This is "data-driven aesthetics" as a component: the data literally
-draws the picture, in the brand's own colors.
-
----
-
-## 8. How this defies existing templates
-
-| The template says… | The Latent Field does… |
-|---|---|
-| Pick 1 brand color. | Derive color from rotatable OKLCH axes. |
-| Ship light + dark as two themes. | Derive both from one lightness axis. |
-| AI = dark mode + violet gradient + orbs. | AI = a computed substrate + algorithmic fields. |
-| Fixed type sizes per breakpoint. | Continuous fluid `clamp()` scales. |
-| Depth = shadows and glass. | Depth = hairlines, fields, and noise. |
-| Charts are third-party widgets. | Charts are generated in the system's own palette. |
-| Motion is decoration. | Motion confirms intent, always with a reduced path. |
-
----
-
-## 9. Engineering guarantees
-
-The new identity is a **superset**, not a rewrite of the contract:
-
-- **Every previous token name and utility class is preserved** and
-  remapped onto the new spectral engine, so all existing components adopt
-  the identity with no code changes.
-- **Deployment is untouched:** GitHub Pages config (`next.config.ts`
-  `output: "export"`, `basePath` `/runtimeStudio`, `assetPrefix`,
-  `trailingSlash`) and `.github/workflows/deploy.yml` are unchanged;
-  metadata continues to honor `NEXT_PUBLIC_BASE_PATH`.
-- **Accessibility & performance:** OKLCH substrate contrast is tuned for
-  legibility; all generative/animated layers honor
-  `prefers-reduced-motion` and pause when not visible.
-
----
-
-### The one-line version
-
-> **The brand isn't a color. It's a function — and the interface is the
-> field it renders.**
+The goal is not to be different for its own sake. The goal is to make the interface feel as intentional as the engineering work it describes. A card says "here is one of many items." An editorial row says "here is a thought, and here is why it matters." Open Field chooses the latter.

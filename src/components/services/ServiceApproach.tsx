@@ -4,26 +4,33 @@ import { ServiceSection } from "./ServiceSection";
 
 interface ServiceApproachProps {
   service: Service;
+  id?: string;
 }
 
-export function ServiceApproach({ service }: ServiceApproachProps) {
+export function ServiceApproach({ service, id }: ServiceApproachProps) {
   const styles = accentClasses[service.accent];
 
   return (
-    <ServiceSection title="Our Approach" accent={service.accent} className="bg-surface-elevated">
-      <ol className="space-y-10">
+    <ServiceSection
+      id={id}
+      title="Our approach"
+      accent={service.accent}
+      contained={false}
+      className="bg-surface-elevated"
+    >
+      <ol className="relative ml-4 space-y-10 border-l border-border">
         {service.approach.map((step, index) => (
-          <li key={step} className="flex gap-5">
+          <li key={step} className="relative pl-8">
             <span
               className={cn(
-                "flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-mono text-sm text-background",
+                "absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full font-mono text-sm text-background",
                 styles.dot,
               )}
               aria-hidden="true"
             >
               {String(index + 1).padStart(2, "0")}
             </span>
-            <p className="pt-0.5 text-lg leading-relaxed text-foreground">
+            <p className="pt-1 text-lg leading-relaxed text-foreground">
               {step}
             </p>
           </li>

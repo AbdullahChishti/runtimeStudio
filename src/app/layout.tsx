@@ -18,6 +18,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${GeistSans.variable} ${GeistMono.variable} h-full scroll-smooth`}
+      data-scroll-behavior="smooth"
     >
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground antialiased">
         <a

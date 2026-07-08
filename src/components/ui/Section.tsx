@@ -14,9 +14,13 @@ type SectionProps = {
   id?: string;
   border?: boolean;
   accent?: AccentColor | false;
-  size?: "default" | "narrow" | "wide";
+  size?: "default" | "narrow" | "wide" | "full";
   /** Draw a subtle generative substrate behind the section. */
   field?: SectionField | false;
+  /** Force the section to be a full-bleed act on the page canvas. */
+  bleed?: boolean;
+  /** Layout shorthand — does not wrap content in a container when false. */
+  contain?: boolean;
 };
 
 const accentBorderClasses: Record<AccentColor, string> = {
@@ -41,6 +45,12 @@ const fieldClasses: Record<SectionField, string> = {
   contour: "field-contour",
 };
 
+/**
+ * Section — a full-bleed act in the Open Field composition. Content is
+ * held by the editorial grid, not by cards. Use `field` for a generative
+ * substrate, `accent` for a thematic top rule, and `bleed` for an
+ * edge-to-edge canvas.
+ */
 export function Section({
   children,
   className,
@@ -50,12 +60,15 @@ export function Section({
   accent = false,
   size = "default",
   field = false,
+  bleed = false,
+  contain = true,
 }: SectionProps) {
   return (
     <section
       id={id}
       className={cn(
         "relative py-[var(--spacing-section-sm)] lg:py-[var(--spacing-section)]",
+        bleed && "bleed",
         border && !accent && "border-t border-border",
         accent && accentBorderClasses[accent],
         accent && accentWashClasses[accent],
@@ -71,23 +84,32 @@ export function Section({
           )}
         />
       )}
-      <Container size={size} className={containerClassName}>
-        {children}
-      </Container>
+      {contain ? (
+        <Container size={size} className={containerClassName}>
+          {children}
+        </Container>
+      ) : (
+        <div className={containerClassName}>{children}</div>
+      )}
     </section>
   );
 }
 
 type SectionHeaderProps = {
   label?: string;
-  title: string;
+  title: ReactNode;
   description?: string;
   align?: "left" | "center";
   className?: string;
   accentLabel?: boolean;
-  accentTitle?: ReactNode;
+  kicker?: boolean;
 };
 
+/**
+ * SectionHeader — a typographic section marker. The label is rendered as
+ * a mono kicker; the title is a large section heading. No boxed header,
+ * just a clear vertical rhythm.
+ */
 export function SectionHeader({
   label,
   title,
@@ -95,7 +117,7 @@ export function SectionHeader({
   align = "left",
   className,
   accentLabel = false,
-  accentTitle,
+  kicker = false,
 }: SectionHeaderProps) {
   return (
     <div
@@ -110,13 +132,14 @@ export function SectionHeader({
           className={cn(
             "mb-4 label-mono text-muted",
             accentLabel && "section-label-accent",
+            kicker && "kicker-rule",
           )}
         >
           {label}
         </p>
       )}
       <h2 className="heading-section text-balance">
-        {accentTitle ?? title}
+        {title}
       </h2>
       {description && (
         <p className="mt-5 max-w-2xl description-standard">

@@ -24,6 +24,8 @@ export const company = {
     },
   },
   about: {
+    headline:
+      "Senior engineers committed to systems your team can trust.",
     intro:
       "Runtime Studio is a senior technical consultancy for companies that need more than generic advice. We help teams build software and AI systems they can trust — with the engineering rigour to match their ambition.",
     philosophy:

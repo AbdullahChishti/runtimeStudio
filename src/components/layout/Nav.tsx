@@ -1,28 +1,31 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { mainNav } from "@/content/navigation";
 import { siteConfig } from "@/lib/metadata";
-import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
+
+function normalizePath(path: string) {
+  return path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
+}
 
 export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const closeMenu = () => setMobileOpen(false);
+  const activePath = normalizePath(pathname ?? "/");
 
-  // Focus trap + Escape-to-close + focus restore while the menu is open.
   useEffect(() => {
     if (!mobileOpen) return;
 
+    document.body.style.overflow = "hidden";
     const menu = menuRef.current;
     const focusable = menu?.querySelectorAll<HTMLElement>(
-      'a[href], button:not([disabled])',
+      "a[href], button:not([disabled])",
     );
     focusable?.[0]?.focus();
 
@@ -48,8 +51,6 @@ export function Nav() {
     }
 
     document.addEventListener("keydown", onKeyDown);
-    document.body.style.overflow = "hidden";
-
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
@@ -57,45 +58,57 @@ export function Nav() {
   }, [mobileOpen]);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-40 border-b border-border backdrop-blur-sm",
-        mobileOpen ? "bg-background" : "bg-background/90",
-      )}
-    >
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-[14px]">
       <Container>
         <div className="flex h-16 items-center justify-between">
-          <Link
-            href="/"
-            className="text-sm font-semibold tracking-[0.02em] text-foreground text-gradient-spectral transform-gpu transition-transform duration-300 hover:scale-105"
+          <a
+            href={withBasePath("/")}
+            className="group flex items-center gap-2 text-sm font-semibold tracking-[-0.01em] text-foreground transition-colors duration-200 hover:text-accent"
           >
-            {siteConfig.name}
-          </Link>
+            <span className="inline-flex h-6 w-6 items-center justify-center border border-border-strong text-[0.625rem] font-bold leading-none transition-colors group-hover:border-accent">
+              RS
+            </span>
+            <span>{siteConfig.name}</span>
+          </a>
 
-          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
-            {mainNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={pathname === item.href ? "page" : undefined}
-                className={cn(
-                  "relative text-sm text-muted transition-colors hover:text-foreground group",
-                  pathname === item.href && "text-foreground",
-                )}
-              >
-                {item.label}
-                <span className={cn(
-                  "nav-accent-line absolute bottom-0 left-0 w-full h-[1px] bg-accent transition-all duration-300 origin-left",
-                  pathname === item.href ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-50 group-hover:opacity-50",
-                )} />
-              </Link>
-            ))}
+          <nav
+            aria-label="Primary"
+            className="hidden items-center gap-8 md:flex"
+          >
+            {mainNav.map((item) => {
+              const isActive = activePath === normalizePath(item.href);
+              return (
+                <a
+                  key={item.href}
+                  href={withBasePath(item.href)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    "relative py-1 text-sm tracking-[-0.01em] transition-colors duration-200",
+                    isActive
+                      ? "text-foreground"
+                      : "text-muted hover:text-foreground",
+                  )}
+                >
+                  {item.label}
+                  <span
+                    className={cn(
+                      "absolute bottom-0 left-0 h-[1px] w-full origin-left bg-accent transition-transform duration-300 ease-out",
+                      isActive ? "scale-x-100" : "scale-x-0",
+                    )}
+                    aria-hidden="true"
+                  />
+                </a>
+              );
+            })}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <Button href="/contact" size="sm" className="hidden sm:inline-flex btn-glow-hover">
+          <div className="flex items-center gap-3">
+            <a
+              href={withBasePath("/contact")}
+              className="hidden items-center justify-center rounded-sm bg-foreground px-3.5 py-2 text-[0.8125rem] font-medium tracking-[-0.01em] text-background transition-colors duration-200 hover:bg-accent hover:text-[var(--primary-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:inline-flex"
+            >
               Contact
-            </Button>
+            </a>
 
             <button
               ref={toggleRef}
@@ -104,7 +117,7 @@ export function Nav() {
               aria-controls="mobile-menu"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               onClick={() => setMobileOpen((open) => !open)}
-              className="flex h-11 w-11 items-center justify-center rounded-sm border border-border-strong text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:hidden transition-colors duration-200 hover:border-accent"
+              className="flex h-10 w-10 items-center justify-center rounded-sm border border-border-strong text-foreground transition-colors duration-200 hover:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:hidden"
             >
               <svg
                 width="18"
@@ -134,32 +147,48 @@ export function Nav() {
         </div>
       </Container>
 
-      {mobileOpen && (
-        <div
-          id="mobile-menu"
-          ref={menuRef}
-          className="border-t border-border bg-background md:hidden"
-        >
-          <Container>
-            <nav aria-label="Mobile" className="flex flex-col py-4">
-              {mainNav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={pathname === item.href ? "page" : undefined}
-                  onClick={closeMenu}
-                  className="border-b border-border py-3.5 text-base text-foreground last:border-b-0 transition-colors duration-200 hover:text-accent"
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            id="mobile-menu"
+            ref={menuRef}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden border-t border-border bg-background md:hidden"
+          >
+            <Container>
+              <nav aria-label="Mobile" className="flex flex-col py-5">
+                {mainNav.map((item) => {
+                  const isActive = activePath === normalizePath(item.href);
+                  return (
+                    <a
+                      key={item.href}
+                      href={withBasePath(item.href)}
+                      aria-current={isActive ? "page" : undefined}
+                      className={cn(
+                        "border-b border-border py-3.5 text-base tracking-[-0.01em] transition-colors duration-200 last:border-b-0",
+                        isActive
+                          ? "text-foreground"
+                          : "text-muted hover:text-foreground",
+                      )}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+                <a
+                  href={withBasePath("/contact")}
+                  className="mt-5 flex items-center justify-center rounded-sm bg-foreground px-5 py-2.5 text-sm font-medium tracking-[-0.01em] text-background transition-colors duration-200 hover:bg-accent hover:text-[var(--primary-foreground)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
-                  {item.label}
-                </Link>
-              ))}
-              <Button href="/contact" size="md" onClick={closeMenu} className="mt-5 w-full btn-glow-hover">
-                Contact
-              </Button>
-            </nav>
-          </Container>
-        </div>
-      )}
+                  Contact
+                </a>
+              </nav>
+            </Container>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

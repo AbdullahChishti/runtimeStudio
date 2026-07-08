@@ -3,6 +3,12 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 
+const labelClasses =
+  "block label-mono text-muted mb-2";
+
+const inputClasses =
+  "w-full bg-transparent border-0 border-b border-border-strong px-0 py-3 text-base text-foreground placeholder:text-muted-light transition-colors focus-visible:outline-none focus-visible:border-accent";
+
 type FormState = {
   name: string;
   email: string;
@@ -14,9 +20,6 @@ const initialState: FormState = {
   email: "",
   message: "",
 };
-
-const inputClasses =
-  "w-full rounded-sm border border-border-strong bg-surface px-4 py-3 text-base text-foreground placeholder:text-muted-light transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormState>(initialState);
@@ -52,54 +55,58 @@ export default function ContactForm() {
         tabIndex={-1}
         role="status"
         aria-live="polite"
-        className="panel border-accent-border p-8 text-center panel-ticks"
+        className="border-t border-accent-border py-8"
       >
-        <p className="heading-card text-foreground">Message sent.</p>
+        <p className="heading-block text-foreground">Message sent.</p>
         <p className="mt-2 description-sm">
-          Thank you for reaching out — we&rsquo;ll respond within one business day.
+          Thank you for reaching out — we&apos;ll respond within one business day.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-      <div>
-        <label htmlFor="name" className="mb-2 block text-sm font-medium text-foreground">
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          autoComplete="name"
-          value={formData.name}
-          onChange={handleChange}
-          className={inputClasses}
-          required
-          aria-required="true"
-        />
+    <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+        <div>
+          <label htmlFor="name" className={labelClasses}>
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            autoComplete="name"
+            value={formData.name}
+            onChange={handleChange}
+            className={inputClasses}
+            placeholder="Your name"
+            required
+            aria-required="true"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className={labelClasses}>
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autoComplete="email"
+            value={formData.email}
+            onChange={handleChange}
+            className={inputClasses}
+            placeholder="you@company.com"
+            required
+            aria-required="true"
+          />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          autoComplete="email"
-          value={formData.email}
-          onChange={handleChange}
-          className={inputClasses}
-          required
-          aria-required="true"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="message" className="mb-2 block text-sm font-medium text-foreground">
+        <label htmlFor="message" className={labelClasses}>
           Tell us about your project
         </label>
         <textarea
@@ -109,14 +116,22 @@ export default function ContactForm() {
           onChange={handleChange}
           rows={5}
           className={inputClasses}
+          placeholder="Project context, timeline, and what success looks like..."
           required
           aria-required="true"
         />
       </div>
 
-      <Button type="submit" size="lg" pending={status === "pending"} className="w-full sm:w-auto btn-glow-hover">
-        {status === "pending" ? "Sending…" : "Send message"}
-      </Button>
+      <div className="pt-2">
+        <Button
+          type="submit"
+          size="lg"
+          pending={status === "pending"}
+          className="btn-glow-hover"
+        >
+          {status === "pending" ? "Sending…" : "Send message"}
+        </Button>
+      </div>
     </form>
   );
 }

@@ -15,16 +15,20 @@ export const siteConfig = {
   github: "https://github.com/runtimestudio",
   version: appVersion,
   /**
-   * Design language identity — the "Latent Field" system. Surfaced in
-   * metadata so the brand's substrate colors travel with link previews
-   * and native UI chrome (theme-color, color-scheme).
+   * Design language identity — the "Open Field" anti-card system. Surfaced
+   * in metadata so the brand's substrate colors travel with link previews
+   * and native UI chrome (theme-color, color-scheme). The philosophy is
+   * editorial, full-bleed, and compositional: no card-driven containers,
+   * only rhythm, rules, type, and layered fields.
    */
   design: {
-    system: "Latent Field",
+    system: "Open Field",
     principles: [
-      "Computed Light",
-      "Adaptive Structure",
-      "Emergent Motion",
+      "Full-Bleed Composition",
+      "Editorial Rhythm",
+      "Layered Structure",
+      "Typographic Hierarchy",
+      "Asymmetric Balance",
     ],
     /** OKLCH substrate anchors, expressed as hex for chrome that can't
      *  yet parse oklch() (browser address bars, some crawlers). */
@@ -52,6 +56,8 @@ const baseKeywords = [
   "engineering studio",
   "generative design",
   "adaptive interfaces",
+  "anti-card design",
+  "editorial layout",
 ];
 
 export function createMetadata({
@@ -123,9 +129,9 @@ export function createMetadata({
 }
 
 /**
- * Adaptive viewport — the "Latent Field" renders itself for both light
- * and dark substrates, so native chrome (theme-color) is expressed per
- * color scheme rather than as a single static color.
+ * Adaptive viewport — the "Open Field" system renders itself for both
+ * light and dark substrates, so native chrome (theme-color) is expressed
+ * per color scheme rather than as a single static color.
  */
 export const siteViewport: Viewport = {
   width: "device-width",

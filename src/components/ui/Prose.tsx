@@ -18,7 +18,7 @@ export function Prose({ children, className }: ProseProps) {
         "max-w-[68ch] text-[1.0625rem] leading-[1.75] text-muted",
         // Headings
         "[&_h2]:heading-section [&_h2]:mt-16 [&_h2]:mb-5 [&_h2]:text-foreground",
-        "[&_h3]:heading-card [&_h3]:mt-12 [&_h3]:mb-4 [&_h3]:text-foreground",
+        "[&_h3]:heading-block [&_h3]:mt-12 [&_h3]:mb-4 [&_h3]:text-foreground",
         // Body
         "[&_p]:my-6",
         "[&_strong]:font-medium [&_strong]:text-foreground",

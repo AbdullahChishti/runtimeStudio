@@ -1,18 +1,21 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getServiceBySlug, getAllServiceSlugs } from "@/content/services";
+import {
+  getServiceBySlug,
+  getAllServiceSlugs,
+  accentClasses,
+} from "@/content/services";
 import { createMetadata } from "@/lib/metadata";
-import { ServiceCTA } from "@/components/services/ServiceCTA";
-import { ServiceIntro } from "@/components/services/ServiceIntro";
+import { Container } from "@/components/ui/Container";
+import { ServiceNav } from "@/components/services/ServiceNav";
 import { ServiceCapabilities } from "@/components/services/ServiceCapabilities";
 import { ServiceProblems } from "@/components/services/ServiceProblems";
 import { ServiceApproach } from "@/components/services/ServiceApproach";
+import { ServiceInteractive } from "@/components/services/ServiceInteractive";
 import { ServiceOutcomes } from "@/components/services/ServiceOutcomes";
 import { RelatedCaseStudies } from "@/components/services/RelatedCaseStudies";
-import { ServiceSection } from "@/components/services/ServiceSection";
-import Image from "next/image";
-import { InteractiveServiceElement } from "@/components/services/InteractiveServiceElement";
-import { withBasePath } from "@/lib/utils";
+import { ServiceCTA } from "@/components/services/ServiceCTA";
+import { cn } from "@/lib/utils";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -44,36 +47,50 @@ export default async function ServiceDetailPage({ params }: Props) {
     notFound();
   }
 
+  const styles = accentClasses[service.accent];
+
   return (
     <main className="min-h-screen">
-      {service.heroImage && (
-        <section className="relative h-[50vh] w-full overflow-hidden">
-          <Image
-            src={withBasePath(service.heroImage)}
-            alt={`Hero image for ${service.title}`}
-            fill
-            priority
-            className="object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        </section>
-      )}
-      <ServiceIntro service={service} />
+      <section className="border-b border-border pt-24 pb-10 lg:pt-32 lg:pb-14">
+        <Container>
+          <p className="label-mono text-muted">
+            {service.number} / Services
+          </p>
+          <h1
+            className={cn(
+              "heading-display mt-4 max-w-3xl text-balance",
+              styles.text,
+            )}
+          >
+            {service.title}
+          </h1>
+          <p className="description-standard mt-6 max-w-2xl">
+            {service.shortDescription}
+          </p>
+        </Container>
+      </section>
 
-      {service.interactiveElementConfig && (
-        <ServiceSection title="How it works" accent={service.accent}>
-          <InteractiveServiceElement
-            config={service.interactiveElementConfig}
-            accent={service.accent}
-          />
-        </ServiceSection>
-      )}
+      <div className="border-t border-border">
+        <Container>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[16rem_1fr] lg:gap-16">
+            <ServiceNav service={service} />
 
-      <ServiceCapabilities service={service} />
-      <ServiceProblems service={service} />
-      <ServiceApproach service={service} />
-      <ServiceOutcomes service={service} />
-      <RelatedCaseStudies slugs={service.relatedCaseStudySlugs} accent={service.accent} />
+            <div className="min-w-0">
+              <ServiceCapabilities id="capabilities" service={service} />
+              <ServiceProblems id="problems" service={service} />
+              <ServiceApproach id="approach" service={service} />
+              <ServiceInteractive id="model" service={service} />
+              <ServiceOutcomes id="outcomes" service={service} />
+              <RelatedCaseStudies
+                id="work"
+                slugs={service.relatedCaseStudySlugs}
+                accent={service.accent}
+              />
+            </div>
+          </div>
+        </Container>
+      </div>
+
       <ServiceCTA service={service} />
     </main>
   );

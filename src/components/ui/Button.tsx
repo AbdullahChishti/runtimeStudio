@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { type ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn, runtimeBasePath } from "@/lib/utils";
 
 type ButtonProps = {
   href?: string;
@@ -22,7 +22,8 @@ type ButtonProps = {
  * Button — the single action primitive. Crisp corners, hairline borders,
  * decisive color changes on hover. The default action is ink; the
  * `accent` variant spends the Flux signal; `spectral` traces the
- * generative spectral edge for rare, high-emphasis moments. No blooms.
+ * generative spectral edge for rare, high-emphasis moments. No blooms,
+ * no card-like padding rituals.
  */
 const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
@@ -113,8 +114,15 @@ export function Button({
       );
     }
 
+    // Normalize the href so callers can pass either a route-relative path
+    // or a basePath-prefixed path (via withBasePath) without double-prefixing.
+    const normalizedHref =
+      runtimeBasePath && href.startsWith(`${runtimeBasePath}/`)
+        ? href.slice(runtimeBasePath.length) || "/"
+        : href;
+
     return (
-      <Link href={href} className={classes} onClick={onClick}>
+      <Link href={normalizedHref} className={classes} onClick={onClick}>
         {content}
       </Link>
     );

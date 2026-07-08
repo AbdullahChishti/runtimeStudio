@@ -49,7 +49,7 @@ const VIEW_W = 640;
 
 /**
  * InteractiveDataViz — a small, data-driven visualization primitive that
- * embodies the "data as texture" idea of the Latent Field system. The
+ * embodies the "data as texture" idea of the Open Field system. The
  * series is generated algorithmically (deterministic, seedable) and the
  * palette is sampled from the perceptual spectral ring, so the chart is
  * an expression of the design language rather than a bolted-on widget.
@@ -57,6 +57,9 @@ const VIEW_W = 640;
  * It is fully interactive (pointer/keyboard reveals a live readout),
  * accessible (exposes the series as text), respects reduced motion, and
  * renders identically on the server and client for static export.
+ *
+ * The frame is a ruled technical plane, not a card: a hairline top rule
+ * and a subtle substrate fill keep the viz anchored in the composition.
  */
 export function InteractiveDataViz({
   data,
@@ -105,7 +108,10 @@ export function InteractiveDataViz({
 
   return (
     <figure
-      className={cn("panel relative overflow-hidden rounded-[var(--radius-lg)]", className)}
+      className={cn(
+        "relative overflow-hidden bg-surface border-t border-border",
+        className,
+      )}
       style={{ ["--dv-h" as string]: `${height}px` }}
     >
       <figcaption className="flex items-center justify-between gap-4 border-b border-border-hairline px-4 py-2.5">

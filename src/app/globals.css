@@ -1,30 +1,31 @@
 @import "tailwindcss";
 
 /* ==================================================================
-   RUNTIME STUDIO — "LATENT FIELD"
+   RUNTIME STUDIO — "OPEN FIELD"
    ------------------------------------------------------------------
-   A next-gen, AI-native visual system. The interface is treated as a
-   living computational substrate rather than a static page: color is
-   sampled from a perceptual (OKLCH) spectrum, space breathes on a
-   fluid modular scale, and structure is drawn by algorithmic fields
-   instead of decorative chrome.
+   An anti-card, editorial design system. The interface is treated as a
+   continuous compositional field rather than a grid of discrete boxes.
+   Content lives in full-bleed sections, asymmetric editorial rows,
+   ruled timelines, and sticky scroll narratives. Color is still sampled
+   from a perceptual OKLCH spectrum, but structure is now drawn by
+   rhythm, alignment, and typographic hierarchy — not by cards.
 
    Three primitives govern the language:
 
-     · COMPUTED LIGHT   — every color is expressed in OKLCH and derived
-                          from a small set of axes (lightness, chroma,
-                          a rotatable --signal-hue). The brand is not
-                          one color; it is a generative function.
-     · ADAPTIVE STRUCTURE — type and space are fluid clamp() scales;
-                          the system re-renders itself for light and
-                          dark substrates automatically.
-     · EMERGENT MOTION  — one expressive curve + spring tokens drive a
-                          motion language that "confirms, then reveals."
+     · COMPUTED LIGHT      — every color is expressed in OKLCH and derived
+                             from a small set of axes (lightness, chroma,
+                             a rotatable --signal-hue). The brand is a
+                             generative function, not a single color.
+     · EDITORIAL RHYTHM    — type and space are fluid clamp() scales;
+                             the page is a sequence of full-bleed acts
+                             broken by hairline rules, not boxes.
+     · EMERGENT MOTION     — one expressive curve + spring tokens drive a
+                             motion language that "confirms, then reveals."
 
-   Backward compatibility: all token names and utility classes from the
-   previous "Paper · Carbon · Flux" system are preserved and remapped
-   onto the new spectral engine, so every existing component resolves
-   into the new identity without change.
+   Backward compatibility: all non-card token names and utility classes
+   from the previous "Latent Field" system are preserved and remapped
+   onto the new Open Field engine. Any component that did not rely on
+   card-like surfaces will resolve into the new identity without change.
 
    Typeface: Geist (sans) + Geist Mono (technical voice), bound to the
    next/font CSS variables set on <html> in layout.tsx.
@@ -84,10 +85,9 @@
 
   /* ==================================================================
      SPECTRAL SET — a perceptually even six-stop ring sampled around
-     the OKLCH wheel. This is the data-driven palette: charts, category
-     coding, and generative fields index into it algorithmically. The
-     legacy names (indigo / teal / coral / violet / amber) are kept as
-     semantic aliases onto stops of the same ring.
+     the OKLCH wheel. Data-driven palette: charts, category coding, and
+     generative fields index into it algorithmically. Legacy aliases
+     (indigo / teal / coral / violet / amber) are kept as semantic stops.
      ================================================================== */
   --spectral-1: oklch(0.56 0.15 262); /* ion       */
   --spectral-2: oklch(0.6 0.12 196);  /* aqua      */
@@ -221,7 +221,10 @@
 
   /* ------------------------------------------------------------------
      COMPATIBILITY ALIASES — generic shadcn-style token names mapped
-     onto the real Latent Field tokens.
+     onto the real Open Field tokens. NOTE: --card and --card-foreground
+     are intentionally removed from the anti-card system. Components
+     that previously relied on them should migrate to surface / border
+     or to the new editorial primitives.
      ------------------------------------------------------------------ */
   --primary: var(--accent);
   --primary-foreground: oklch(0.99 0.005 var(--signal-hue));
@@ -231,8 +234,7 @@
   --accent-foreground: oklch(0.99 0.005 var(--signal-hue));
   --input: var(--border-strong);
   --ring: var(--accent);
-  --card: var(--surface);
-  --card-foreground: var(--foreground);
+  --surface-foreground: var(--foreground);
 
   /* Default rule color for the pull-quote bar. */
   --pull-quote-accent: var(--accent);
@@ -240,8 +242,7 @@
 
 /* ==================================================================
    ADAPTIVE SUBSTRATE — the system re-renders for a dark computational
-   surface automatically. Same axes, inverted lightness. Users who set
-   a color preference get a first-class rendering, not an afterthought.
+   surface automatically. Same axes, inverted lightness.
    ================================================================== */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -321,8 +322,6 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
@@ -575,7 +574,8 @@ body {
   font-weight: 600;
 }
 
-.heading-card {
+/* Anti-card: renamed from heading-card to avoid the card namespace. */
+.heading-block {
   font-size: var(--step-1);
   line-height: 1.3;
   letter-spacing: -0.015em;
@@ -796,6 +796,260 @@ body {
 }
 
 /* ==================================================================
+   ANTI-CARD LAYOUT LANGUAGE
+   ------------------------------------------------------------------
+   These classes replace the old card-box vocabulary with a compositional
+   one. Use them to build full-bleed sections, editorial rows, ruled
+   timelines, asymmetric grids, sticky narratives, and layered
+   compositions without ever reaching for a card-like container.
+   ================================================================== */
+
+/* Full-bleed section — edge-to-edge substrate, no boxing. */
+.bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.bleed-inset {
+  width: calc(100% + var(--space-lg) * 2);
+  margin-left: calc(var(--space-lg) * -1);
+  margin-right: calc(var(--space-lg) * -1);
+}
+
+/* Editorial row — a horizontal narrative unit: label + figure + caption. */
+.editorial-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .editorial-row {
+    grid-template-columns: minmax(120px, 0.25fr) 1fr;
+    gap: var(--space-lg);
+  }
+
+  .editorial-row--split {
+    grid-template-columns: minmax(120px, 0.25fr) 1fr minmax(120px, 0.25fr);
+  }
+}
+
+/* Ledger / timeline — a ruled vertical list of events or facts. */
+.ledger {
+  display: flex;
+  flex-direction: column;
+}
+
+.ledger-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xs);
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .ledger-row {
+    grid-template-columns: minmax(120px, 0.2fr) 1fr;
+    gap: var(--space-lg);
+  }
+
+  .ledger-row--meta {
+    grid-template-columns: minmax(120px, 0.2fr) 1fr minmax(120px, 0.2fr);
+  }
+}
+
+/* Timeline — a horizontal or vertical ruled sequence. */
+.timeline {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+@media (min-width: 768px) {
+  .timeline--horizontal::before {
+    left: 0;
+    right: 0;
+    top: 0.5rem;
+    bottom: auto;
+    height: 1px;
+    width: auto;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 2rem;
+  padding-bottom: var(--space-lg);
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 0.35rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--background);
+  border: 1px solid var(--border-strong);
+}
+
+.timeline-item--active::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (min-width: 768px) {
+  .timeline--horizontal .timeline-item {
+    padding-left: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 0;
+  }
+
+  .timeline--horizontal .timeline-item::before {
+    left: 0;
+    top: 0.25rem;
+  }
+}
+
+/* Asymmetric grid — content is not locked into equal columns. */
+.asymmetric-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .asymmetric-grid {
+    grid-template-columns: 1fr 0.65fr;
+  }
+
+  .asymmetric-grid--wide-right {
+    grid-template-columns: 0.45fr 1fr;
+  }
+
+  .asymmetric-grid--thirds {
+    grid-template-columns: 1fr 0.55fr 0.8fr;
+  }
+}
+
+/* Floating element — breaks the grid with a negative offset. */
+.floating {
+  position: relative;
+}
+
+.floating-start {
+  margin-left: calc(var(--space-md) * -1);
+}
+
+.floating-end {
+  margin-right: calc(var(--space-md) * -1);
+}
+
+.floating-up {
+  margin-top: calc(var(--space-lg) * -1);
+}
+
+/* Layered composition — multiple planes of content. */
+.layer-stack {
+  display: grid;
+  grid-template-areas: "stack";
+  place-items: center;
+}
+
+.layer-stack > * {
+  grid-area: stack;
+}
+
+.layer-stack .layer-back {
+  z-index: 0;
+}
+
+.layer-stack .layer-mid {
+  z-index: 10;
+}
+
+.layer-stack .layer-front {
+  z-index: 20;
+}
+
+/* Sticky narrative — a side-sticky figure alongside a scrolling body. */
+.sticky-narrative {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .sticky-narrative {
+    grid-template-columns: 0.45fr 1fr;
+  }
+
+  .sticky-narrative--reverse {
+    grid-template-columns: 1fr 0.45fr;
+  }
+
+  .sticky-side {
+    position: sticky;
+    top: var(--space-lg);
+  }
+}
+
+/* Typographic treatments — display type that carries the layout. */
+.typographic-hero {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.typographic-hero .hero-kicker {
+  order: -1;
+}
+
+.kicker-rule {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.kicker-rule::after {
+  content: "";
+  width: 4rem;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.4;
+}
+
+/* Rule-based emphasis — lines, not boxes. */
+.rule-accent {
+  border-top: 1px solid var(--accent-border);
+}
+
+.rule-strong {
+  border-top: 1px solid var(--border-strong);
+}
+
+.rule-spectral {
+  border-top: 1px solid transparent;
+  border-image: var(--gradient-spectral) 1;
+}
+
+/* ==================================================================
    STATUS INDICATORS — small, precise, quietly alive.
    ================================================================== */
 .status-dot {
@@ -906,16 +1160,23 @@ body {
 }
 
 /* ==================================================================
-   SURFACE PANELS — hairline frames, no shadow
+   SURFACE PANELS — hairline frames, no shadow.
+   ------------------------------------------------------------------
+   Used sparingly for technical readouts, code blocks, and data viz.
+   These are not cards: they are ruled drafting surfaces, not content
+   containers. Prefer the anti-card layout classes above for editorial
+   content.
    ================================================================== */
 .panel {
   background: var(--surface);
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .panel-elevated {
   background: var(--surface-elevated);
   border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .panel-ticks {
@@ -943,50 +1204,6 @@ body {
   bottom: -1px;
   right: -1px;
   border-width: 0 1px 1px 0;
-}
-
-/* ==================================================================
-   CARD — a restrained, interactive content surface.
-   ================================================================== */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-}
-
-.card-interactive {
-  transition:
-    border-color var(--duration) var(--ease-out),
-    box-shadow var(--duration) var(--ease-out),
-    transform var(--duration) var(--ease-out);
-}
-
-.card-interactive:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.card-signal {
-  position: relative;
-}
-
-.card-signal::before {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  height: 2px;
-  background: var(--accent);
-  border-top-left-radius: var(--radius-md);
-  border-top-right-radius: var(--radius-md);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card-interactive:hover {
-    transform: none;
-  }
 }
 
 /* ==================================================================

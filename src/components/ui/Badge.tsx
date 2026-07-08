@@ -11,22 +11,34 @@ export type BadgeVariant =
   | "neutral"
   | "outline";
 
+/**
+ * Badge — an inline status label, not a button or a card. The default is
+ * a simple text marker with a dot or rule; the spectral variant keeps
+ * the generative edge. Avoids the pill/box cliché while still scanning
+ * as a category tag.
+ */
 const badgeVariants: Record<BadgeVariant, string> = {
-  default: "border-border bg-surface text-muted",
-  indigo:
-    "border-accent-indigo-border bg-accent-indigo-subtle text-accent-indigo",
-  coral:
-    "border-accent-coral-border bg-accent-coral-subtle text-accent-coral",
-  teal:
-    "border-accent-teal-border bg-accent-teal-subtle text-accent-teal",
-  violet:
-    "border-accent-violet-border bg-accent-violet-subtle text-accent-violet",
-  amber:
-    "border-accent-amber-border bg-accent-amber-subtle text-accent-amber",
-  spectral: "spectral-edge border-transparent bg-surface text-foreground",
-  neutral:
-    "border-border bg-surface-elevated text-muted",
-  outline: "border-border bg-transparent text-foreground"
+  default: "text-muted",
+  indigo: "text-accent-indigo",
+  coral: "text-accent-coral",
+  teal: "text-accent-teal",
+  violet: "text-accent-violet",
+  amber: "text-accent-amber",
+  spectral: "spectral-edge text-foreground bg-surface",
+  neutral: "text-muted-light",
+  outline: "text-foreground border-b border-border",
+};
+
+const dotVariants: Record<BadgeVariant, string> = {
+  default: "bg-border-strong",
+  indigo: "bg-accent-indigo",
+  coral: "bg-accent-coral",
+  teal: "bg-accent-teal",
+  violet: "bg-accent-violet",
+  amber: "bg-accent-amber",
+  spectral: "bg-accent",
+  neutral: "bg-border-strong",
+  outline: "bg-foreground",
 };
 
 const categoryVariantMap: Record<string, BadgeVariant> = {
@@ -48,9 +60,11 @@ type BadgeProps = {
   children: React.ReactNode;
   className?: string;
   variant?: BadgeVariant;
+  /** Render the badge with a leading dot instead of just text. */
+  dot?: boolean;
 };
 
-export function Badge({ children, className, variant }: BadgeProps) {
+export function Badge({ children, className, variant, dot = true }: BadgeProps) {
   const resolvedVariant =
     variant ??
     (typeof children === "string" ? resolveBadgeVariant(children) : "default");
@@ -58,11 +72,17 @@ export function Badge({ children, className, variant }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center border px-2.5 py-1 label-mono rounded-[var(--radius-md)]",
+        "inline-flex items-center gap-2 label-mono",
         badgeVariants[resolvedVariant],
         className,
       )}
     >
+      {dot && (
+        <span
+          aria-hidden="true"
+          className={cn("h-1.5 w-1.5 rounded-full", dotVariants[resolvedVariant])}
+        />
+      )}
       {children}
     </span>
   );

@@ -1,68 +1,54 @@
-import { createMetadata } from "@/lib/metadata";
-import { siteConfig } from "@/lib/metadata";
+import React from "react";
+import { createMetadata, siteConfig } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
-import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
-import { Panel } from "@/components/ui/Panel";
-import { Field, FieldList } from "@/components/ui/Field";
 import ContactForm from "@/components/contact/ContactForm";
+import { FadeIn } from "@/components/animations/FadeIn";
+import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
 
 export const metadata = createMetadata({
   title: "Contact",
   description:
-    "Tell us about your project. We'll respond within one business day with thoughtful next steps.",
+    "Tell us what you're building. We'll respond within one business day with thoughtful next steps.",
   path: "/contact",
 });
 
 export default function ContactPage() {
   return (
     <main className="min-h-screen">
-      <section className="relative border-b border-border pt-32 pb-20 lg:pt-40 lg:pb-28">
-        <div className="field-lattice absolute inset-0 opacity-[0.03]" aria-hidden="true" />
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="label-mono text-accent-strong section-label-accent">Get in touch</p>
-            <Heading level="h1" className="mt-4 heading-hero text-balance">
-              Let&rsquo;s talk about your project.
-            </Heading>
-            <Text className="mt-6 text-lg text-muted description-standard text-pretty">
-              Tell us what you&rsquo;re building. We&rsquo;ll respond within one
-              business day with thoughtful next steps.
-            </Text>
-          </div>
-        </Container>
-      </section>
-
-      <section className="py-16 lg:py-24">
+      <section id="contact-form" className="relative py-16 lg:py-24">
         <Container size="narrow">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-5">
-            <Panel padding="lg" className="lg:col-span-3 panel-ticks">
-              <ContactForm />
-            </Panel>
+          <FadeIn delay={0.1}>
+            <div className="mb-10 border-b border-border pb-10">
+              <p className="label-mono text-muted mb-3">Get in touch</p>
+              <h1 className="heading-display max-w-3xl text-balance">
+                Tell us what{" "}
+                <span className="text-gradient-spectral">you&apos;re building</span>
+              </h1>
+              <p className="description-standard mt-6 max-w-2xl text-balance">
+                We&apos;ll respond within one business day with thoughtful next
+                steps. Prefer email? Reach us directly.
+              </p>
 
-            <div className="lg:col-span-2">
-              <FieldList>
-                <Field label="Email">
-                  <a href={`mailto:${siteConfig.email}`} className="hover:text-accent gradient-underline">
+              <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="group inline-flex items-center gap-3 text-foreground transition-colors hover:text-accent"
+                >
+                  <EnvelopeClosedIcon className="h-5 w-5 text-muted" />
+                  <span className="heading-section text-balance gradient-underline">
                     {siteConfig.email}
-                  </a>
-                </Field>
-                <Field label="LinkedIn">
-                  <a
-                    href={siteConfig.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-accent gradient-underline"
-                  >
-                    Runtime Studio
-                  </a>
-                </Field>
-                <Field label="Response time">
-                  <span className="data-readout">1 business day</span>
-                </Field>
-              </FieldList>
+                  </span>
+                </a>
+              </div>
             </div>
-          </div>
+
+            <p className="label-mono text-muted mb-3">Send a message</p>
+            <p className="description-standard max-w-xl mb-10">
+              Project scope, timeline, and the engineering challenge you want
+              to solve — context helps us respond with useful next steps.
+            </p>
+            <ContactForm />
+          </FadeIn>
         </Container>
       </section>
     </main>

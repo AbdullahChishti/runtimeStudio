@@ -2,7 +2,7 @@ export function cn(...classes: (string | boolean | undefined | null)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const runtimeBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+export const runtimeBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function withBasePath(path: string) {
   if (!path) {
@@ -15,6 +15,11 @@ export function withBasePath(path: string) {
 
   if (path === "/") {
     return runtimeBasePath || "/";
+  }
+
+  // Avoid double-prefixing if the path already carries the runtime basePath.
+  if (runtimeBasePath && path.startsWith(`${runtimeBasePath}/`)) {
+    return path;
   }
 
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;

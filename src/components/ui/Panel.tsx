@@ -21,9 +21,10 @@ const paddings: Record<NonNullable<PanelProps["padding"]>, string> = {
 };
 
 /**
- * Panel — the single surface primitive of the system. Depth is expressed
- * with a hairline frame, never with shadow or rounding. Prefer this over
- * stacking decorative cards.
+ * Panel — a rare technical surface for data readouts, code blocks, and
+ * generative viz. It is a hairline-framed drafting plane, not a card. Do
+ * not use it to box editorial content; use Section, EditorialRow,
+ * Ledger, or Timeline instead.
  */
 export function Panel({
   children,

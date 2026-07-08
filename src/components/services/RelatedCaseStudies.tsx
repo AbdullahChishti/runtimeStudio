@@ -1,44 +1,67 @@
+import Link from "next/link";
 import { caseStudies } from "@/content/caseStudies";
 import type { ServiceAccent } from "@/content/services";
-import { Badge } from "@/components/ui/Badge";
-import { Card } from "@/components/ui/Card";
-import { Section, SectionHeader } from "@/components/ui/Section";
+import { accentClasses } from "@/content/services";
+import { cn } from "@/lib/utils";
+import { ServiceSection } from "./ServiceSection";
 
-type RelatedCaseStudiesProps = {
+interface RelatedCaseStudiesProps {
   slugs: string[];
   accent: ServiceAccent;
-};
+  id?: string;
+}
 
-export function RelatedCaseStudies({ slugs, accent }: RelatedCaseStudiesProps) {
-  const accentVariantMap = {
-    teal: "teal",
-    violet: "indigo",
-    amber: "coral",
-    indigo: "indigo",
-  } as const;
-
+export function RelatedCaseStudies({
+  slugs,
+  accent,
+  id,
+}: RelatedCaseStudiesProps) {
+  const styles = accentClasses[accent];
   const related = caseStudies.filter((study) => slugs.includes(study.slug));
 
   if (related.length === 0) return null;
 
   return (
-    <Section className="border-t border-border">
-      <SectionHeader
-        label="Case studies"
-        title="Related outcomes"
-        description="Examples of similar delivery work and measurable impact."
-      />
-      <div className="mt-8 grid gap-6 md:grid-cols-2">
+    <ServiceSection
+      id={id}
+      title="Related work"
+      accent={accent}
+      contained={false}
+    >
+      <div className="divide-y divide-border">
         {related.map((study) => (
-          <Card key={study.slug} href={`/work/${study.slug}`} interactive>
-            <Badge variant={accentVariantMap[accent]}>{study.industry}</Badge>
-            <h3 className="mt-4 text-2xl font-medium text-foreground">
-              {study.title}
-            </h3>
-            <p className="mt-3 text-sm leading-6 text-muted">{study.summary}</p>
-          </Card>
+          <Link
+            key={study.slug}
+            href={`/work/${study.slug}`}
+            className="group block py-8 transition-colors duration-200 hover:bg-surface-elevated"
+          >
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="label-mono text-muted-light">
+                  {study.client}
+                  <span className="mx-2 text-border">/</span>
+                  {study.industry}
+                </p>
+                <h3
+                  className={cn(
+                    "mt-2 text-2xl font-medium tracking-tight transition-colors duration-200 group-hover:text-accent",
+                    styles.text,
+                  )}
+                >
+                  {study.title}
+                </h3>
+                <p className="mt-3 max-w-2xl text-muted">{study.summary}</p>
+              </div>
+              <div className="lg:text-right">
+                <p className="data-readout text-3xl font-medium text-foreground">
+                  {study.metric}
+                </p>
+                <p className="label-mono text-muted">{study.metricLabel}</p>
+              </div>
+            </div>
+          </Link>
         ))}
       </div>
-    </Section>
+    </ServiceSection>
   );
 }

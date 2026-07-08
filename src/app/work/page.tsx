@@ -1,8 +1,6 @@
-import { PortfolioList } from "@/components/work/PortfolioList";
 import { createMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
-import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
+import { PortfolioList } from "@/components/work/PortfolioList";
 
 export const metadata = createMetadata({
   title: "Our Work",
@@ -12,16 +10,22 @@ export const metadata = createMetadata({
 
 export default function WorkPage() {
   return (
-    <main className="space-y-16 py-16 sm:space-y-20">
-      <Container>
-        <div className="mx-auto max-w-3xl text-center">
-          <Heading level="h1">Our Work</Heading>
-          <Text className="mt-6 text-lg leading-8 text-muted sm:text-xl">
-            Selected projects where we helped teams build software they can
-            trust.
-          </Text>
-        </div>
-      </Container>
+    <main className="min-h-screen">
+      <section className="border-b border-border pt-24 pb-10 lg:pt-32 lg:pb-14">
+        <Container>
+          <p className="label-mono text-muted">Selected Work</p>
+          <h1 className="heading-display mt-4 max-w-3xl text-balance">
+            Projects where teams ship with{" "}
+            <span className="text-gradient-spectral">confidence.</span>
+          </h1>
+          <p className="description-standard mt-6 max-w-2xl">
+            Three case studies across AI validation, quality automation, and
+            knowledge systems — each showing how rigorous engineering turns
+            ambition into reliable production systems.
+          </p>
+        </Container>
+      </section>
+
       <PortfolioList />
     </main>
   );

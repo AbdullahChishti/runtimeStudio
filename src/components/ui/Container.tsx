@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type ContainerProps = {
+export type ContainerProps = {
   children: ReactNode;
   className?: string;
   size?: "default" | "narrow" | "wide" | "prose" | "full";
@@ -20,7 +20,9 @@ const sizes: Record<NonNullable<ContainerProps["size"]>, string> = {
 /**
  * Container — the measure. Gutters are fluid (they scale with the
  * viewport via the space token scale) rather than snapping at fixed
- * breakpoints, so line length adapts smoothly across devices.
+ * breakpoints, so line length adapts smoothly across devices. In the
+ * Open Field system, this is the primary boundary; content is not wrapped
+ * in cards.
  */
 export function Container({
   children,

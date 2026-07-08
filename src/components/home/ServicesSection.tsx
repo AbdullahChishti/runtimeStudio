@@ -1,7 +1,7 @@
 import { servicesContent } from "@/content/home";
 import { services } from "@/content/services";
 import { Section, SectionHeader } from "@/components/ui/Section";
-import { ServiceCard } from "@/components/services/ServiceCard";
+import { ServiceList } from "@/components/services/ServiceList";
 
 export function ServicesSection() {
   return (
@@ -12,11 +12,7 @@ export function ServicesSection() {
         description={servicesContent.subtitle}
         align="center"
       />
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {services.map((service, index) => (
-          <ServiceCard key={service.slug} service={service} index={index} />
-        ))}
-      </div>
+      <ServiceList services={services} />
     </Section>
   );
 }
