@@ -1,44 +1,42 @@
 "use client";
 
-import { company } from "@/content/company";
-import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { motion } from "framer-motion";
+import { ctaContent } from "@/content/home";
+import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
+import { motionDurations, motionEasing } from "@/components/animations/motion";
 
 export function CallToActionSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section className="bg-primary py-20">
-      <div className="mx-auto max-w-4xl px-6 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-6 text-5xl font-bold tracking-tight text-primary-foreground"
-        >
-          {company.finalCta.headline}
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-          className="mb-10 text-xl text-primary-foreground/90"
-        >
-          {company.finalCta.description}
-        </p>
+    <section className="relative overflow-hidden py-20 lg:py-28">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,var(--accent-subtle),transparent_70%)]"
+      />
+      <Container className="relative z-10 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: motionDurations.slow, ease: motionEasing }}
         >
-          <Link
-            href="/contact"
-            className="group inline-flex items-center justify-center rounded-full bg-primary-foreground px-8 py-3 text-lg font-medium text-primary transition-all duration-300 hover:bg-primary-foreground/90 focus:outline-none focus:ring-2 focus:ring-primary-foreground focus:ring-offset-2"
-          >
-            {company.finalCta.cta}
-            <ArrowRightIcon className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
+          <h2 className="heading-section mx-auto max-w-2xl text-balance">
+            {ctaContent.title}
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl description-standard">
+            {ctaContent.subtitle}
+          </p>
+          <div className="mt-10 flex justify-center">
+            <Button href="/contact" size="lg" className="group">
+              {ctaContent.cta}
+              <ArrowRightIcon className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </div>
         </motion.div>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -1,58 +1,55 @@
 "use client";
 
-import { company } from "@/content/company";
-import { SparklesCore } from "@/components/home/Sparkles";
-import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { AccentKey, accents } from "@/components/home/Accents";
-import { motion } from "framer-motion";
+import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
+import { Heading } from "@/components/ui/Heading";
+import { Text } from "@/components/ui/Text";
+import { GenerativeBackground } from "@/components/ui/GenerativeBackground";
+import { heroContent } from "@/content/home";
+import { company } from "@/content/company";
+import { motionDurations, motionEasing } from "@/components/animations/motion";
 
 export function HeroSection() {
-  const accentColors: AccentKey[] = ["teal", "violet", "amber", "indigo"];
-  const randomAccent =
-    accentColors[Math.floor(Math.random() * accentColors.length)];
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background py-20 md:py-0">
-      <div className="absolute inset-0 z-0 h-full w-full">
-        <SparklesCore
-          id="tsparticlesfullpage"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={100}
-          className="h-full w-full"
-          particleColor={accents[randomAccent]}
-        />
-      </div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 mx-auto max-w-5xl px-6 text-center"
-      >
-        <h1 className="mb-6 text-5xl font-bold tracking-tight text-foreground md:text-7xl">
-          {company.hero.headline}
-        </h1>
-        <p className="mb-10 text-xl text-muted-foreground md:text-2xl">
-          {company.hero.supporting}
-        </p>
-        <div className="flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:space-y-0">
-          <Link
-            href="/contact"
-            className="group inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-lg font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-          >
-            {company.hero.primaryCta}
-            <ArrowRightIcon className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
-          <Link
-            href="/work"
-            className="group inline-flex items-center justify-center rounded-full border border-input bg-background px-8 py-3 text-lg font-medium text-foreground transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-          >
-            {company.hero.secondaryCta}
-            <ArrowRightIcon className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
-        </div>
-      </motion.div>
+    <section className="relative overflow-hidden border-b border-border pt-32 pb-20 lg:pt-44 lg:pb-28">
+      <GenerativeBackground
+        className="absolute inset-0 z-0"
+        density={0.7}
+        accentRatio={0.14}
+      />
+
+      <Container className="relative z-10 text-center">
+        <motion.div
+          initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: motionDurations.slow, ease: motionEasing }}
+        >
+          <p className="label-mono section-label-accent justify-center text-accent-strong">
+            AI-native product engineering
+          </p>
+          <Heading level="h1" className="mt-4 heading-hero mx-auto max-w-4xl text-balance">
+            {heroContent.titleComponents.prefix}
+            <span className="text-gradient-spectral">{heroContent.titleComponents.accent}</span>
+            {heroContent.titleComponents.suffix}
+          </Heading>
+          <Text className="mx-auto mt-8 max-w-2xl description-standard text-lg">
+            {heroContent.subtitle}
+          </Text>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            <Button size="lg" className="group" href="/contact">
+              {heroContent.cta}
+              <ArrowRightIcon className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+            <Button size="lg" variant="secondary" href="/work">
+              {company.hero.secondaryCta}
+            </Button>
+          </div>
+        </motion.div>
+      </Container>
     </section>
   );
 }

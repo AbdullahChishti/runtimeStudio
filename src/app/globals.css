@@ -1,120 +1,328 @@
 @import "tailwindcss";
 
 /* ==================================================================
-   RUNTIME STUDIO — "Ink · Substrate · Signal"
-   A precision-instrument identity: a cool graphite ink system printed
-   on porcelain substrate, ruled with hairlines, annotated in a
-   monospaced technical voice, and punctuated by a single electric
-   signal. No decorative gradients. No heavy shadows. No large radii.
+   RUNTIME STUDIO — "LATENT FIELD"
+   ------------------------------------------------------------------
+   A next-gen, AI-native visual system. The interface is treated as a
+   living computational substrate rather than a static page: color is
+   sampled from a perceptual (OKLCH) spectrum, space breathes on a
+   fluid modular scale, and structure is drawn by algorithmic fields
+   instead of decorative chrome.
+
+   Three primitives govern the language:
+
+     · COMPUTED LIGHT   — every color is expressed in OKLCH and derived
+                          from a small set of axes (lightness, chroma,
+                          a rotatable --signal-hue). The brand is not
+                          one color; it is a generative function.
+     · ADAPTIVE STRUCTURE — type and space are fluid clamp() scales;
+                          the system re-renders itself for light and
+                          dark substrates automatically.
+     · EMERGENT MOTION  — one expressive curve + spring tokens drive a
+                          motion language that "confirms, then reveals."
+
+   Backward compatibility: all token names and utility classes from the
+   previous "Paper · Carbon · Flux" system are preserved and remapped
+   onto the new spectral engine, so every existing component resolves
+   into the new identity without change.
+
+   Typeface: Geist (sans) + Geist Mono (technical voice), bound to the
+   next/font CSS variables set on <html> in layout.tsx.
    ================================================================== */
 
 :root {
-  /* ------------------------------------------------------------------
-     SUBSTRATE + INK — cool porcelain neutrals, true graphite ink
-     ------------------------------------------------------------------ */
-  --background: #f3f4f6;
-  --foreground: #0d1014;
-  --surface: #ffffff;
-  --surface-elevated: #eceef1;
-  --surface-subtle: #e3e6ea;
-
-  --muted: #565d67;
-  --muted-light: #878e98;
-  --muted-subtle: #b3b9c1;
-
-  --border: #dfe2e7;
-  --border-strong: #c4c9d0;
-  --border-hairline: #ebedf0;
+  color-scheme: light dark;
 
   /* ------------------------------------------------------------------
-     SIGNAL — one confident electric cobalt. The only saturated hue in
-     the system. Reserved for intent: CTAs, live indicators, key marks.
+     TYPEFACE
      ------------------------------------------------------------------ */
-  --accent: #1e3fe0;
-  --accent-strong: #1730ac;
-  --accent-muted: #5d75f0;
-  --accent-subtle: rgba(30, 63, 224, 0.08);
-  --accent-wash: rgba(30, 63, 224, 0.035);
-  --accent-border: rgba(30, 63, 224, 0.22);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono",
+    "JetBrains Mono", "Menlo", monospace;
+
+  /* ==================================================================
+     GENERATIVE AXES — the whole palette is computed from these.
+     Rotate --signal-hue (e.g. per-route, per-section, data-driven) and
+     the entire accent system re-tunes in perceptual space.
+     ================================================================== */
+  --signal-hue: 24;            /* live "flux" hue on the OKLCH wheel   */
+  --signal-chroma: 0.205;      /* saturation of the live signal        */
+  --ink-hue: 268;              /* cool bias in the neutral ramp        */
+  --ink-chroma: 0.014;         /* faint spectral cast in neutrals      */
 
   /* ------------------------------------------------------------------
-     CLASSIFICATION PALETTE — a cohesive, mostly-cool spectrum used only
-     for quiet category coding (thin bars, small labels). Preserves the
-     existing token contracts. "indigo" is the primary signal itself.
+     SUBSTRATE + INK — a cool, computed vellum. Not clinical white:
+     a near-neutral with a faint spectral cast so it reads as a lit
+     surface rather than blank paper.
      ------------------------------------------------------------------ */
-  --accent-indigo: #1e3fe0;
-  --accent-indigo-muted: #5d75f0;
-  --accent-indigo-subtle: rgba(30, 63, 224, 0.08);
-  --accent-indigo-border: rgba(30, 63, 224, 0.22);
-  --accent-indigo-wash: rgba(30, 63, 224, 0.035);
+  --background: oklch(0.972 0.004 var(--ink-hue));
+  --foreground: oklch(0.22 0.02 var(--ink-hue));
+  --surface: oklch(0.99 0.003 var(--ink-hue));
+  --surface-elevated: oklch(0.948 0.006 var(--ink-hue));
+  --surface-subtle: oklch(0.918 0.008 var(--ink-hue));
 
-  --accent-teal: #0e7a83;
-  --accent-teal-muted: #2f9aa2;
-  --accent-teal-subtle: rgba(14, 122, 131, 0.08);
-  --accent-teal-border: rgba(14, 122, 131, 0.22);
-  --accent-teal-wash: rgba(14, 122, 131, 0.035);
+  --muted: oklch(0.475 0.019 var(--ink-hue));
+  --muted-light: oklch(0.55 0.018 var(--ink-hue));
+  --muted-subtle: oklch(0.72 0.014 var(--ink-hue));
 
-  --accent-coral: #c04a1b;
-  --accent-coral-muted: #db6a3c;
-  --accent-coral-subtle: rgba(192, 74, 27, 0.08);
-  --accent-coral-border: rgba(192, 74, 27, 0.22);
-  --accent-coral-wash: rgba(192, 74, 27, 0.035);
-
-  --accent-violet: #4a4f79;
-  --accent-violet-muted: #6d729c;
-  --accent-violet-subtle: rgba(74, 79, 121, 0.08);
-  --accent-violet-border: rgba(74, 79, 121, 0.22);
-  --accent-violet-wash: rgba(74, 79, 121, 0.035);
-
-  --accent-amber: #8a6a2f;
-  --accent-amber-muted: #a98a4c;
-  --accent-amber-subtle: rgba(138, 106, 47, 0.08);
-  --accent-amber-border: rgba(138, 106, 47, 0.22);
-  --accent-amber-wash: rgba(138, 106, 47, 0.035);
+  --border: oklch(0.9 0.007 var(--ink-hue));
+  --border-strong: oklch(0.82 0.009 var(--ink-hue));
+  --border-hairline: oklch(0.935 0.005 var(--ink-hue));
 
   /* ------------------------------------------------------------------
-     RADII — architectural. Crisp corners, never soft.
+     SIGNAL — "Flux". The one live, high-chroma hue, sampled straight
+     from the generative axes. Rationed for intent: CTAs, live status,
+     the single word in a headline that carries weight.
      ------------------------------------------------------------------ */
-  --radius-sm: 0px;
-  --radius-md: 2px;
-  --radius-lg: 3px;
+  --accent: oklch(0.585 var(--signal-chroma) var(--signal-hue));
+  --accent-strong: oklch(0.5 calc(var(--signal-chroma) - 0.01) calc(var(--signal-hue) - 4));
+  --accent-muted: oklch(0.7 0.16 calc(var(--signal-hue) + 6));
+  --accent-subtle: oklch(0.585 var(--signal-chroma) var(--signal-hue) / 0.08);
+  --accent-wash: oklch(0.585 var(--signal-chroma) var(--signal-hue) / 0.04);
+  --accent-border: oklch(0.585 var(--signal-chroma) var(--signal-hue) / 0.26);
+
+  /* ==================================================================
+     SPECTRAL SET — a perceptually even six-stop ring sampled around
+     the OKLCH wheel. This is the data-driven palette: charts, category
+     coding, and generative fields index into it algorithmically. The
+     legacy names (indigo / teal / coral / violet / amber) are kept as
+     semantic aliases onto stops of the same ring.
+     ================================================================== */
+  --spectral-1: oklch(0.56 0.15 262); /* ion       */
+  --spectral-2: oklch(0.6 0.12 196);  /* aqua      */
+  --spectral-3: oklch(0.62 0.14 158); /* verdant   */
+  --spectral-4: oklch(0.7 0.14 92);   /* solar     */
+  --spectral-5: oklch(0.62 0.17 34);  /* ember     */
+  --spectral-6: oklch(0.56 0.16 336); /* magenta   */
+
+  /* --- indigo (cool anchor / legacy) --- */
+  --accent-indigo: oklch(0.5 0.13 262);
+  --accent-indigo-muted: oklch(0.62 0.1 262);
+  --accent-indigo-subtle: oklch(0.5 0.13 262 / 0.09);
+  --accent-indigo-border: oklch(0.5 0.13 262 / 0.24);
+  --accent-indigo-wash: oklch(0.5 0.13 262 / 0.04);
+
+  /* --- teal (legacy) --- */
+  --accent-teal: oklch(0.52 0.09 188);
+  --accent-teal-muted: oklch(0.64 0.08 188);
+  --accent-teal-subtle: oklch(0.52 0.09 188 / 0.09);
+  --accent-teal-border: oklch(0.52 0.09 188 / 0.24);
+  --accent-teal-wash: oklch(0.52 0.09 188 / 0.04);
+
+  /* --- coral (Flux family / legacy) --- */
+  --accent-coral: oklch(0.56 0.16 32);
+  --accent-coral-muted: oklch(0.68 0.14 34);
+  --accent-coral-subtle: oklch(0.56 0.16 32 / 0.09);
+  --accent-coral-border: oklch(0.56 0.16 32 / 0.24);
+  --accent-coral-wash: oklch(0.56 0.16 32 / 0.04);
+
+  /* --- violet (legacy) --- */
+  --accent-violet: oklch(0.52 0.15 300);
+  --accent-violet-muted: oklch(0.64 0.13 300);
+  --accent-violet-subtle: oklch(0.52 0.15 300 / 0.09);
+  --accent-violet-border: oklch(0.52 0.15 300 / 0.24);
+  --accent-violet-wash: oklch(0.52 0.15 300 / 0.04);
+
+  /* --- amber (legacy) --- */
+  --accent-amber: oklch(0.58 0.11 78);
+  --accent-amber-muted: oklch(0.7 0.1 82);
+  --accent-amber-subtle: oklch(0.58 0.11 78 / 0.09);
+  --accent-amber-border: oklch(0.58 0.11 78 / 0.24);
+  --accent-amber-wash: oklch(0.58 0.11 78 / 0.04);
+
+  /* ------------------------------------------------------------------
+     RADII — architectural. Crisp corners; nothing rounded.
+     ------------------------------------------------------------------ */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
   --radius-full: 9999px;
 
   /* ------------------------------------------------------------------
-     ELEVATION — hairline-first. Shadows are almost imperceptible; depth
-     is expressed with borders, not blur.
+     ELEVATION — hairline-first. Depth is expressed with borders and
+     faint, cool-tinted shadows, never blur-heavy glows.
      ------------------------------------------------------------------ */
-  --shadow-sm: 0 1px 1px rgba(13, 16, 20, 0.03);
-  --shadow-md: 0 2px 8px rgba(13, 16, 20, 0.05);
-  --shadow-lg: 0 8px 24px rgba(13, 16, 20, 0.07);
+  --shadow-sm: 0 1px 1px oklch(0.22 0.02 var(--ink-hue) / 0.04);
+  --shadow-md: 0 2px 10px oklch(0.22 0.02 var(--ink-hue) / 0.06);
+  --shadow-lg: 0 12px 32px oklch(0.22 0.02 var(--ink-hue) / 0.09);
 
-  /* Focus / hover emphasis — a hairline ring, not a glow */
-  --glow-accent: 0 0 0 1px var(--accent-border), 0 1px 8px rgba(30, 63, 224, 0.08);
-  --glow-indigo: var(--glow-accent);
-  --glow-teal: 0 0 0 1px var(--accent-teal-border), 0 1px 8px rgba(14, 122, 131, 0.08);
-  --glow-coral: 0 0 0 1px var(--accent-coral-border), 0 1px 8px rgba(192, 74, 27, 0.08);
+  /* Focus / hover emphasis — a hairline ring, not a bloom */
+  --glow-accent: 0 0 0 1px var(--accent-border),
+    0 1px 10px oklch(0.585 var(--signal-chroma) var(--signal-hue) / 0.12);
+  --glow-indigo: 0 0 0 1px var(--accent-indigo-border), 0 1px 8px oklch(0.5 0.13 262 / 0.1);
+  --glow-teal: 0 0 0 1px var(--accent-teal-border), 0 1px 8px oklch(0.52 0.09 188 / 0.1);
+  --glow-coral: 0 0 0 1px var(--accent-coral-border), 0 1px 8px oklch(0.56 0.16 32 / 0.1);
 
   /* ------------------------------------------------------------------
-     GRADIENTS — restrained to single-hue depth. Used as near-solid
-     accents (rules, underlines), never as ornamental color washes.
+     GRADIENTS — restrained, single-hue depth plus one "spectral rule"
+     used for hero underlines and generative edges only.
      ------------------------------------------------------------------ */
   --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
   --gradient-accent-horizontal: linear-gradient(90deg, var(--accent) 0%, var(--accent-strong) 100%);
   --gradient-subtle: linear-gradient(180deg, var(--surface-elevated) 0%, var(--background) 100%);
+  --gradient-spectral: linear-gradient(
+    90deg,
+    var(--spectral-1) 0%,
+    var(--spectral-2) 22%,
+    var(--spectral-3) 42%,
+    var(--spectral-4) 62%,
+    var(--spectral-5) 82%,
+    var(--spectral-6) 100%
+  );
+
+  /* ==================================================================
+     ADAPTIVE TYPE SCALE — a fluid modular scale (clamp) so type is
+     sized by the viewport, not a fixed breakpoint ladder. Ratio ≈ 1.2
+     at small screens widening toward 1.28 at large.
+     ================================================================== */
+  --step--2: clamp(0.6944rem, 0.66rem + 0.17vw, 0.79rem);
+  --step--1: clamp(0.8333rem, 0.79rem + 0.22vw, 0.9494rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.1394rem);
+  --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.3672rem);
+  --step-2: clamp(1.44rem, 1.34rem + 0.5vw, 1.6407rem);
+  --step-3: clamp(1.728rem, 1.59rem + 0.69vw, 1.9689rem);
+  --step-4: clamp(2.0736rem, 1.88rem + 0.96vw, 2.3627rem);
+  --step-5: clamp(2.4883rem, 2.22rem + 1.34vw, 2.8352rem);
+  --step-6: clamp(2.986rem, 2.61rem + 1.86vw, 3.4022rem);
+  --step-7: clamp(3.5832rem, 3.07rem + 2.57vw, 4.0827rem);
+  --step-8: clamp(4.2998rem, 3.58rem + 3.55vw, 4.8992rem);
+
+  /* ==================================================================
+     DYNAMIC SPACING — a fluid space scale. Rhythm scales with the
+     viewport so density adapts across devices instead of snapping.
+     ================================================================== */
+  --space-3xs: clamp(0.25rem, 0.24rem + 0.06vw, 0.3125rem);
+  --space-2xs: clamp(0.5rem, 0.48rem + 0.11vw, 0.5625rem);
+  --space-xs: clamp(0.75rem, 0.72rem + 0.17vw, 0.875rem);
+  --space-sm: clamp(1rem, 0.95rem + 0.22vw, 1.125rem);
+  --space-md: clamp(1.5rem, 1.43rem + 0.34vw, 1.6875rem);
+  --space-lg: clamp(2rem, 1.9rem + 0.45vw, 2.25rem);
+  --space-xl: clamp(3rem, 2.85rem + 0.68vw, 3.375rem);
+  --space-2xl: clamp(4rem, 3.6rem + 1.7vw, 5rem);
+  --space-3xl: clamp(6rem, 5.15rem + 3.6vw, 8.5rem);
 
   /* ------------------------------------------------------------------
-     MOTION LANGUAGE — quick, decisive, expo-out. Motion confirms intent;
-     it never performs. Reference these tokens from every transition.
+     MOTION LANGUAGE — "confirm, then reveal." One expressive expo-out
+     curve governs entrances; spring tokens drive interactive, emergent
+     behavior (mirrored in framer-motion via motion.ts). A slow drift
+     duration powers generative fields.
      ------------------------------------------------------------------ */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --duration-fast: 140ms;
-  --duration: 220ms;
-  --duration-slow: 420ms;
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: linear(
+    0, 0.006, 0.025, 0.101, 0.539, 0.826, 0.98, 1.045, 1.06, 1.049, 1.024, 1.008, 1
+  );
+  --duration-fast: 120ms;
+  --duration: 200ms;
+  --duration-slow: 380ms;
+  --duration-drift: 24s; /* generative-field cycle */
+
+  /* ------------------------------------------------------------------
+     COMPATIBILITY ALIASES — generic shadcn-style token names mapped
+     onto the real Latent Field tokens.
+     ------------------------------------------------------------------ */
+  --primary: var(--accent);
+  --primary-foreground: oklch(0.99 0.005 var(--signal-hue));
+  --secondary: var(--surface-elevated);
+  --secondary-foreground: var(--foreground);
+  --muted-foreground: var(--muted);
+  --accent-foreground: oklch(0.99 0.005 var(--signal-hue));
+  --input: var(--border-strong);
+  --ring: var(--accent);
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+
+  /* Default rule color for the pull-quote bar. */
+  --pull-quote-accent: var(--accent);
+}
+
+/* ==================================================================
+   ADAPTIVE SUBSTRATE — the system re-renders for a dark computational
+   surface automatically. Same axes, inverted lightness. Users who set
+   a color preference get a first-class rendering, not an afterthought.
+   ================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.165 0.012 var(--ink-hue));
+    --foreground: oklch(0.95 0.01 var(--ink-hue));
+    --surface: oklch(0.195 0.014 var(--ink-hue));
+    --surface-elevated: oklch(0.235 0.016 var(--ink-hue));
+    --surface-subtle: oklch(0.275 0.016 var(--ink-hue));
+
+    --muted: oklch(0.73 0.018 var(--ink-hue));
+    --muted-light: oklch(0.64 0.018 var(--ink-hue));
+    --muted-subtle: oklch(0.5 0.016 var(--ink-hue));
+
+    --border: oklch(0.3 0.014 var(--ink-hue));
+    --border-strong: oklch(0.4 0.016 var(--ink-hue));
+    --border-hairline: oklch(0.255 0.012 var(--ink-hue));
+
+    --accent: oklch(0.68 var(--signal-chroma) var(--signal-hue));
+    --accent-strong: oklch(0.6 var(--signal-chroma) calc(var(--signal-hue) - 4));
+    --accent-muted: oklch(0.56 0.16 calc(var(--signal-hue) + 6));
+    --accent-subtle: oklch(0.68 var(--signal-chroma) var(--signal-hue) / 0.14);
+    --accent-wash: oklch(0.68 var(--signal-chroma) var(--signal-hue) / 0.07);
+    --accent-border: oklch(0.68 var(--signal-chroma) var(--signal-hue) / 0.34);
+
+    --spectral-1: oklch(0.68 0.15 262);
+    --spectral-2: oklch(0.72 0.12 196);
+    --spectral-3: oklch(0.74 0.14 158);
+    --spectral-4: oklch(0.8 0.14 92);
+    --spectral-5: oklch(0.72 0.17 34);
+    --spectral-6: oklch(0.68 0.16 336);
+
+    --accent-indigo: oklch(0.68 0.13 262);
+    --accent-indigo-muted: oklch(0.58 0.11 262);
+    --accent-indigo-subtle: oklch(0.68 0.13 262 / 0.16);
+    --accent-indigo-border: oklch(0.68 0.13 262 / 0.34);
+    --accent-indigo-wash: oklch(0.68 0.13 262 / 0.07);
+
+    --accent-teal: oklch(0.72 0.1 188);
+    --accent-teal-muted: oklch(0.6 0.08 188);
+    --accent-teal-subtle: oklch(0.72 0.1 188 / 0.16);
+    --accent-teal-border: oklch(0.72 0.1 188 / 0.34);
+    --accent-teal-wash: oklch(0.72 0.1 188 / 0.07);
+
+    --accent-coral: oklch(0.72 0.16 34);
+    --accent-coral-muted: oklch(0.6 0.14 34);
+    --accent-coral-subtle: oklch(0.72 0.16 34 / 0.16);
+    --accent-coral-border: oklch(0.72 0.16 34 / 0.34);
+    --accent-coral-wash: oklch(0.72 0.16 34 / 0.07);
+
+    --accent-violet: oklch(0.7 0.15 300);
+    --accent-violet-muted: oklch(0.58 0.13 300);
+    --accent-violet-subtle: oklch(0.7 0.15 300 / 0.16);
+    --accent-violet-border: oklch(0.7 0.15 300 / 0.34);
+    --accent-violet-wash: oklch(0.7 0.15 300 / 0.07);
+
+    --accent-amber: oklch(0.76 0.13 82);
+    --accent-amber-muted: oklch(0.64 0.11 82);
+    --accent-amber-subtle: oklch(0.76 0.13 82 / 0.16);
+    --accent-amber-border: oklch(0.76 0.13 82 / 0.34);
+    --accent-amber-wash: oklch(0.76 0.13 82 / 0.07);
+
+    --shadow-sm: 0 1px 1px oklch(0 0 0 / 0.3);
+    --shadow-md: 0 2px 12px oklch(0 0 0 / 0.4);
+    --shadow-lg: 0 14px 40px oklch(0 0 0 / 0.5);
+
+    --primary-foreground: oklch(0.16 0.01 var(--ink-hue));
+    --accent-foreground: oklch(0.16 0.01 var(--ink-hue));
+  }
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
@@ -134,6 +342,13 @@
   --color-accent-wash: var(--accent-wash);
   --color-accent-border: var(--accent-border);
 
+  --color-spectral-1: var(--spectral-1);
+  --color-spectral-2: var(--spectral-2);
+  --color-spectral-3: var(--spectral-3);
+  --color-spectral-4: var(--spectral-4);
+  --color-spectral-5: var(--spectral-5);
+  --color-spectral-6: var(--spectral-6);
+
   --color-accent-indigo: var(--accent-indigo);
   --color-accent-indigo-muted: var(--accent-indigo-muted);
   --color-accent-indigo-subtle: var(--accent-indigo-subtle);
@@ -144,6 +359,7 @@
   --color-accent-coral-muted: var(--accent-coral-muted);
   --color-accent-coral-subtle: var(--accent-coral-subtle);
   --color-accent-coral-border: var(--accent-coral-border);
+  --color-accent-coral-wash: var(--accent-coral-wash);
 
   --color-accent-teal: var(--accent-teal);
   --color-accent-teal-muted: var(--accent-teal-muted);
@@ -175,11 +391,23 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 
-  --spacing-section: 9rem;
-  --spacing-section-sm: 5.5rem;
-  --spacing-section-xs: 2.75rem;
-  --spacing-grid: 1.5rem;
-  --spacing-grid-lg: 2rem;
+  /* Section rhythm — kept for compatibility, now sampled from the
+     fluid space scale so section spacing adapts with the viewport. */
+  --spacing-section: var(--space-3xl);
+  --spacing-section-sm: var(--space-2xl);
+  --spacing-section-xs: var(--space-xl);
+  --spacing-grid: var(--space-md);
+  --spacing-grid-lg: var(--space-lg);
+
+  /* Fluid space scale exposed as Tailwind spacing utilities. */
+  --spacing-fluid-2xs: var(--space-2xs);
+  --spacing-fluid-xs: var(--space-xs);
+  --spacing-fluid-sm: var(--space-sm);
+  --spacing-fluid-md: var(--space-md);
+  --spacing-fluid-lg: var(--space-lg);
+  --spacing-fluid-xl: var(--space-xl);
+  --spacing-fluid-2xl: var(--space-2xl);
+  --spacing-fluid-3xl: var(--space-3xl);
 }
 
 * {
@@ -207,8 +435,8 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  font-feature-settings: "ss01", "cv01", "cv03";
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv01";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -216,26 +444,87 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--primary-foreground);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
-/* ------------------------------------------------------------------
-   Background textures — a fine drafting grid and a single faint signal
-   corner. Structural, not decorative.
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   ALGORITHMIC FIELDS — structure drawn by pattern, not chrome. These
+   are deterministic, tileable backgrounds that read as computational
+   substrate. Combine with the <GenerativeBackground /> canvas for a
+   live layer.
+   ================================================================== */
+
+/* Fine drafting grid. */
 .grid-pattern {
   background-image:
     linear-gradient(to right, var(--border-hairline) 1px, transparent 1px),
     linear-gradient(to bottom, var(--border-hairline) 1px, transparent 1px);
-  background-size: 64px 64px;
+  background-size: 72px 72px;
 }
 
+/* Adaptive lattice — a finer grid whose cell size tracks the viewport. */
+.field-lattice {
+  background-image:
+    linear-gradient(to right, var(--border-hairline) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-hairline) 1px, transparent 1px);
+  background-size: clamp(40px, 6vw, 88px) clamp(40px, 6vw, 88px);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black, transparent 78%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black, transparent 78%);
+}
+
+/* Dot field — the "sampled points" motif. */
+.field-dots {
+  background-image: radial-gradient(
+    var(--border-strong) 1px,
+    transparent 1.4px
+  );
+  background-size: 22px 22px;
+  opacity: 0.5;
+}
+
+/* Signal isoline — faint contour bands, the trace of a scalar field. */
+.field-contour {
+  background-image: repeating-radial-gradient(
+    circle at 100% 0%,
+    var(--accent-wash) 0,
+    var(--accent-wash) 1px,
+    transparent 1px,
+    transparent 46px
+  );
+}
+
+/* Micro film grain — breaks up flat fills so large surfaces feel lit.
+   Pure CSS fractal noise via SVG data-uri; extremely faint. */
+.field-noise {
+  position: relative;
+  isolation: isolate;
+}
+
+.field-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  .field-noise::after {
+    mix-blend-mode: screen;
+    opacity: 0.05;
+  }
+}
+
+/* Legacy hero wash — retuned as a faint single-hue field, no orbs. */
 .hero-mesh {
   position: relative;
   isolation: isolate;
@@ -246,38 +535,50 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  opacity: 0.5;
+  opacity: 0.7;
   background-image:
-    radial-gradient(ellipse 60% 50% at 100% 0%, var(--accent-subtle), transparent 60%);
+    radial-gradient(ellipse 55% 45% at 100% 0%, var(--accent-subtle), transparent 62%),
+    radial-gradient(ellipse 40% 40% at 0% 100%, var(--accent-indigo-wash), transparent 66%);
   pointer-events: none;
 }
 
-/* ------------------------------------------------------------------
-   Typography — Inter Tight display grotesque, JetBrains Mono voice.
-   Tight, confident, optically balanced.
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   TYPOGRAPHY — Geist display grotesque, Geist Mono technical voice.
+   Hierarchy from the adaptive scale + weight + optical tightening.
+   ================================================================== */
 .text-balance {
   text-wrap: balance;
 }
 
+.text-pretty {
+  text-wrap: pretty;
+}
+
 .heading-hero {
-  font-size: clamp(2.75rem, 6.2vw, 5.25rem);
-  line-height: 1.0;
+  font-size: var(--step-7);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+.heading-display {
+  font-size: var(--step-8);
+  line-height: 0.98;
   letter-spacing: -0.04em;
   font-weight: 600;
 }
 
 .heading-section {
-  font-size: clamp(2rem, 4vw, 3.125rem);
-  line-height: 1.06;
-  letter-spacing: -0.03em;
+  font-size: var(--step-5);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   font-weight: 600;
 }
 
 .heading-card {
-  font-size: 1.25rem;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  font-size: var(--step-1);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
   font-weight: 500;
 }
 
@@ -286,39 +587,41 @@ body {
   font-size: 0.6875rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-feature-settings: "zero";
+  letter-spacing: 0.16em;
+  font-feature-settings: "zero" 1;
 }
 
 .label-sans {
   font-family: var(--font-sans);
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   font-weight: 500;
 }
 
 .description-standard {
-  font-size: 1rem;
+  font-size: var(--step-0);
   line-height: 1.7;
   color: var(--muted);
 }
 
-@media (min-width: 640px) {
-  .description-standard {
-    font-size: 1.0625rem;
-  }
-}
-
 .description-sm {
-  font-size: 0.875rem;
+  font-size: var(--step--1);
   line-height: 1.65;
   color: var(--muted);
 }
 
-/* ------------------------------------------------------------------
-   Signal treatments — the accent appears as flat color, not as glow.
-   ------------------------------------------------------------------ */
+/* Tabular technical readout — for data-driven numerals. */
+.data-readout {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  letter-spacing: -0.01em;
+}
+
+/* ==================================================================
+   SIGNAL TREATMENTS — the accent appears as flat color, not glow.
+   ================================================================== */
 .accent-word {
   color: var(--accent);
   font-weight: inherit;
@@ -351,6 +654,26 @@ body {
   color: transparent;
 }
 
+.text-gradient-spectral {
+  background: var(--gradient-spectral);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .text-gradient-spectral {
+    animation: spectral-drift var(--duration-drift) linear infinite;
+  }
+}
+
+@keyframes spectral-drift {
+  to {
+    background-position: 200% 0;
+  }
+}
+
 .accent-gradient-edge {
   position: relative;
 }
@@ -372,10 +695,34 @@ body {
   pointer-events: none;
 }
 
+/* Spectral edge — the generative counterpart, hairline width. */
+.spectral-edge {
+  position: relative;
+}
+
+.spectral-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--gradient-spectral);
+  opacity: 0.5;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 .pull-quote {
   position: relative;
   padding-left: 1.5rem;
-  font-size: 1.375rem;
+  font-size: var(--step-2);
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: -0.02em;
@@ -427,9 +774,9 @@ body {
   }
 }
 
-/* ------------------------------------------------------------------
-   Section rules — hairline-driven, with a single signal tick.
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   SECTION RULES — hairline-driven, with a single Flux tick.
+   ================================================================== */
 .section-accent-top {
   border-top: 1px solid var(--accent-border);
 }
@@ -442,15 +789,15 @@ body {
 
 .section-label-accent::before {
   content: "";
-  width: 0.5rem;
+  width: 0.625rem;
   height: 2px;
   background: var(--accent);
   flex-shrink: 0;
 }
 
-/* ------------------------------------------------------------------
-   Status indicators — small, precise, quietly alive.
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   STATUS INDICATORS — small, precise, quietly alive.
+   ================================================================== */
 .status-dot {
   display: inline-block;
   width: 0.375rem;
@@ -490,13 +837,13 @@ body {
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.45;
   }
 }
 
-/* ------------------------------------------------------------------
-   Interactive emphasis
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   INTERACTIVE EMPHASIS
+   ================================================================== */
 .btn-glow-hover {
   transition:
     box-shadow var(--duration-fast) var(--ease-standard),
@@ -510,9 +857,9 @@ body {
   transform: translateY(0.5px);
 }
 
-/* ------------------------------------------------------------------
-   Navigation and footer rules
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   NAVIGATION AND FOOTER RULES
+   ================================================================== */
 .nav-accent-line {
   position: absolute;
   inset-inline: 0;
@@ -524,7 +871,7 @@ body {
 }
 
 .nav-accent-line[data-visible="true"] {
-  opacity: 0.5;
+  opacity: 0.55;
 }
 
 .footer-accent-bar {
@@ -533,9 +880,9 @@ body {
   opacity: 0.3;
 }
 
-/* ------------------------------------------------------------------
-   Dividers
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   DIVIDERS
+   ================================================================== */
 .divider {
   height: 1px;
   background: var(--border);
@@ -552,9 +899,15 @@ body {
   opacity: 0.4;
 }
 
-/* ------------------------------------------------------------------
-   Surface panels — hairline frames, no shadow
-   ------------------------------------------------------------------ */
+.divider-spectral {
+  height: 1px;
+  background: var(--gradient-spectral);
+  opacity: 0.55;
+}
+
+/* ==================================================================
+   SURFACE PANELS — hairline frames, no shadow
+   ================================================================== */
 .panel {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -565,7 +918,6 @@ body {
   border: 1px solid var(--border);
 }
 
-/* Corner ticks — an optional engineered detail for framed surfaces */
 .panel-ticks {
   position: relative;
 }
@@ -593,19 +945,86 @@ body {
   border-width: 0 1px 1px 0;
 }
 
-/* ------------------------------------------------------------------
-   Focus ring
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   CARD — a restrained, interactive content surface.
+   ================================================================== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.card-interactive {
+  transition:
+    border-color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease-out);
+}
+
+.card-interactive:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-signal {
+  position: relative;
+}
+
+.card-signal::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  height: 2px;
+  background: var(--accent);
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-interactive:hover {
+    transform: none;
+  }
+}
+
+/* ==================================================================
+   FOCUS RING
+   ================================================================== */
 .focus-ring:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* ------------------------------------------------------------------
-   Reduced-motion helpers
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   GENERATIVE / DATA-VIZ SUPPORT — utilities consumed by the
+   <GenerativeBackground /> and <InteractiveDataViz /> primitives.
+   ================================================================== */
+.generative-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.dataviz-bar {
+  transition:
+    fill var(--duration) var(--ease-out),
+    opacity var(--duration) var(--ease-out);
+}
+
+.dataviz-track {
+  cursor: crosshair;
+}
+
+/* ==================================================================
+   REDUCED-MOTION HELPERS
+   ================================================================== */
 @media (prefers-reduced-motion: reduce) {
   .hero-mesh::before {
-    opacity: 0.35;
+    opacity: 0.5;
   }
 }

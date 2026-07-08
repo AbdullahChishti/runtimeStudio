@@ -5,7 +5,11 @@ export type BadgeVariant =
   | "indigo"
   | "coral"
   | "teal"
-  | "neutral";
+  | "violet"
+  | "amber"
+  | "spectral"
+  | "neutral"
+  | "outline";
 
 const badgeVariants: Record<BadgeVariant, string> = {
   default: "border-border bg-surface text-muted",
@@ -15,8 +19,14 @@ const badgeVariants: Record<BadgeVariant, string> = {
     "border-accent-coral-border bg-accent-coral-subtle text-accent-coral",
   teal:
     "border-accent-teal-border bg-accent-teal-subtle text-accent-teal",
+  violet:
+    "border-accent-violet-border bg-accent-violet-subtle text-accent-violet",
+  amber:
+    "border-accent-amber-border bg-accent-amber-subtle text-accent-amber",
+  spectral: "spectral-edge border-transparent bg-surface text-foreground",
   neutral:
     "border-border bg-surface-elevated text-muted",
+  outline: "border-border bg-transparent text-foreground"
 };
 
 const categoryVariantMap: Record<string, BadgeVariant> = {
@@ -48,7 +58,7 @@ export function Badge({ children, className, variant }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center border px-2.5 py-1 label-mono rounded-sm",
+        "inline-flex items-center border px-2.5 py-1 label-mono rounded-[var(--radius-md)]",
         badgeVariants[resolvedVariant],
         className,
       )}

@@ -19,6 +19,7 @@ export type CaseStudy = {
   };
   relatedServiceSlugs: string[];
   featured: boolean;
+  image?: string;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -66,6 +67,8 @@ export const caseStudies: CaseStudy[] = [
     },
     relatedServiceSlugs: ["quality-engineering", "ai-services"],
     featured: true,
+    // image intentionally omitted — no real asset exists yet. Add a file under
+    // public/images/case-studies/ and set this once available.
   },
   {
     slug: "qa-automation-transformation",
@@ -110,6 +113,7 @@ export const caseStudies: CaseStudy[] = [
     },
     relatedServiceSlugs: ["quality-engineering", "technology-consulting"],
     featured: true,
+    // image intentionally omitted — no real asset exists yet.
   },
   {
     slug: "ai-knowledge-platform",
@@ -155,6 +159,7 @@ export const caseStudies: CaseStudy[] = [
     },
     relatedServiceSlugs: ["ai-services", "software-engineering"],
     featured: true,
+    // image intentionally omitted — no real asset exists yet.
   },
 ];
 

@@ -1,25 +1,57 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { mainNav } from "@/content/navigation";
-import { cn } from "@/lib/utils";
+import { siteConfig } from "@/lib/metadata";
 import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
+import { cn } from "@/lib/utils";
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const closeMenu = () => setMobileOpen(false);
 
+  // Focus trap + Escape-to-close + focus restore while the menu is open.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (!mobileOpen) return;
 
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    const menu = menuRef.current;
+    const focusable = menu?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled])',
+    );
+    focusable?.[0]?.focus();
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+
+      if (e.key === "Tab" && focusable && focusable.length > 0) {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+
     return () => {
+      document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
@@ -27,103 +59,107 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled
-          ? "border-b border-border bg-background/90 backdrop-blur-md"
-          : "bg-transparent",
+        "sticky top-0 z-40 border-b border-border backdrop-blur-sm",
+        mobileOpen ? "bg-background" : "bg-background/90",
       )}
     >
-      <nav
-        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:h-[4.5rem] lg:px-8"
-        aria-label="Main navigation"
-      >
-        <Link
-          href="/"
-          className="group flex items-center gap-2 text-sm font-medium tracking-tight text-foreground"
-          onClick={() => setMobileOpen(false)}
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted group-hover:text-foreground transition-colors">
-            RS
-          </span>
-          <span className="hidden sm:inline">Runtime Studio</span>
-        </Link>
+      <Container>
+        <div className="flex h-16 items-center justify-between">
+          <Link
+            href="/"
+            className="text-sm font-semibold tracking-[0.02em] text-foreground text-gradient-spectral transform-gpu transition-transform duration-300 hover:scale-105"
+          >
+            {siteConfig.name}
+          </Link>
 
-        <div className="hidden items-center gap-8 lg:flex">
-          {mainNav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-muted transition-colors hover:text-foreground"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Button href="/contact" variant="primary" className="ml-2">
-            Start a project
-          </Button>
-        </div>
+          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
+            {mainNav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+                className={cn(
+                  "relative text-sm text-muted transition-colors hover:text-foreground group",
+                  pathname === item.href && "text-foreground",
+                )}
+              >
+                {item.label}
+                <span className={cn(
+                  "nav-accent-line absolute bottom-0 left-0 w-full h-[1px] bg-accent transition-all duration-300 origin-left",
+                  pathname === item.href ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-50 group-hover:opacity-50",
+                )} />
+              </Link>
+            ))}
+          </nav>
 
-        <button
-          type="button"
-          className="flex h-10 w-10 items-center justify-center border border-border lg:hidden"
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-menu"
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMobileOpen((open) => !open)}
-        >
-          <span className="sr-only">{mobileOpen ? "Close" : "Menu"}</span>
-          <div className="flex flex-col gap-1.5">
-            <span
-              className={cn(
-                "block h-px w-4 bg-foreground transition-transform",
-                mobileOpen && "translate-y-[3.5px] rotate-45",
-              )}
-            />
-            <span
-              className={cn(
-                "block h-px w-4 bg-foreground transition-opacity",
-                mobileOpen && "opacity-0",
-              )}
-            />
-            <span
-              className={cn(
-                "block h-px w-4 bg-foreground transition-transform",
-                mobileOpen && "-translate-y-[3.5px] -rotate-45",
-              )}
-            />
-          </div>
-        </button>
-      </nav>
+          <div className="flex items-center gap-2">
+            <Button href="/contact" size="sm" className="hidden sm:inline-flex btn-glow-hover">
+              Contact
+            </Button>
 
-      <div
-        id="mobile-menu"
-        className={cn(
-          "fixed inset-0 top-16 z-40 bg-background lg:hidden",
-          mobileOpen ? "block" : "hidden",
-        )}
-      >
-        <div className="flex flex-col gap-1 px-6 py-8">
-          {mainNav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="border-b border-border py-4 text-lg text-foreground"
-              onClick={() => setMobileOpen(false)}
+            <button
+              ref={toggleRef}
+              type="button"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMobileOpen((open) => !open)}
+              className="flex h-11 w-11 items-center justify-center rounded-sm border border-border-strong text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:hidden transition-colors duration-200 hover:border-accent"
             >
-              {item.label}
-            </Link>
-          ))}
-          <div className="pt-6">
-            <Link
-              href="/contact"
-              className="inline-flex w-full items-center justify-center border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium tracking-tight text-background transition-colors hover:bg-accent"
-              onClick={() => setMobileOpen(false)}
-            >
-              Start a project
-            </Link>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                aria-hidden="true"
+              >
+                {mobileOpen ? (
+                  <path
+                    d="M2 2L16 16M16 2L2 16"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                ) : (
+                  <path
+                    d="M1 4.5H17M1 9H17M1 13.5H17"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                )}
+              </svg>
+            </button>
           </div>
         </div>
-      </div>
+      </Container>
+
+      {mobileOpen && (
+        <div
+          id="mobile-menu"
+          ref={menuRef}
+          className="border-t border-border bg-background md:hidden"
+        >
+          <Container>
+            <nav aria-label="Mobile" className="flex flex-col py-4">
+              {mainNav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={pathname === item.href ? "page" : undefined}
+                  onClick={closeMenu}
+                  className="border-b border-border py-3.5 text-base text-foreground last:border-b-0 transition-colors duration-200 hover:text-accent"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Button href="/contact" size="md" onClick={closeMenu} className="mt-5 w-full btn-glow-hover">
+                Contact
+              </Button>
+            </nav>
+          </Container>
+        </div>
+      )}
     </header>
   );
 }

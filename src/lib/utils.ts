@@ -2,6 +2,25 @@ export function cn(...classes: (string | boolean | undefined | null)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+const runtimeBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+export function withBasePath(path: string) {
+  if (!path) {
+    return runtimeBasePath || "/";
+  }
+
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
+  if (path === "/") {
+    return runtimeBasePath || "/";
+  }
+
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${runtimeBasePath}${normalizedPath}`;
+}
+
 export function formatDate(date: string) {
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",

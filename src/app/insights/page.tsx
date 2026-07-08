@@ -1,25 +1,41 @@
-import React from 'react';
-import Link from 'next/link';
-import InsightsListing from '../../components/insights/InsightsListing';
+import { GenerativeBackground } from "@/components/ui/GenerativeBackground";
+import { CategoryFilter } from "@/components/insights/CategoryFilter";
+import { InsightsGrid } from "@/components/insights/InsightsGrid";
+import { Suspense } from "react";
+import { createMetadata } from "@/lib/metadata";
 
-const InsightsHubPage: React.FC = () => {
-  const insightsData = [
-    { id: '1', title: 'The Future of AI in Business', slug: 'future-of-ai', date: 'July 1, 2026', excerpt: 'Exploring the transformative impact of artificial intelligence on various industries.' },
-    { id: '2', title: 'Mastering Cloud Computing Strategies', slug: 'cloud-computing', date: 'June 15, 2026', excerpt: 'A deep dive into effective cloud adoption and optimization techniques.' },
-    { id: '3', title: 'Cybersecurity Best Practices for 2026', slug: 'cybersecurity-2026', date: 'May 20, 2026', excerpt: 'Essential tips and strategies to protect your digital assets in the current threat landscape.' },
-  ];
+export const metadata = createMetadata({
+  title: "Insights",
+  description:
+    "Practical thinking on AI-native software, quality engineering, and modern delivery from the Runtime Studio team.",
+  path: "/insights",
+});
 
+export default function InsightsPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-6">Insights Hub</h1>
-      <p className="text-lg mb-8">
-        Welcome to our Insights Hub, where we share our expertise, research, and perspectives on the latest trends and innovations.
-        Explore our articles to stay informed and inspired.
-      </p>
+    <div className="relative isolate min-h-screen">
+      <GenerativeBackground className="absolute inset-0 z-0" density={0.5} accentRatio={0.05} />
+      <div className="container relative z-10 mx-auto px-4 py-16 sm:px-6 lg:px-8">
+        <header className="mb-16 text-center">
+          <h1 className="heading-display text-gradient-spectral mb-4">
+            Insights from the Latent Field
+          </h1>
+          <p className="description-standard mx-auto max-w-3xl text-balance">
+            Explore our latest thinking on AI-native software, quality engineering,
+            and emergent systems. Designed to inform, inspire, and provoke.
+          </p>
+        </header>
 
-      <InsightsListing insights={insightsData} />
+        <nav className="mb-12 flex justify-center">
+          <Suspense fallback={null}>
+            <CategoryFilter />
+          </Suspense>
+        </nav>
+
+        <Suspense fallback={null}>
+          <InsightsGrid />
+        </Suspense>
+      </div>
     </div>
   );
-};
-
-export default InsightsHubPage;
+}

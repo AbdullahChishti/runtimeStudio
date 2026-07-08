@@ -2,7 +2,10 @@ import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Container } from "./Container";
 
-type AccentColor = "indigo" | "coral" | "teal";
+type AccentColor = "indigo" | "coral" | "teal" | "violet" | "amber";
+
+/** Optional algorithmic field layer drawn behind the section content. */
+type SectionField = "lattice" | "dots" | "contour";
 
 type SectionProps = {
   children: ReactNode;
@@ -12,18 +15,30 @@ type SectionProps = {
   border?: boolean;
   accent?: AccentColor | false;
   size?: "default" | "narrow" | "wide";
+  /** Draw a subtle generative substrate behind the section. */
+  field?: SectionField | false;
 };
 
 const accentBorderClasses: Record<AccentColor, string> = {
   indigo: "border-t border-accent-indigo-border",
   coral: "border-t border-accent-coral-border",
   teal: "border-t border-accent-teal-border",
+  violet: "border-t border-accent-violet-border",
+  amber: "border-t border-accent-amber-border",
 };
 
 const accentWashClasses: Record<AccentColor, string> = {
   indigo: "bg-gradient-to-b from-accent-indigo-subtle/40 to-transparent",
   coral: "bg-gradient-to-b from-accent-coral-subtle/30 to-transparent",
   teal: "bg-gradient-to-b from-accent-teal-subtle/35 to-transparent",
+  violet: "bg-gradient-to-b from-accent-violet-subtle/35 to-transparent",
+  amber: "bg-gradient-to-b from-accent-amber-subtle/30 to-transparent",
+};
+
+const fieldClasses: Record<SectionField, string> = {
+  lattice: "field-lattice",
+  dots: "field-dots",
+  contour: "field-contour",
 };
 
 export function Section({
@@ -34,18 +49,28 @@ export function Section({
   border = false,
   accent = false,
   size = "default",
+  field = false,
 }: SectionProps) {
   return (
     <section
       id={id}
       className={cn(
-        "py-[var(--spacing-section-sm)] lg:py-[var(--spacing-section)]",
+        "relative py-[var(--spacing-section-sm)] lg:py-[var(--spacing-section)]",
         border && !accent && "border-t border-border",
         accent && accentBorderClasses[accent],
         accent && accentWashClasses[accent],
         className,
       )}
     >
+      {field && (
+        <div
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute inset-0 -z-10",
+            fieldClasses[field],
+          )}
+        />
+      )}
       <Container size={size} className={containerClassName}>
         {children}
       </Container>

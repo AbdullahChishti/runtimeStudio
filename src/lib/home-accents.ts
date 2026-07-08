@@ -1,10 +1,10 @@
 /** Muted accent palette for home page sections */
 export const accents = {
-  teal: "#0d9488",
-  violet: "#7c3aed",
-  amber: "#d97706",
-  indigo: "#4f46e5",
-  coral: "#e07a5f",
+  teal: "var(--accent-teal)",
+  violet: "var(--accent-violet)",
+  amber: "var(--accent-amber)",
+  indigo: "var(--accent-indigo)",
+  coral: "var(--accent-coral)",
 } as const;
 
 export type AccentKey = keyof typeof accents;
@@ -15,32 +15,32 @@ export const serviceAccentBySlug: Record<
 > = {
   "quality-engineering": {
     color: accents.teal,
-    bg: "rgba(13, 148, 136, 0.08)",
-    border: "rgba(13, 148, 136, 0.35)",
+    bg: "var(--accent-teal-subtle)",
+    border: "var(--accent-teal-border)",
   },
   "ai-services": {
     color: accents.violet,
-    bg: "rgba(124, 58, 237, 0.08)",
-    border: "rgba(124, 58, 237, 0.35)",
+    bg: "var(--accent-violet-subtle)",
+    border: "var(--accent-violet-border)",
   },
   "software-engineering": {
     color: accents.amber,
-    bg: "rgba(217, 119, 6, 0.08)",
-    border: "rgba(217, 119, 6, 0.35)",
+    bg: "var(--accent-amber-subtle)",
+    border: "var(--accent-amber-border)",
   },
   "technology-consulting": {
     color: accents.indigo,
-    bg: "rgba(79, 70, 229, 0.08)",
-    border: "rgba(79, 70, 229, 0.35)",
+    bg: "var(--accent-indigo-subtle)",
+    border: "var(--accent-indigo-border)",
   },
 };
 
 export const trustClientAccents: Record<string, AccentKey> = {
-  "Vertex Financial": "indigo",
-  "Lumina Health": "teal",
-  "Aether Logistics": "amber",
-  "Nidus Systems": "coral",
-  "Prism AI": "violet",
+  "Placeholder Client A": "indigo",
+  "Placeholder Client B": "teal",
+  "Placeholder Client C": "amber",
+  "Placeholder Client D": "coral",
+  "Placeholder Client E": "violet",
 };
 
 export const stepAccentColors = [

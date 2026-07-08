@@ -1,53 +1,48 @@
 "use client";
 
-import { company } from "@/content/company";
-import { motion } from "framer-motion";
-import { stepAccentColors } from "@/components/home/Accents";
+import { motion, useReducedMotion } from "framer-motion";
+import { processContent } from "@/content/home";
+import { Section, SectionHeader } from "@/components/ui/Section";
+import { motionDurations, motionEasing } from "@/components/animations/motion";
 
-const ProcessStep = ({
+const StepCard = ({
   step,
   index,
 }: {
-  step: (typeof company.howWeWork)[number];
+  step: (typeof processContent.steps)[number];
   index: number;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-    className="relative flex flex-col items-center text-center p-6 rounded-lg group"
-  >
-    <div
-      className="mb-6 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold text-white transition-all duration-300 group-hover:scale-110"
-      style={{ backgroundColor: stepAccentColors[index % stepAccentColors.length] }}
+}) => {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: motionDurations.default, delay: index * 0.08, ease: motionEasing }}
+      className="card panel-ticks p-6"
     >
-      {step.stage}
-    </div>
-    <h3 className="mb-3 text-2xl font-bold text-foreground">
-      {step.title}
-    </h3>
-    <p className="text-lg text-muted-foreground">{step.description}</p>
-  </motion.div>
-);
+      <p className="label-mono text-accent-strong">{String(index + 1).padStart(2, "0")}</p>
+      <h3 className="mt-4 heading-card text-foreground">{step.name}</h3>
+      <p className="mt-2 description-sm">{step.description}</p>
+    </motion.div>
+  );
+};
 
 export function ProcessSection() {
   return (
-    <section className="bg-background py-20">
-      <div className="mx-auto max-w-6xl px-6 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-12 text-5xl font-bold tracking-tight text-foreground"
-        >
-          Our Process
-        </motion.h2>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {company.howWeWork.map((step, index) => (
-            <ProcessStep key={step.stage} step={step} index={index} />
-          ))}
-        </div>
+    <Section border>
+      <SectionHeader
+        label="How we work"
+        title={processContent.title}
+        description={processContent.subtitle}
+        align="center"
+      />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {processContent.steps.map((step, index) => (
+          <StepCard key={step.name} step={step} index={index} />
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

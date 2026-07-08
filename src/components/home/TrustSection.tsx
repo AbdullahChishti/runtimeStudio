@@ -1,56 +1,61 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
+import { CheckIcon } from "@radix-ui/react-icons";
+import { trustContent } from "@/content/home";
 import { company } from "@/content/company";
-import { trustClientAccents } from "@/components/home/Accents";
-import { motion } from "framer-motion";
+import { Section, SectionHeader } from "@/components/ui/Section";
+import { motionDurations, motionEasing } from "@/components/animations/motion";
+
+const TrustReasonCard = ({
+  reason,
+  index,
+}: {
+  reason: (typeof trustContent.reasons)[number];
+  index: number;
+}) => {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: motionDurations.default, delay: index * 0.08, ease: motionEasing }}
+      className="card panel-ticks flex flex-col items-center p-6 text-center"
+    >
+      <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-accent-teal-subtle text-accent-teal">
+        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+      </span>
+      <h3 className="heading-card text-foreground">{reason.name}</h3>
+      <p className="mt-2 description-sm">{reason.description}</p>
+    </motion.div>
+  );
+};
 
 export function TrustSection() {
   return (
-    <section className="bg-background py-20">
-      <div className="mx-auto max-w-6xl px-6 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-10 text-2xl font-semibold text-muted-foreground"
-        >
-          {company.trust.label}
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-          className="flex flex-wrap items-center justify-center gap-x-8 gap-y-6"
-        >
-          {company.trust.clients.map((client, index) => (
-            <span
-              key={client}
-              className={`text-4xl font-bold`}
-              style={{ color: trustClientAccents[client] }}
-            >
-              {client}
-            </span>
-          ))}
-        </motion.div>
-        {company.trust.testimonial && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-            className="mx-auto mt-16 max-w-3xl rounded-3xl bg-secondary p-8 shadow-lg"
-          >
-            <p className="mb-6 text-xl italic text-foreground">
-              "{company.trust.testimonial.quote}"
-            </p>
-            <p className="text-lg font-semibold text-foreground">
-              {company.trust.testimonial.author}
-            </p>
-            <p className="text-muted-foreground">
-              {company.trust.testimonial.role}
-            </p>
-          </motion.div>
-        )}
+    <Section border className="bg-surface">
+      <SectionHeader
+        label="Trust"
+        title={trustContent.title}
+        description={trustContent.subtitle}
+        align="center"
+      />
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {trustContent.reasons.map((reason, index) => (
+          <TrustReasonCard key={reason.name} reason={reason} index={index} />
+        ))}
       </div>
-    </section>
+
+      <blockquote className="mx-auto mt-16 max-w-2xl text-center">
+        <p className="text-balance text-xl font-medium tracking-tight text-foreground sm:text-2xl">
+          &ldquo;{company.trust.testimonial.quote}&rdquo;
+        </p>
+        <footer className="mt-4 label-mono text-muted">
+          {company.trust.testimonial.author} — {company.trust.testimonial.role}
+        </footer>
+      </blockquote>
+    </Section>
   );
 }

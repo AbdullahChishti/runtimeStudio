@@ -1,11 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  motionDurations,
-  motionEasing,
-  reducedMotionTransition,
-} from "./motion";
+import { motionDurations, motionEasing } from "./motion";
 
 type TextRevealProps = {
   text: string;

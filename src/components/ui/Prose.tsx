@@ -22,8 +22,9 @@ export function Prose({ children, className }: ProseProps) {
         // Body
         "[&_p]:my-6",
         "[&_strong]:font-medium [&_strong]:text-foreground",
-        // Links — the only place the signal appears in body copy
-        "[&_a]:text-accent [&_a]:underline [&_a]:decoration-accent-border [&_a]:underline-offset-4 hover:[&_a]:decoration-accent",
+        // Links — the only place the signal appears in body copy. Uses
+        // accent-strong (not accent) so inline links clear 4.5:1 on paper.
+        "[&_a]:text-accent-strong [&_a]:underline [&_a]:decoration-accent-border [&_a]:underline-offset-4 hover:[&_a]:decoration-accent",
         // Lists
         "[&_ul]:my-6 [&_ul]:list-none [&_ul]:space-y-3 [&_ul]:pl-0",
         "[&_ul>li]:relative [&_ul>li]:pl-6",

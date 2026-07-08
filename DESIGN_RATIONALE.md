@@ -1,104 +1,125 @@
 # Runtime Studio — Visual Identity
 
-## Concept: Ink · Substrate · Signal
+## Concept: Paper · Carbon · Flux
 
-Runtime Studio builds software that teams trust in production. The identity
-makes that promise legible before a word is read. It is modeled on a
-**precision instrument** — a datasheet, an oscilloscope, a set of drafting
-plans — rather than a brochure.
+Runtime Studio builds software that teams trust in production. The identity has
+to make that promise legible before a word is read. It is modeled on a
+**precision field manual** — a datasheet, a calibration log, a set of drafting
+plans — not a brochure or a pitch deck.
 
 Three materials carry the whole system:
 
-- **Substrate** — a cool porcelain neutral. The page reads as calibrated
-  drafting paper: quiet, dependable, never bright-white clinical.
-- **Ink** — a near-black cool graphite for type and structure. Contrast is
-  high and deliberate. Hierarchy comes from weight and scale, not color.
-- **Signal** — a single electric cobalt. It is the only saturated hue in the
-  system and is spent sparingly: calls to action, live status, the one word
-  in a headline that matters. Because it is rare, it always means something.
+- **Paper** — a warm, calibrated neutral. The page reads like quality drafting
+  stock: quiet, dependable, humane. Deliberately warm, never the cold clinical
+  white of a generic SaaS template.
+- **Carbon** — a warm near-black for type and structure. Contrast is high and
+  intentional. Hierarchy comes from **scale and weight**, not from color.
+- **Flux** — a single live vermilion (`#dc3f10`). It is the _only_ saturated
+  hue in the system, and it is rationed: calls to action, live status, the one
+  word in a headline that matters. Because Flux is rare, it always means
+  something.
 
-The result is premium, minimal, technical, and confident — and it avoids the
-traps that make software sites look generic.
+The result is premium, minimal, technical, and confident — warm rather than
+corporate-cold, and free of the traps that make engineering sites look generic.
 
 ## What this identity deliberately avoids
 
-- **Generic consulting** — no corporate navy, no stock gradients-as-hero. The
-  blue here is _electric_, not institutional, and it is rationed.
+- **Generic consulting** — no corporate navy, no cobalt, no stock "gradient
+  hero". The signal is a warm _vermilion_, not an institutional blue, and it is
+  rationed to intent.
 - **AI clichés** — no violet/cyan mesh, no glowing orbs, no faux-neural
-  ornament. The one background texture is a structural drafting grid.
-- **Stock photography** — the system is typographic and diagrammatic.
-- **Excessive gradients** — gradients are collapsed to single-hue depth
-  (`--gradient-accent` runs cobalt → deep cobalt). They read as near-solid
-  accents on rules and underlines, never as decorative color washes.
+  ornament. The only background texture is a structural drafting grid and one
+  faint corner wash.
+- **Excessive gradients** — gradients collapse to single-hue depth
+  (`--gradient-accent` runs Flux → deep Flux). They read as near-solid accents
+  on rules and one hero word, never as decorative color washes.
 - **Heavy shadows** — elevation is expressed with **hairlines**. Shadow tokens
-  exist but are almost imperceptible (max 7% alpha).
-- **Too many cards** — surfaces are framed with 1px borders (`Panel`) and
-  facts are presented as datasheet rows (`Field`) instead of nested cards.
-- **Large rounded corners** — radii are architectural: `0 / 2px / 3px`.
+  exist but are warm-tinted and almost imperceptible (max 7% alpha).
+- **Too many cards** — facts are presented as datasheet rows (`Field`) inside
+  hairline-framed `Panel`s. `Card` exists as one restrained, mostly-clickable
+  surface — not the default container.
+- **Large rounded corners** — radii are architectural: `2 / 4 / 6px`.
 
 ## Color
 
-| Role | Token | Value |
-| --- | --- | --- |
-| Substrate | `--background` | `#f3f4f6` |
-| Surface | `--surface` | `#ffffff` |
-| Ink | `--foreground` | `#0d1014` |
-| Muted ink | `--muted` | `#565d67` |
-| Hairline | `--border` | `#dfe2e7` |
-| **Signal** | `--accent` | `#1e3fe0` |
-| Signal (pressed) | `--accent-strong` | `#1730ac` |
+| Role             | Token               | Value     |
+| ---------------- | ------------------- | --------- |
+| Paper            | `--background`      | `#f4f2ec` |
+| Surface          | `--surface`         | `#faf9f5` |
+| Carbon (ink)     | `--foreground`      | `#1a1712` |
+| Muted ink        | `--muted`           | `#5c564b` |
+| Hairline         | `--border`          | `#e3dfd4` |
+| **Flux**         | `--accent`          | `#dc3f10` |
+| Flux (pressed)   | `--accent-strong`   | `#b23009` |
 
-The legacy classification tokens (`--accent-teal`, `--accent-coral`,
-`--accent-violet`, `--accent-amber`) are retained for category coding and
-re-tuned into one cohesive, mostly-cool spectrum so existing components keep
-working while the palette stays unified. `--accent-indigo` is mapped to the
-signal itself.
+The legacy classification tokens (`--accent-indigo`, `--accent-teal`,
+`--accent-coral`, `--accent-violet`, `--accent-amber`) are retained for quiet
+category coding and re-tuned into one cohesive, warm-forward spectrum. `coral`
+sits in the Flux family; `indigo` is the single cool counterweight for
+technical categories. Every token **name is preserved**, so all pages re-skin
+without a refactor.
 
-## Typography
+## Typography — Geist
 
-- **Display + UI: Inter Tight** — a tight, modern grotesque. Headlines are set
-  at negative tracking (`-0.03em` to `-0.04em`) and weight 600 for a dense,
-  confident voice.
-- **Technical voice: JetBrains Mono** — every label, index number, status, and
-  spec key is monospaced and letter-spaced (`0.2em`, uppercase). This is what
-  makes the site read as an instrument rather than a pitch deck.
+- **Display + UI: Geist Sans.** Headlines are set tight (negative tracking
+  `-0.025em` to `-0.035em`) at weight 600 for a dense, confident voice. The
+  fluid scale runs from hero (`clamp(2.5rem → 4.75rem)`) down to a comfortable
+  reading measure for long-form insights.
+- **Technical voice: Geist Mono.** Every label, index number, status, and spec
+  key is monospaced, uppercase, and letter-spaced (`0.16em`) with slashed
+  zeros. This is what makes the site read as an _instrument_ rather than a
+  landing page.
 
-Type scale is fluid (`clamp()`) from hero (`~2.75–5.25rem`) down to a 68ch
-reading measure for long-form insights (`Prose`).
+> Wiring note: Geist is loaded via `next/font` in `layout.tsx`
+> (`GeistSans.variable` / `GeistMono.variable`). `globals.css` now binds
+> `--font-sans` / `--font-mono` to the resulting `--font-geist-sans` /
+> `--font-geist-mono` variables — previously these were unbound and the site
+> silently fell back to system fonts.
 
 ## Space, radius, elevation
 
 - **Spacing** is generous and rhythmic: section rhythm `--spacing-section:
-  9rem` with `sm`/`xs` steps for denser zones.
-- **Radii**: `--radius-sm: 0`, `--radius-md: 2px`, `--radius-lg: 3px`.
-- **Elevation**: hairline borders first; the near-invisible shadow scale is a
-  last resort. `.panel-ticks` adds optional engineered corner marks.
+  8.5rem` with `sm` / `xs` steps for denser zones, and `grid` / `grid-lg` gaps.
+- **Radii**: `--radius-sm: 2px`, `--radius-md: 4px`, `--radius-lg: 6px`.
+- **Elevation**: hairline borders first; the near-invisible, warm-tinted shadow
+  scale is a last resort. `.panel-ticks` adds optional engineered corner marks.
 
 ## Motion language
 
 Motion **confirms intent; it never performs.** One easing curve governs
 everything — an expo-out `cubic-bezier(0.16, 1, 0.3, 1)` (`--ease-out`),
 mirrored in `framer-motion` (`motion.ts`) so CSS and JS stay unified. Entrances
-are short (140–420ms) and travel a small distance (≤16px). Interactive states
-transition color and a hairline ring, not glows. Everything collapses cleanly
-under `prefers-reduced-motion`.
+are short (120–380ms) and travel a small distance (≤16px). Interactive states
+change color and a hairline ring / 2px lift, never a glow. Everything collapses
+cleanly under `prefers-reduced-motion`.
 
 ## Tokens & primitives
 
 - `src/app/globals.css` — the full token layer (color, type, space, radius,
-  elevation, motion) plus the utility classes the site already consumes. Token
-  **names are preserved** so all 21 pages re-skin without refactors.
-- `src/components/ui/*` — refined primitives (`Button`, `Badge`, `Label`,
-  `Section`, `Container`, `Divider`) and new ones:
-  - **`Panel`** — the single surface primitive: hairline frame, optional
-    corner ticks, no shadow, no rounding.
-  - **`Field` / `FieldList`** — datasheet rows (mono key + value) for
-    presenting facts without cards.
-  - **`Prose`** — long-form reading measure tuned to the type scale, with the
-    signal reserved for links only.
+  elevation, motion) plus every utility class the site consumes. Token **names
+  are preserved** so all pages re-skin without refactors.
+- `src/lib/metadata.ts` — brand voice and site-wide SEO metadata
+  (`applicationName`, `keywords`, `authors`, `category`). URL/`basePath` logic
+  is untouched so the GitHub Pages deployment stays correct.
+- `src/components/ui/*` — refreshed primitives and one new surface:
+  - **`Button`** — the single action primitive (carbon by default, Flux via the
+    `accent` variant), now with `sm` / `md` / `lg` sizes. Crisp corners, no
+    glow.
+  - **`Card`** — a restrained, optionally interactive content surface (hairline
+    frame, `4px` radius, hairline lift on hover, optional Flux top edge). Used
+    sparingly; `Panel` and `Field` remain the defaults.
+  - **`Panel`** — the static framed surface: hairline frame, optional corner
+    ticks, no shadow.
+  - **`Field` / `FieldList`** — datasheet rows (mono key + value) for facts
+    without cards.
+  - **`Badge`, `Section`, `Container`, `Divider`, `Label`, `Prose`** — carried
+    forward; they consume the token contract and adopt the new identity
+    automatically.
 
 ## Constraints preserved
 
-Static export for GitHub Pages, `basePath` `/runtimeStudio`, all 21 pages,
-content in `src/content/`, and the Pages workflow are untouched. The redesign
-is purely at the token, typography, and primitive layers.
+Static export for GitHub Pages (`next.config.ts` / `next.config.js`),
+`basePath` `/runtimeStudio`, `trailingSlash`, unoptimized images, the versioned
+Pages workflow (`.github/workflows/deploy.yml`), all content in
+`src/content/`, and the metadata URL logic are **untouched**. The redesign is
+purely at the token, typography, and primitive layers.

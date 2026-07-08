@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 type ButtonProps = {
   href?: string;
   children: ReactNode;
-  variant?: "primary" | "secondary" | "ghost" | "accent" | "inverted";
+  variant?: "primary" | "secondary" | "ghost" | "accent" | "inverted" | "spectral";
+  size?: "sm" | "md" | "lg";
   className?: string;
   external?: boolean;
   type?: "button" | "submit" | "reset";
@@ -17,23 +18,38 @@ type ButtonProps = {
   pending?: boolean;
 };
 
-const variants = {
+/**
+ * Button — the single action primitive. Crisp corners, hairline borders,
+ * decisive color changes on hover. The default action is ink; the
+ * `accent` variant spends the Flux signal; `spectral` traces the
+ * generative spectral edge for rare, high-emphasis moments. No blooms.
+ */
+const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
     "bg-foreground text-background border border-foreground hover:bg-accent hover:border-accent",
+  accent:
+    "bg-accent text-[var(--primary-foreground)] border border-accent hover:bg-accent-strong hover:border-accent-strong",
   secondary:
     "bg-transparent text-foreground border border-border-strong hover:border-foreground",
   ghost:
-    "bg-transparent text-muted hover:text-foreground border border-transparent hover:border-border",
-  accent:
-    "bg-accent text-white border border-accent hover:bg-accent-strong hover:border-accent-strong",
+    "bg-transparent text-muted border border-transparent hover:text-foreground hover:border-border",
   inverted:
-    "bg-background text-foreground border border-background hover:bg-surface-elevated",
+    "bg-background text-foreground border border-background hover:bg-surface-elevated hover:border-border",
+  spectral:
+    "spectral-edge bg-surface text-foreground border border-transparent hover:bg-surface-elevated",
+};
+
+const sizes: Record<NonNullable<ButtonProps["size"]>, string> = {
+  sm: "px-3.5 py-2 text-[0.8125rem]",
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-6 py-3 text-[0.9375rem]",
 };
 
 export function Button({
   href,
   children,
   variant = "primary",
+  size = "md",
   className,
   external,
   type = "button",
@@ -46,7 +62,10 @@ export function Button({
   const isDisabled = disabled || isLoading;
 
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium tracking-[-0.01em] rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 disabled:pointer-events-none btn-glow-hover",
+    "inline-flex items-center justify-center gap-2 font-medium tracking-[-0.01em] rounded-sm",
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+    "disabled:opacity-50 disabled:pointer-events-none btn-glow-hover",
+    sizes[size],
     variants[variant],
     className,
   );
@@ -59,6 +78,7 @@ export function Button({
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <circle
             className="opacity-25"

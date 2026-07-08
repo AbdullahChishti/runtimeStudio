@@ -1,6 +1,38 @@
 export type ServiceAccent = "teal" | "violet" | "amber" | "indigo";
 
+type TimelineConfig = {
+  type: "timeline";
+  stages: Array<{ title: string; description: string }>;
+};
+
+type FlowchartConfig = {
+  type: "flowchart";
+  nodes: Array<{ id: string; label: string }>;
+  edges: Array<{ from: string; to: string }>;
+};
+
+type CodeEditorConfig = {
+  type: "code-editor";
+  codeSnippet: string;
+  language: string;
+};
+
+type DecisionTreeConfig = {
+  type: "decision-tree";
+  steps: Array<{ question: string; options: string[] }>;
+};
+
+export type ServiceInteractiveElementConfig =
+  | TimelineConfig
+  | FlowchartConfig
+  | CodeEditorConfig
+  | DecisionTreeConfig;
+
 export type Service = {
+  heroImage?: string; // Path to a hero image for the service detail page
+  overviewVisual?: string; // Path to an image or GIF for the services overview page
+  interactiveElementConfig?: ServiceInteractiveElementConfig; // Configuration for an interactive element
+
   slug: string;
   number: string;
   title: string;
@@ -12,6 +44,10 @@ export type Service = {
   approach: string[];
   outcomes: string[];
   relatedCaseStudySlugs: string[];
+  callToAction?: {
+    title: string;
+    description: string;
+  };
 };
 
 export const accentClasses: Record<
@@ -78,6 +114,17 @@ export const services: Service[] = [
     intro:
       "Quality engineering at Runtime Studio goes beyond manual testing. We help teams build automated quality systems — from CI pipelines to AI-aware test strategies — that keep pace with modern delivery.",
     accent: "teal",
+    // heroImage / overviewVisual intentionally omitted — no real asset exists yet.
+    // Add a file under public/images/services/ and set the path here when ready.
+    interactiveElementConfig: {
+      type: "timeline",
+      stages: [
+        { title: "Assessment", description: "Review of current processes." },
+        { title: "Strategy", description: "Design automation roadmap." },
+        { title: "Implementation", description: "Build and integrate solutions." },
+        { title: "Enablement", description: "Team training and handover." },
+      ],
+    },
     capabilities: [
       "Test strategy & architecture",
       "End-to-end & API test automation",
@@ -111,6 +158,11 @@ export const services: Service[] = [
       "qa-automation-transformation",
       "ai-testing-platform",
     ],
+    callToAction: {
+      title: "Ready to elevate your quality engineering?",
+      description:
+        "Partner with us to build robust, scalable, and efficient quality systems that accelerate your development cycle and ensure flawless product delivery.",
+    },
   },
   {
     slug: "ai-services",
@@ -121,6 +173,24 @@ export const services: Service[] = [
     intro:
       "We help companies move from AI prototypes to reliable production systems. Our work spans evaluation frameworks, RAG architecture, agent design, and the operational infrastructure AI systems require.",
     accent: "violet",
+    // heroImage / overviewVisual intentionally omitted — no real asset exists yet.
+    interactiveElementConfig: {
+      type: "flowchart",
+      nodes: [
+        { id: "A", label: "Define Problem" },
+        { id: "B", label: "Data Prep & Model Selection" },
+        { id: "C", label: "Training & Evaluation" },
+        { id: "D", label: "Deployment" },
+        { id: "E", label: "Monitoring & Iteration" },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "A" },
+      ],
+    },
     capabilities: [
       "LLM evaluation & benchmarking",
       "RAG system design & optimisation",
@@ -151,6 +221,11 @@ export const services: Service[] = [
       "Scalable knowledge and retrieval infrastructure",
     ],
     relatedCaseStudySlugs: ["ai-knowledge-platform", "ai-testing-platform"],
+    callToAction: {
+      title: "Transform your AI from prototype to production.",
+      description:
+        "Let us help you design, evaluate, and deploy reliable AI systems that drive real business value and maintain user trust.",
+    },
   },
   {
     slug: "software-engineering",
@@ -161,6 +236,12 @@ export const services: Service[] = [
     intro:
       "When you need experienced engineers embedded in your team, we deliver. From greenfield builds to critical refactors, we bring production-grade engineering practices and deep technical expertise.",
     accent: "amber",
+    // heroImage / overviewVisual intentionally omitted — no real asset exists yet.
+    interactiveElementConfig: {
+      type: "code-editor",
+      codeSnippet: "const complexFeature = (data) => { /* ... */ };",
+      language: "javascript",
+    },
     capabilities: [
       "Full-stack web development",
       "API design & microservices",
@@ -191,6 +272,11 @@ export const services: Service[] = [
       "Stronger internal engineering capability",
     ],
     relatedCaseStudySlugs: ["ai-knowledge-platform"],
+    callToAction: {
+      title: "Build the future with confidence.",
+      description:
+        "Bring experienced engineers to your team for critical projects, robust architecture, and a focus on long-term maintainability and performance.",
+    },
   },
   {
     slug: "technology-consulting",
@@ -201,6 +287,15 @@ export const services: Service[] = [
     intro:
       "For founders and engineering leaders facing critical decisions — build vs buy, team structure, technology selection, or delivery transformation — we provide honest, experienced perspective.",
     accent: "indigo",
+    // heroImage / overviewVisual intentionally omitted — no real asset exists yet.
+    interactiveElementConfig: {
+      type: "decision-tree",
+      steps: [
+        { question: "Build vs Buy?", options: ["Build", "Buy"] },
+        { question: "Team Structure?", options: ["Centralized", "Distributed"] },
+        { question: "Tech Stack?", options: ["Modern", "Legacy"] },
+      ],
+    },
     capabilities: [
       "Technology strategy & roadmapping",
       "Architecture reviews & audits",
@@ -231,6 +326,11 @@ export const services: Service[] = [
       "Stronger alignment between engineering and leadership",
     ],
     relatedCaseStudySlugs: ["qa-automation-transformation"],
+    callToAction: {
+      title: "Navigate technology's complexities with clarity.",
+      description:
+        "Gain strategic insights and actionable plans to make informed technology decisions, optimize your delivery, and align engineering with business goals.",
+    },
   },
 ];
 
