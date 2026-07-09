@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { GenerativeBackground } from "@/components/ui/GenerativeBackground";
 import { StatusIndicator } from "@/components/ui/Badge";
+import { StatsBar } from "@/components/home/StatsBar";
 import { company } from "@/content/company";
 import { withBasePath } from "@/lib/utils";
 import { motionDurations, motionEasing } from "@/components/animations/motion";
@@ -50,6 +51,8 @@ export function HeroSection() {
           </div>
         </motion.div>
       </Container>
+
+      <StatsBar />
     </section>
   );
 }
