@@ -28,6 +28,7 @@ export function CallToActionSection() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: motionDurations.slow, ease: motionEasing }}
         >
+          <p className="mb-5 label-mono text-muted">{ctaContent.label}</p>
           <h2 className="heading-section mx-auto max-w-2xl text-balance">
             {ctaContent.title}
           </h2>

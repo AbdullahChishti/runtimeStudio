@@ -1,18 +1,20 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { PackagesSection } from "@/components/home/PackagesSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
+import { CommitmentSection } from "@/components/home/CommitmentSection";
 import { CaseStudiesSection } from "@/components/home/CaseStudiesSection";
-import { InsightsSection } from "@/components/home/InsightsSection";
+import { TechStackSection } from "@/components/home/TechStackSection";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { CallToActionSection } from "@/components/home/CallToActionSection";
 
 export function NewHomePage() {
   return (
     <main className="flex flex-col">
       <HeroSection />
-      <PackagesSection />
       <ServicesSection />
+      <CommitmentSection />
       <CaseStudiesSection />
-      <InsightsSection />
+      <TechStackSection />
+      <TestimonialsSection />
       <CallToActionSection />
     </main>
   );
