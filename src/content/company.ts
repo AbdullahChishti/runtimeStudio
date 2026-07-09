@@ -1,12 +1,18 @@
 export const company = {
   tagline: "Better software. Smarter systems. Built with confidence.",
   hero: {
-    headline: "We help companies build better software and smarter AI systems.",
+    headline: "Your AI strategy-to-execution partner.",
     supporting:
-      "Runtime Studio is a technology consultancy specialising in quality engineering, AI systems, automation, and modern software development.",
-    primaryCta: "Start a project",
+      "Runtime Studio helps companies turn AI strategy into production systems that accelerate growth, efficiency, and measurable business outcomes.",
+    primaryCta: "Book a free consultation",
     secondaryCta: "Explore our work",
   },
+  stats: [
+    { value: 4.9, decimals: 1, suffix: "", label: "Average client rating" },
+    { value: 200, decimals: 0, suffix: "+", label: "Projects delivered" },
+    { value: 20, decimals: 0, suffix: "+", label: "Countries served" },
+    { value: 40, decimals: 0, suffix: "+", label: "Senior specialists" },
+  ],
   trust: {
     label: "Trusted by teams building ambitious products",
     clients: [
