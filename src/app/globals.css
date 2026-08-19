@@ -37,7 +37,7 @@
   /* ------------------------------------------------------------------
      TYPEFACE
      ------------------------------------------------------------------ */
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui,
+  --font-sans: "Public Sans", var(--font-geist-sans), ui-sans-serif, system-ui,
     -apple-system, "Segoe UI", sans-serif;
   --font-serif: "Playfair Display", "Georgia", "Times New Roman", serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono",
@@ -48,20 +48,20 @@
      Rotate --signal-hue (e.g. per-route, per-section, data-driven) and
      the entire accent system re-tunes in perceptual space.
      ================================================================== */
-  --signal-hue: 60;            /* warm gold accent hue                 */
-  --signal-chroma: 0.12;       /* subtle saturation                    */
+  --signal-hue: 72;            /* gold accent hue (#9A7B3C)            */
+  --signal-chroma: 0.12;       /* warm gold saturation                 */
   --ink-hue: 60;               /* warm bias in the neutral ramp        */
   --ink-chroma: 0.01;          /* faint warm cast in neutrals          */
 
   /* ------------------------------------------------------------------
-     SUBSTRATE + INK — warm cream/parchment. A premium, lit feel
-     with a warm neutral cast. Inspired by editorial print design.
+     SUBSTRATE + INK — ivory parchment (#F6F1E8) with charcoal ink
+     (#1c1917). Matches "SaaSBuilder Editorial" palette exactly.
      ------------------------------------------------------------------ */
-  --background: oklch(0.96 0.012 80);
-  --foreground: oklch(0.18 0.01 60);
-  --surface: oklch(0.98 0.008 80);
-  --surface-elevated: oklch(0.94 0.014 80);
-  --surface-subtle: oklch(0.91 0.016 80);
+  --background: oklch(0.957 0.014 80);
+  --foreground: oklch(0.17 0.012 55);
+  --surface: oklch(0.99 0.005 80);
+  --surface-elevated: oklch(0.94 0.016 80);
+  --surface-subtle: oklch(0.91 0.018 80);
 
   --muted: oklch(0.5 0.012 60);
   --muted-light: oklch(0.58 0.01 60);
@@ -72,16 +72,15 @@
   --border-hairline: oklch(0.92 0.01 80);
 
   /* ------------------------------------------------------------------
-     SIGNAL — "Flux". The one live, high-chroma hue, sampled straight
-     from the generative axes. Rationed for intent: CTAs, live status,
-     the single word in a headline that carries weight.
+     SIGNAL — Gold (#9A7B3C). Warm, editorial gold for CTAs and
+     emphasis moments.
      ------------------------------------------------------------------ */
-  --accent: oklch(0.585 var(--signal-chroma) var(--signal-hue));
-  --accent-strong: oklch(0.5 calc(var(--signal-chroma) - 0.01) calc(var(--signal-hue) - 4));
-  --accent-muted: oklch(0.7 0.16 calc(var(--signal-hue) + 6));
-  --accent-subtle: oklch(0.585 var(--signal-chroma) var(--signal-hue) / 0.08);
-  --accent-wash: oklch(0.585 var(--signal-chroma) var(--signal-hue) / 0.04);
-  --accent-border: oklch(0.585 var(--signal-chroma) var(--signal-hue) / 0.26);
+  --accent: oklch(0.58 0.1 72);
+  --accent-strong: oklch(0.52 0.1 70);
+  --accent-muted: oklch(0.66 0.08 74);
+  --accent-subtle: oklch(0.58 0.1 72 / 0.1);
+  --accent-wash: oklch(0.58 0.1 72 / 0.05);
+  --accent-border: oklch(0.58 0.1 72 / 0.2);
 
   /* ==================================================================
      SPECTRAL SET — a perceptually even six-stop ring sampled around

@@ -1,106 +1,40 @@
-import { footerNav, mainNav } from "@/content/navigation";
 import { siteConfig } from "@/lib/metadata";
-import { Container } from "@/components/ui/Container";
 import { withBasePath } from "@/lib/utils";
 
-const socialLinks = [
-  { label: "LinkedIn", href: siteConfig.linkedin },
-  { label: "GitHub", href: siteConfig.github },
-];
-
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="mt-auto border-t border-border bg-background">
-      <Container>
-        <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-1">
-            <a
-              href={withBasePath("/")}
-              className="inline-block text-sm font-semibold tracking-[-0.01em] text-foreground transition-colors duration-200 hover:text-accent"
-            >
-              {siteConfig.name}
-            </a>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted text-pretty">
-              {siteConfig.tagline}
-            </p>
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="mt-4 inline-block text-sm text-muted transition-colors duration-200 hover:text-foreground"
-            >
-              {siteConfig.email}
-            </a>
-          </div>
-
-          <div>
-            <h2 className="label-mono text-accent-strong">Services</h2>
-            <ul className="mt-4 space-y-2">
-              {footerNav.services.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={withBasePath(item.href)}
-                    className="text-sm text-muted transition-colors duration-200 hover:text-foreground"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="label-mono text-accent-strong">Company</h2>
-            <ul className="mt-4 space-y-2">
-              {mainNav.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={withBasePath(item.href)}
-                    className="text-sm text-muted transition-colors duration-200 hover:text-foreground"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="label-mono text-accent-strong">Legal</h2>
-            <ul className="mt-4 space-y-2">
-              {footerNav.legal.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={withBasePath(item.href)}
-                    className="text-sm text-muted transition-colors duration-200 hover:text-foreground"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <footer className="bg-white border-t border-accent/20 w-full py-12 mt-12">
+      <div className="flex flex-col md:flex-row justify-between items-center px-6 lg:px-12 max-w-[1400px] mx-auto gap-8">
+        <div
+          className="text-2xl font-bold text-foreground tracking-tight"
+          style={{ fontFamily: "var(--font-serif)" }}
+        >
+          {siteConfig.name}
         </div>
-
-        <div className="flex flex-col gap-4 border-t border-border py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-muted-light">
-            &copy; {currentYear} {siteConfig.name}. All rights reserved.
-          </p>
-          <div className="flex gap-6">
-            {socialLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-muted transition-colors duration-200 hover:text-foreground"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
+        <div className="flex flex-wrap justify-center gap-8 text-sm text-foreground/70 uppercase tracking-widest font-semibold">
+          <a
+            className="hover:text-accent transition-colors"
+            href={withBasePath("/privacy")}
+          >
+            Privacy Policy
+          </a>
+          <a
+            className="hover:text-accent transition-colors"
+            href={withBasePath("/terms")}
+          >
+            Terms of Service
+          </a>
+          <a
+            className="hover:text-accent transition-colors"
+            href={withBasePath("/contact")}
+          >
+            Contact
+          </a>
         </div>
-      </Container>
+        <div className="text-sm text-foreground/50">
+          &copy; {new Date().getFullYear()} {siteConfig.name}. Premium Delivery.
+        </div>
+      </div>
     </footer>
   );
 }

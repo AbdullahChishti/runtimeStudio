@@ -23,9 +23,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>
-      <body className="min-h-full flex flex-col bg-background font-sans text-foreground antialiased">
+      <body className="min-h-full flex flex-col bg-background font-sans text-foreground antialiased selection:bg-accent/20 selection:text-accent">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-foreground focus:px-4 focus:py-2 focus:text-sm focus:text-background"
@@ -33,7 +33,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <Nav />
-        <div id="main-content" className="flex flex-1 flex-col">
+        <div id="main-content" className="flex flex-1 flex-col pt-0">
           {children}
         </div>
         <Footer />

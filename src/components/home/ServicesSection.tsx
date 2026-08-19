@@ -1,24 +1,27 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Container } from "@/components/ui/Container";
+import { withBasePath } from "@/lib/utils";
 import { motionDurations, motionEasing } from "@/components/animations/motion";
 
 const features = [
   {
+    icon: "view_kanban",
     title: "Fixed Packages",
     description:
-      "Straightforward results for your digital business. No hidden fees, no scope creep — just clear deliverables on time.",
+      "Clear pricing, defined scope. Choose the tier that matches your business scale and launch without hidden fees.",
   },
   {
+    icon: "bolt",
     title: "Rapid Deployment",
     description:
-      "Your website goes live within weeks, not months. We move fast without compromising quality.",
+      "Our streamlined process ensures your brand is live and converting in weeks, not quarters.",
   },
   {
+    icon: "diamond",
     title: "Premium Output",
     description:
-      "Every project receives the same attention to detail — clean code, polished design, and fast performance.",
+      "Speed doesn't mean compromise. Every package delivers sophisticated, pixel-perfect design engineered for performance.",
   },
 ];
 
@@ -26,54 +29,80 @@ export function ServicesSection() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <section className="py-20 lg:py-28 border-t border-border">
-      <Container size="wide">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20 items-center">
-          <motion.div
-            initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: motionDurations.default, ease: motionEasing }}
-          >
-            <p className="label-mono text-muted mb-3">Our Approach</p>
-            <h2 className="heading-section text-foreground max-w-lg">
+    <section
+      id="services"
+      className="px-6 lg:px-12 max-w-[1400px] mx-auto py-24 border-t border-accent/10"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <motion.div
+          initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: motionDurations.default, ease: motionEasing }}
+          className="lg:col-span-5 flex flex-col gap-10"
+        >
+          <div>
+            <h2
+              className="text-4xl md:text-5xl text-foreground font-bold leading-tight mb-6"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
               Engineered for Fast Delivery.
             </h2>
-            <p className="mt-4 text-lg text-muted max-w-lg leading-relaxed">
-              Straightforward results for your digital business. Our streamlined
-              process guarantees beautiful, functional websites on time.
+            <p className="text-lg text-foreground/70 font-light leading-relaxed">
+              Stop waiting months for your digital presence. We deploy high-end,
+              commercial websites through fixed packages that guarantee quality,
+              speed, and absolute clarity on deliverables.
             </p>
+          </div>
 
-            <div className="mt-10 space-y-8">
-              {features.map((feature) => (
-                <div key={feature.title} className="border-l-2 border-foreground pl-5">
-                  <h3 className="text-base font-semibold text-foreground">
+          <div className="flex flex-col gap-8">
+            {features.map((feature) => (
+              <div key={feature.title} className="flex items-start gap-4">
+                <span className="material-symbols-outlined text-accent text-3xl">
+                  {feature.icon}
+                </span>
+                <div>
+                  <h3
+                    className="text-xl font-semibold text-foreground mb-2"
+                    style={{ fontFamily: "var(--font-serif)" }}
+                  >
                     {feature.title}
                   </h3>
-                  <p className="mt-1 text-sm text-muted leading-relaxed">
-                    {feature.description}
-                  </p>
+                  <p className="text-foreground/70">{feature.description}</p>
                 </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: motionDurations.default, delay: 0.15, ease: motionEasing }}
-            className="relative"
-          >
-            <div className="aspect-[4/5] bg-[oklch(0.88_0.018_80)] flex items-center justify-center">
-              <div className="text-center p-8">
-                <p className="label-mono text-muted mb-2">The shortest path to a</p>
-                <p className="heading-block text-foreground">beautiful, high-performing website.</p>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </Container>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: motionDurations.default, delay: 0.15, ease: motionEasing }}
+          className="lg:col-span-7 relative"
+        >
+          <div className="aspect-[4/3] overflow-hidden border border-accent/20 shadow-2xl relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt="SaaSBuilder Component Output"
+              className="w-full h-full object-cover"
+              src={withBasePath("/images/services-component.jpg")}
+            />
+          </div>
+          <div className="absolute -bottom-8 -left-8 bg-white p-8 border border-accent/20 shadow-xl max-w-sm hidden md:block">
+            <p
+              className="text-2xl text-accent italic mb-2"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              &ldquo;The clearest path to a premium digital presence.&rdquo;
+            </p>
+            <p className="text-sm text-foreground/60 font-semibold tracking-widest uppercase">
+              — High-End Commerce
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,30 +1,37 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Container } from "@/components/ui/Container";
+import { withBasePath } from "@/lib/utils";
 import { motionDurations, motionEasing } from "@/components/animations/motion";
 
-const showcaseItems = [
+const portfolioItems = [
   {
-    title: "ATELIER D'OR",
-    subtitle: "THE ART OF LIVING",
-    description: "A luxury interiors brand with a refined digital presence that reflects their craftsmanship.",
-    tags: ["Web Design", "Development", "Branding"],
-    bgColor: "bg-[oklch(0.92_0.02_80)]",
+    title: "Aeterna Dining",
+    category: "Restaurant",
+    package: "Gold Package",
+    image: "/images/portfolio-1.jpg",
+    stagger: false,
   },
   {
-    title: "NORDIC COLLECTIVE",
-    subtitle: "DESIGN STUDIO",
-    description: "A minimalist architecture firm showcasing projects through immersive visual storytelling.",
-    tags: ["Web Design", "Development", "Photography"],
-    bgColor: "bg-[oklch(0.88_0.01_200)]",
+    title: "Studio Form",
+    category: "Architecture",
+    package: "Platinum Package",
+    image: "/images/portfolio-2.jpg",
+    stagger: true,
   },
   {
-    title: "VERTEX CAPITAL",
-    subtitle: "INVESTMENT GROUP",
-    description: "A premium financial services firm with a digital identity built for trust and clarity.",
-    tags: ["Web Design", "Development", "Strategy"],
-    bgColor: "bg-[oklch(0.90_0.015_60)]",
+    title: "The Master Barber",
+    category: "Grooming",
+    package: "Diamond Package",
+    image: "/images/portfolio-3.jpg",
+    stagger: false,
+  },
+  {
+    title: "Nebula AI",
+    category: "Technology",
+    package: "Enterprise Package",
+    image: "/images/portfolio-4.jpg",
+    stagger: true,
   },
 ];
 
@@ -32,49 +39,71 @@ export function CaseStudiesSection() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <section className="py-20 lg:py-28">
-      <Container size="wide">
-        <div className="mb-12">
-          <p className="label-mono text-muted mb-3">Selected Work</p>
-          <h2 className="heading-section text-foreground">
-            Projects that speak for themselves.
+    <section
+      id="portfolio"
+      className="px-6 lg:px-12 max-w-[1400px] mx-auto py-24 border-t border-accent/10"
+    >
+      <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+        <div className="max-w-2xl">
+          <span className="text-accent text-sm font-semibold tracking-[0.2em] uppercase block mb-4">
+            Our Work
+          </span>
+          <h2
+            className="text-4xl md:text-5xl text-foreground font-bold"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Premium Digital Environments.
           </h2>
         </div>
+        <a
+          href={withBasePath("/work")}
+          className="text-sm font-semibold text-foreground hover:text-accent transition-colors border-b border-foreground hover:border-accent pb-1 uppercase tracking-widest"
+        >
+          View All Projects
+        </a>
+      </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {showcaseItems.map((item, index) => (
-            <motion.article
-              key={item.title}
-              initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: motionDurations.default,
-                delay: index * 0.1,
-                ease: motionEasing,
-              }}
-              className="group"
-            >
-              <div className={`${item.bgColor} aspect-[4/5] flex flex-col items-center justify-center p-8 transition-transform duration-300 group-hover:scale-[0.98]`}>
-                <p className="label-mono text-muted mb-2">{item.subtitle}</p>
-                <h3 className="heading-section text-foreground text-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        {portfolioItems.map((item, index) => (
+          <motion.div
+            key={item.title}
+            initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{
+              duration: motionDurations.default,
+              delay: index * 0.1,
+              ease: motionEasing,
+            }}
+            className={`group cursor-pointer ${item.stagger ? "mt-0 md:mt-12" : ""}`}
+          >
+            <div className="bg-white border border-accent/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden aspect-video relative p-2 mb-6 transition-shadow duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                alt={item.title}
+                src={withBasePath(item.image)}
+              />
+            </div>
+            <div className="flex justify-between items-start px-2">
+              <div>
+                <h3
+                  className="text-2xl text-foreground font-semibold mb-2 group-hover:text-accent transition-colors"
+                  style={{ fontFamily: "var(--font-serif)" }}
+                >
                   {item.title}
                 </h3>
+                <p className="text-foreground/60 text-sm">
+                  {item.category} • {item.package}
+                </p>
               </div>
-              <div className="mt-4">
-                <p className="text-sm text-muted leading-relaxed">{item.description}</p>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {item.tags.map((tag) => (
-                    <span key={tag} className="text-xs text-muted-light border border-border px-2 py-0.5">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </Container>
+              <span className="material-symbols-outlined text-accent/50 group-hover:text-accent transition-colors">
+                arrow_forward
+              </span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }
