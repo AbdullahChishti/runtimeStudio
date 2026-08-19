@@ -14,9 +14,9 @@ export default function WorkPage() {
       <section className="border-b border-border pt-24 pb-10 lg:pt-32 lg:pb-14">
         <Container>
           <p className="label-mono text-muted">Selected Work</p>
-          <h1 className="heading-display mt-4 max-w-3xl text-balance">
+          <h1 className="heading-display mt-4 max-w-3xl text-balance" style={{ fontFamily: "var(--font-serif)" }}>
             Projects where teams ship with{" "}
-            <span className="text-gradient-spectral">confidence.</span>
+            <span className="text-accent">confidence.</span>
           </h1>
           <p className="description-standard mt-6 max-w-2xl">
             Three case studies across AI validation, quality automation, and

@@ -4,12 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { CaseStudy } from "@/content/caseStudies";
-import { getServiceBySlug, accentClasses } from "@/content/services";
+import { getServiceBySlug } from "@/content/services";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { getCaseStudyAccent } from "@/components/work/caseStudyAccents";
 import { withBasePath, cn } from "@/lib/utils";
 import {
   motionDurations,
@@ -44,23 +43,20 @@ const sectionVariants = {
 };
 
 export function ImmersiveCaseStudy({ study }: ImmersiveCaseStudyProps) {
-  const accent = getCaseStudyAccent(study.slug);
-  const accentTheme = accentClasses[accent];
-
   return (
     <main className="min-h-screen">
       <section className="border-b border-border pt-24 pb-10 lg:pt-32 lg:pb-14">
         <Container>
           <div className="mb-4 flex flex-wrap items-center gap-3">
             <span className="label-mono text-muted-light">Case Study</span>
-            <Badge variant={accent}>{study.industry}</Badge>
+            <Badge variant="outline">{study.industry}</Badge>
           </div>
 
-          <h1 className="heading-display max-w-3xl text-balance">
+          <h1 className="heading-display max-w-3xl text-balance" style={{ fontFamily: "var(--font-serif)" }}>
             {study.title}
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/70">
             {study.summary}
           </p>
         </Container>
@@ -174,10 +170,7 @@ export function ImmersiveCaseStudy({ study }: ImmersiveCaseStudyProps) {
                     className="flex items-start gap-4"
                   >
                     <span
-                      className={cn(
-                        "label-mono mt-0.5 shrink-0",
-                        accentTheme.text
-                      )}
+                      className="label-mono mt-0.5 shrink-0 text-accent"
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>
@@ -229,10 +222,7 @@ export function ImmersiveCaseStudy({ study }: ImmersiveCaseStudyProps) {
                     className="flex items-start gap-3 text-lg leading-relaxed text-muted"
                   >
                     <span
-                      className={cn(
-                        "mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full",
-                        accentTheme.dot
-                      )}
+                      className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
                       aria-hidden="true"
                     />
                     {result}
@@ -361,7 +351,7 @@ export function ImmersiveCaseStudy({ study }: ImmersiveCaseStudyProps) {
         <div className="field-lattice absolute inset-0 -z-10 opacity-40" aria-hidden="true" />
         <Container>
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="heading-section text-balance">
+            <h2 className="heading-section text-balance" style={{ fontFamily: "var(--font-serif)" }}>
               Have a similar challenge?
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-muted">
