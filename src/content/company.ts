@@ -1,11 +1,11 @@
 export const company = {
-  tagline: "Better software. Smarter systems. Built with confidence.",
+  tagline: "High-end commercial web presences delivered fast.",
   hero: {
-    headline: "We help companies build better software and smarter AI systems.",
+    headline: "WE BUILD WEBSITES THAT GET YOUR BUSINESS NOTICED.",
     supporting:
-      "Runtime Studio is a technology consultancy specialising in quality engineering, AI systems, automation, and modern software development.",
-    primaryCta: "Start a project",
-    secondaryCta: "Explore our work",
+      "High-end commercial web presences delivered fast. Fixed packages designed for immediate impact, every time.",
+    primaryCta: "View our work",
+    secondaryCta: "See packages",
   },
   trust: {
     label: "Trusted by teams building ambitious products",

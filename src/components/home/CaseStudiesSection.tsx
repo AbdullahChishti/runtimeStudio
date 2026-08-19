@@ -1,91 +1,80 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { caseStudiesContent } from "@/content/home";
-import { getFeaturedCaseStudies } from "@/content/caseStudies";
-import { getCaseStudyAccent } from "@/components/work/caseStudyAccents";
-import { accentClasses } from "@/content/services";
-import { Section, SectionHeader } from "@/components/ui/Section";
-import { Button } from "@/components/ui/Button";
-import { withBasePath } from "@/lib/utils";
+import { Container } from "@/components/ui/Container";
 import { motionDurations, motionEasing } from "@/components/animations/motion";
 
+const showcaseItems = [
+  {
+    title: "ATELIER D'OR",
+    subtitle: "THE ART OF LIVING",
+    description: "A luxury interiors brand with a refined digital presence that reflects their craftsmanship.",
+    tags: ["Web Design", "Development", "Branding"],
+    bgColor: "bg-[oklch(0.92_0.02_80)]",
+  },
+  {
+    title: "NORDIC COLLECTIVE",
+    subtitle: "DESIGN STUDIO",
+    description: "A minimalist architecture firm showcasing projects through immersive visual storytelling.",
+    tags: ["Web Design", "Development", "Photography"],
+    bgColor: "bg-[oklch(0.88_0.01_200)]",
+  },
+  {
+    title: "VERTEX CAPITAL",
+    subtitle: "INVESTMENT GROUP",
+    description: "A premium financial services firm with a digital identity built for trust and clarity.",
+    tags: ["Web Design", "Development", "Strategy"],
+    bgColor: "bg-[oklch(0.90_0.015_60)]",
+  },
+];
+
 export function CaseStudiesSection() {
-  const featured = getFeaturedCaseStudies();
-  const reduceMotion = useReducedMotion();
+  const reducedMotion = useReducedMotion();
 
   return (
-    <Section border accent="teal" field="dots">
-      <SectionHeader
-        label="Case studies"
-        title={caseStudiesContent.title}
-        description={caseStudiesContent.subtitle}
-        align="center"
-      />
-
-      <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-5">
-          <p className="heading-display text-balance">
-            Measured outcomes for{" "}
-            <span className="text-gradient-spectral">ambitious teams</span>.
-          </p>
-          <p className="mt-6 max-w-md description-standard">
-            Every engagement is judged by the business results it produces.
-            Here is a sample of what we have delivered.
-          </p>
+    <section className="py-20 lg:py-28">
+      <Container size="wide">
+        <div className="mb-12">
+          <p className="label-mono text-muted mb-3">Selected Work</p>
+          <h2 className="heading-section text-foreground">
+            Projects that speak for themselves.
+          </h2>
         </div>
 
-        <div className="flex flex-col lg:col-span-7">
-          {featured.map((study, index) => {
-            const accent = getCaseStudyAccent(study.slug);
-            return (
-              <motion.div
-                key={study.slug}
-                initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{
-                  duration: motionDurations.default,
-                  delay: index * 0.08,
-                  ease: motionEasing,
-                }}
-              >
-                <Link
-                  href={`/work/${study.slug}`}
-                  className="group block border-b border-border py-8 first:border-t lg:py-10"
-                >
-                  <div className="flex flex-wrap items-baseline gap-4">
-                    <span
-                      className={`text-4xl font-semibold tracking-tight ${accentClasses[accent].text}`}
-                    >
-                      {study.metric}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {showcaseItems.map((item, index) => (
+            <motion.article
+              key={item.title}
+              initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{
+                duration: motionDurations.default,
+                delay: index * 0.1,
+                ease: motionEasing,
+              }}
+              className="group"
+            >
+              <div className={`${item.bgColor} aspect-[4/5] flex flex-col items-center justify-center p-8 transition-transform duration-300 group-hover:scale-[0.98]`}>
+                <p className="label-mono text-muted mb-2">{item.subtitle}</p>
+                <h3 className="heading-section text-foreground text-center">
+                  {item.title}
+                </h3>
+              </div>
+              <div className="mt-4">
+                <p className="text-sm text-muted leading-relaxed">{item.description}</p>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {item.tags.map((tag) => (
+                    <span key={tag} className="text-xs text-muted-light border border-border px-2 py-0.5">
+                      {tag}
                     </span>
-                    <span className="label-mono text-muted-light">
-                      {study.metricLabel}
-                    </span>
-                  </div>
-                  <h3 className="mt-4 heading-block text-foreground">
-                    {study.title}
-                  </h3>
-                  <p className="mt-2 description-standard">{study.summary}</p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent-strong transition-colors group-hover:text-accent">
-                    Read case study
-                    <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </Link>
-              </motion.div>
-            );
-          })}
-
-          <div className="mt-10">
-            <Button href={withBasePath("/work")} variant="secondary" size="lg">
-              View all work
-            </Button>
-          </div>
+                  ))}
+                </div>
+              </div>
+            </motion.article>
+          ))}
         </div>
-      </div>
-    </Section>
+      </Container>
+    </section>
   );
 }

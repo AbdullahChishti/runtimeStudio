@@ -6,9 +6,9 @@ const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "latest";
 
 export const siteConfig = {
   name: "Runtime Studio",
-  tagline: "Better software. Smarter systems. Built with confidence.",
+  tagline: "We build websites that get your business noticed.",
   description:
-    "Runtime Studio is a senior technology consultancy for quality engineering, AI systems, and modern software delivery. We build software teams can trust in production — measured, deliberate, and precise.",
+    "Runtime Studio builds high-end commercial web presences delivered fast. Fixed packages designed for immediate impact, every time.",
   url: siteUrl,
   email: "hello@runtimestudio.com",
   linkedin: "https://linkedin.com/company/runtimestudio",
@@ -32,8 +32,8 @@ export const siteConfig = {
     ],
     /** OKLCH substrate anchors, expressed as hex for chrome that can't
      *  yet parse oklch() (browser address bars, some crawlers). */
-    themeColorLight: "#f4f3f7",
-    themeColorDark: "#101014",
+    themeColorLight: "#f5f0e8",
+    themeColorDark: "#1a1a16",
   },
 } as const;
 
