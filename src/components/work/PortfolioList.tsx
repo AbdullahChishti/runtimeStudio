@@ -6,6 +6,7 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { CaseStudyVisual } from "@/components/work/CaseStudyVisual";
+
 import { caseStudies } from "@/content/caseStudies";
 import { getCaseStudyAccent } from "@/components/work/caseStudyAccents";
 import { cn } from "@/lib/utils";
@@ -81,11 +82,11 @@ export function PortfolioList() {
                         <Badge variant="outline">{study.industry}</Badge>
                       </div>
 
-                      <h2 className="heading-section text-balance transition-colors duration-200 group-hover:text-accent">
+                      <h2 className="heading-section text-balance transition-colors duration-200 group-hover:text-accent" style={{ fontFamily: "var(--font-serif)" }}>
                         {study.title}
                       </h2>
 
-                      <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+                      <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/70">
                         {study.summary}
                       </p>
 

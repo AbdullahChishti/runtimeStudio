@@ -183,14 +183,17 @@ export function AboutPageContent() {
       <Section className="relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,var(--accent-subtle),transparent_70%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,var(--accent)/0.06,transparent_70%)]"
         />
         <div className="relative z-10 max-w-3xl">
           <FadeIn>
             <p className="label-mono text-accent mb-6">
               {company.about.careersCta.cta}
             </p>
-            <h2 className="heading-section text-balance mb-6">
+            <h2
+              className="heading-section text-balance mb-6"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
               {company.about.careersCta.headline}
             </h2>
             <p className="description-standard mb-10 max-w-2xl">
