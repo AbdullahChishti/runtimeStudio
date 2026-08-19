@@ -39,6 +39,7 @@
      ------------------------------------------------------------------ */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui,
     -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Playfair Display", "Georgia", "Times New Roman", serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono",
     "JetBrains Mono", "Menlo", monospace;
 
@@ -47,29 +48,28 @@
      Rotate --signal-hue (e.g. per-route, per-section, data-driven) and
      the entire accent system re-tunes in perceptual space.
      ================================================================== */
-  --signal-hue: 24;            /* live "flux" hue on the OKLCH wheel   */
-  --signal-chroma: 0.205;      /* saturation of the live signal        */
-  --ink-hue: 268;              /* cool bias in the neutral ramp        */
-  --ink-chroma: 0.014;         /* faint spectral cast in neutrals      */
+  --signal-hue: 60;            /* warm gold accent hue                 */
+  --signal-chroma: 0.12;       /* subtle saturation                    */
+  --ink-hue: 60;               /* warm bias in the neutral ramp        */
+  --ink-chroma: 0.01;          /* faint warm cast in neutrals          */
 
   /* ------------------------------------------------------------------
-     SUBSTRATE + INK — a cool, computed vellum. Not clinical white:
-     a near-neutral with a faint spectral cast so it reads as a lit
-     surface rather than blank paper.
+     SUBSTRATE + INK — warm cream/parchment. A premium, lit feel
+     with a warm neutral cast. Inspired by editorial print design.
      ------------------------------------------------------------------ */
-  --background: oklch(0.972 0.004 var(--ink-hue));
-  --foreground: oklch(0.22 0.02 var(--ink-hue));
-  --surface: oklch(0.99 0.003 var(--ink-hue));
-  --surface-elevated: oklch(0.948 0.006 var(--ink-hue));
-  --surface-subtle: oklch(0.918 0.008 var(--ink-hue));
+  --background: oklch(0.96 0.012 80);
+  --foreground: oklch(0.18 0.01 60);
+  --surface: oklch(0.98 0.008 80);
+  --surface-elevated: oklch(0.94 0.014 80);
+  --surface-subtle: oklch(0.91 0.016 80);
 
-  --muted: oklch(0.475 0.019 var(--ink-hue));
-  --muted-light: oklch(0.55 0.018 var(--ink-hue));
-  --muted-subtle: oklch(0.72 0.014 var(--ink-hue));
+  --muted: oklch(0.5 0.012 60);
+  --muted-light: oklch(0.58 0.01 60);
+  --muted-subtle: oklch(0.72 0.008 60);
 
-  --border: oklch(0.9 0.007 var(--ink-hue));
-  --border-strong: oklch(0.82 0.009 var(--ink-hue));
-  --border-hairline: oklch(0.935 0.005 var(--ink-hue));
+  --border: oklch(0.88 0.012 80);
+  --border-strong: oklch(0.78 0.014 80);
+  --border-hairline: oklch(0.92 0.01 80);
 
   /* ------------------------------------------------------------------
      SIGNAL — "Flux". The one live, high-chroma hue, sampled straight
@@ -246,19 +246,19 @@
    ================================================================== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: oklch(0.165 0.012 var(--ink-hue));
-    --foreground: oklch(0.95 0.01 var(--ink-hue));
-    --surface: oklch(0.195 0.014 var(--ink-hue));
-    --surface-elevated: oklch(0.235 0.016 var(--ink-hue));
-    --surface-subtle: oklch(0.275 0.016 var(--ink-hue));
+    --background: oklch(0.16 0.008 60);
+    --foreground: oklch(0.94 0.008 80);
+    --surface: oklch(0.19 0.01 60);
+    --surface-elevated: oklch(0.23 0.012 60);
+    --surface-subtle: oklch(0.27 0.012 60);
 
-    --muted: oklch(0.73 0.018 var(--ink-hue));
-    --muted-light: oklch(0.64 0.018 var(--ink-hue));
-    --muted-subtle: oklch(0.5 0.016 var(--ink-hue));
+    --muted: oklch(0.72 0.012 60);
+    --muted-light: oklch(0.62 0.012 60);
+    --muted-subtle: oklch(0.48 0.01 60);
 
-    --border: oklch(0.3 0.014 var(--ink-hue));
-    --border-strong: oklch(0.4 0.016 var(--ink-hue));
-    --border-hairline: oklch(0.255 0.012 var(--ink-hue));
+    --border: oklch(0.3 0.01 60);
+    --border-strong: oklch(0.4 0.012 60);
+    --border-hairline: oklch(0.25 0.008 60);
 
     --accent: oklch(0.68 var(--signal-chroma) var(--signal-hue));
     --accent-strong: oklch(0.6 var(--signal-chroma) calc(var(--signal-hue) - 4));
@@ -554,23 +554,27 @@ body {
 }
 
 .heading-hero {
+  font-family: var(--font-serif);
   font-size: var(--step-7);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
-  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .heading-display {
+  font-family: var(--font-serif);
   font-size: var(--step-8);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  font-weight: 700;
 }
 
 .heading-section {
+  font-family: var(--font-serif);
   font-size: var(--step-5);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
   font-weight: 600;
 }
 

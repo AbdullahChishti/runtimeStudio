@@ -1,45 +1,34 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
-import { ctaContent } from "@/content/home";
-import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { GenerativeBackground } from "@/components/ui/GenerativeBackground";
+import { Button } from "@/components/ui/Button";
 import { withBasePath } from "@/lib/utils";
 import { motionDurations, motionEasing } from "@/components/animations/motion";
 
 export function CallToActionSection() {
-  const reduceMotion = useReducedMotion();
+  const reducedMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden border-t border-border py-24 lg:py-32">
-      <GenerativeBackground
-        className="absolute inset-0 z-0"
-        density={0.75}
-        accentRatio={0.16}
-        speed={0.9}
-      />
-
-      <Container className="relative z-10 text-center">
+    <section className="py-24 lg:py-36 border-t border-border">
+      <Container>
         <motion.div
-          initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: motionDurations.slow, ease: motionEasing }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: motionDurations.default, ease: motionEasing }}
+          className="text-center flex flex-col items-center gap-6"
         >
-          <h2 className="heading-section mx-auto max-w-2xl text-balance">
-            {ctaContent.title}
+          <h2 className="heading-section text-foreground max-w-2xl text-balance">
+            Ready to get your business noticed?
           </h2>
-          <p className="mx-auto mt-5 max-w-xl description-standard">
-            {ctaContent.subtitle}
+          <p className="text-lg text-muted max-w-xl">
+            Let&apos;s discuss your project. We respond within one business day
+            with clear next steps.
           </p>
-          <div className="mt-10 flex justify-center">
-            <Button href={withBasePath("/contact")} size="lg" className="group">
-              {ctaContent.cta}
-              <ArrowRightIcon className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </div>
+          <Button href={withBasePath("/contact")} size="lg" className="mt-4">
+            Get in touch
+          </Button>
         </motion.div>
       </Container>
     </section>

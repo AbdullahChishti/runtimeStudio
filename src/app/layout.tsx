@@ -20,6 +20,11 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} h-full scroll-smooth`}
       data-scroll-behavior="smooth"
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet" />
+      </head>
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground antialiased">
         <a
           href="#main-content"
