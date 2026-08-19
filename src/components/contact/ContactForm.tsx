@@ -127,7 +127,7 @@ export default function ContactForm() {
           type="submit"
           size="lg"
           pending={status === "pending"}
-          className="btn-glow-hover"
+          className="bg-accent text-white hover:bg-accent-strong uppercase tracking-widest"
         >
           {status === "pending" ? "Sending…" : "Send message"}
         </Button>

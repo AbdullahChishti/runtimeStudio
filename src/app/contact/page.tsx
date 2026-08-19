@@ -20,11 +20,11 @@ export default function ContactPage() {
           <FadeIn delay={0.1}>
             <div className="mb-10 border-b border-border pb-10">
               <p className="label-mono text-muted mb-3">Get in touch</p>
-              <h1 className="heading-display max-w-3xl text-balance">
+              <h1 className="heading-display max-w-3xl text-balance" style={{ fontFamily: "var(--font-serif)" }}>
                 Tell us what{" "}
-                <span className="text-gradient-spectral">you&apos;re building</span>
+                <span className="text-accent">you&apos;re building</span>
               </h1>
-              <p className="description-standard mt-6 max-w-2xl text-balance">
+              <p className="description-standard mt-6 max-w-2xl text-balance text-foreground/70">
                 We&apos;ll respond within one business day with thoughtful next
                 steps. Prefer email? Reach us directly.
               </p>
@@ -35,7 +35,7 @@ export default function ContactPage() {
                   className="group inline-flex items-center gap-3 text-foreground transition-colors hover:text-accent"
                 >
                   <EnvelopeClosedIcon className="h-5 w-5 text-muted" />
-                  <span className="heading-section text-balance gradient-underline">
+                  <span className="heading-section text-balance text-accent">
                     {siteConfig.email}
                   </span>
                 </a>

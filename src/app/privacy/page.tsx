@@ -13,10 +13,10 @@ export default function PrivacyPage() {
     <section className="pt-28 pb-16 lg:pt-36 lg:pb-24">
       <Container size="narrow">
         <FadeIn>
-          <h1 className="text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
+          <h1 className="text-3xl font-medium tracking-tight text-foreground sm:text-4xl" style={{ fontFamily: "var(--font-serif)" }}>
             Privacy Policy
           </h1>
-          <p className="mt-6 text-sm leading-relaxed text-muted">
+          <p className="mt-6 text-sm leading-relaxed text-foreground/70">
             Placeholder privacy policy. Update this page with your legal privacy
             policy before launch. Runtime Studio respects your privacy and will
             only use contact information submitted through our website to respond
