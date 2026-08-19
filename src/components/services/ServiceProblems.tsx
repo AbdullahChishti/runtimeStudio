@@ -20,7 +20,7 @@ export function ServiceProblems({ service, id }: ServiceProblemsProps) {
             key={problem}
             className="flex items-start gap-4 py-6 first:pt-0 last:pb-0"
           >
-            <span className="font-mono text-muted" aria-hidden="true">
+            <span className="font-mono text-accent" aria-hidden="true">
               —
             </span>
             <p className="text-xl leading-relaxed text-foreground">

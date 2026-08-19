@@ -3,7 +3,7 @@
 import { type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Container, type ContainerProps } from "@/components/ui/Container";
-import { ServiceAccent, accentClasses } from "@/content/services";
+import { ServiceAccent } from "@/content/services";
 import { cn } from "@/lib/utils";
 import { motionEasing, motionDurations } from "@/components/animations/motion";
 
@@ -31,7 +31,6 @@ export function ServiceSection({
   containerSize = "default",
   bleed = false,
 }: ServiceSectionProps) {
-  const styles = accentClasses[accent];
   const reducedMotion = useReducedMotion();
 
   const inner = (
@@ -48,9 +47,9 @@ export function ServiceSection({
         ease: motionEasing,
       }}
     >
-      <h2 className="label-mono inline-flex items-center gap-2 text-muted">
+      <h2 className="label-mono inline-flex items-center gap-2 text-foreground/70">
         <span
-          className={cn("h-1.5 w-1.5 rounded-full", styles.dot)}
+          className="h-1.5 w-1.5 rounded-full bg-accent"
           aria-hidden="true"
         />
         {title}

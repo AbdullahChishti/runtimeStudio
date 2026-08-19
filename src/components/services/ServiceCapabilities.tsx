@@ -25,10 +25,7 @@ export function ServiceCapabilities({ service, id }: ServiceCapabilitiesProps) {
         {service.capabilities.map((capability) => (
           <li key={capability} className="flex items-start gap-3">
             <span
-              className={cn(
-                "mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full",
-                styles.dot,
-              )}
+              className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
               aria-hidden="true"
             />
             <span className="text-lg leading-relaxed text-foreground">

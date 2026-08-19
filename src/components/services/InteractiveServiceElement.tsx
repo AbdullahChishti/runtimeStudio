@@ -2,9 +2,7 @@ import { ArrowDown, ArrowRight, RefreshCw } from "lucide-react";
 import {
   ServiceInteractiveElementConfig,
   ServiceAccent,
-  accentClasses,
 } from "@/content/services";
-import { cn } from "@/lib/utils";
 
 interface InteractiveServiceElementProps {
   config: ServiceInteractiveElementConfig;
@@ -15,8 +13,6 @@ export function InteractiveServiceElement({
   config,
   accent,
 }: InteractiveServiceElementProps) {
-  const styles = accentClasses[accent];
-
   switch (config.type) {
     case "timeline":
       return (
@@ -25,10 +21,7 @@ export function InteractiveServiceElement({
             {config.stages.map((stage, index) => (
               <li key={stage.title} className="relative flex items-start gap-5 pl-2">
                 <span
-                  className={cn(
-                    "absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full font-mono text-sm text-background",
-                    styles.dot,
-                  )}
+                  className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full font-mono text-sm text-background bg-accent"
                 >
                   {index + 1}
                 </span>
@@ -51,10 +44,7 @@ export function InteractiveServiceElement({
             {config.nodes.map((node, index) => (
               <div key={node.id} className="flex items-center gap-3">
                 <div
-                  className={cn(
-                    "px-4 py-2 text-sm font-medium text-background",
-                    styles.dot,
-                  )}
+                  className="px-4 py-2 text-sm font-medium text-background bg-accent"
                 >
                   {node.label}
                 </div>
@@ -88,9 +78,9 @@ export function InteractiveServiceElement({
       return (
         <div className="overflow-hidden border-y border-border bg-surface-elevated">
           <div className="flex items-center gap-2 border-b border-border px-4 py-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-accent-teal" />
-            <span className="h-2.5 w-2.5 rounded-full bg-accent-amber" />
-            <span className="h-2.5 w-2.5 rounded-full bg-accent-indigo" />
+            <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+            <span className="h-2.5 w-2.5 rounded-full bg-accent-muted" />
+            <span className="h-2.5 w-2.5 rounded-full bg-foreground/30" />
             <span className="ml-2 label-mono text-muted-light">
               {config.language}
             </span>
@@ -107,10 +97,7 @@ export function InteractiveServiceElement({
           {config.steps.map((step) => (
             <div key={step.question} className="relative pl-8">
               <span
-                className={cn(
-                  "absolute left-0 top-1 h-3 w-3 rounded-full",
-                  styles.dot,
-                )}
+                className="absolute left-0 top-1 h-3 w-3 rounded-full bg-accent"
                 aria-hidden="true"
               />
               <p className="text-lg font-medium text-foreground">

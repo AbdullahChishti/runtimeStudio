@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Service, accentClasses } from "@/content/services";
+import { Service } from "@/content/services";
 import { ServiceTag } from "./ServiceTag";
-import { cn } from "@/lib/utils";
 import { motionEasing, motionDurations } from "@/components/animations/motion";
 
 type ServiceListProps = {
@@ -17,8 +16,6 @@ export function ServiceList({ services }: ServiceListProps) {
   return (
     <div className="border-t border-border">
       {services.map((service, index) => {
-        const accent = accentClasses[service.accent];
-
         return (
           <motion.div
             key={service.slug}
@@ -42,17 +39,17 @@ export function ServiceList({ services }: ServiceListProps) {
             >
               <div className="lg:col-span-2">
                 <span
-                  className={cn("label-mono text-2xl", accent.text)}
+                  className="label-mono text-2xl text-accent"
                 >
                   {service.number}
                 </span>
               </div>
 
               <div className="lg:col-span-5">
-                <h3 className="text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent sm:text-3xl">
+                <h3 className="text-2xl font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent sm:text-3xl" style={{ fontFamily: "var(--font-serif)" }}>
                   {service.title}
                 </h3>
-                <p className="mt-3 description-standard">
+                <p className="mt-3 description-standard text-foreground/70">
                   {service.shortDescription}
                 </p>
               </div>

@@ -40,8 +40,8 @@ export function ServiceCTA({ service, className }: ServiceCTAProps) {
           }}
           className="max-w-3xl"
         >
-          <h2 className="heading-section text-balance">{title}</h2>
-          <p className="mt-6 text-xl text-muted">{description}</p>
+          <h2 className="heading-section text-balance" style={{ fontFamily: "var(--font-serif)" }}>{title}</h2>
+          <p className="mt-6 text-xl text-foreground/70">{description}</p>
           <div className="mt-10">
             <Button href={withBasePath("/contact")} size="lg">
               Get in touch

@@ -1,5 +1,4 @@
-import { Service, accentClasses } from "@/content/services";
-import { cn } from "@/lib/utils";
+import { Service } from "@/content/services";
 import { ServiceSection } from "./ServiceSection";
 
 interface ServiceApproachProps {
@@ -8,8 +7,6 @@ interface ServiceApproachProps {
 }
 
 export function ServiceApproach({ service, id }: ServiceApproachProps) {
-  const styles = accentClasses[service.accent];
-
   return (
     <ServiceSection
       id={id}
@@ -22,10 +19,7 @@ export function ServiceApproach({ service, id }: ServiceApproachProps) {
         {service.approach.map((step, index) => (
           <li key={step} className="relative pl-8">
             <span
-              className={cn(
-                "absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full font-mono text-sm text-background",
-                styles.dot,
-              )}
+              className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full font-mono text-sm text-background bg-accent"
               aria-hidden="true"
             >
               {String(index + 1).padStart(2, "0")}

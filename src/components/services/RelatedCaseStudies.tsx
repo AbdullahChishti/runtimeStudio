@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { caseStudies } from "@/content/caseStudies";
 import type { ServiceAccent } from "@/content/services";
-import { accentClasses } from "@/content/services";
-import { cn } from "@/lib/utils";
 import { ServiceSection } from "./ServiceSection";
 
 interface RelatedCaseStudiesProps {
@@ -16,7 +14,6 @@ export function RelatedCaseStudies({
   accent,
   id,
 }: RelatedCaseStudiesProps) {
-  const styles = accentClasses[accent];
   const related = caseStudies.filter((study) => slugs.includes(study.slug));
 
   if (related.length === 0) return null;
@@ -43,14 +40,12 @@ export function RelatedCaseStudies({
                   {study.industry}
                 </p>
                 <h3
-                  className={cn(
-                    "mt-2 text-2xl font-medium tracking-tight transition-colors duration-200 group-hover:text-accent",
-                    styles.text,
-                  )}
+                  className="mt-2 text-2xl font-medium tracking-tight transition-colors duration-200 text-accent group-hover:text-accent-strong"
+                  style={{ fontFamily: "var(--font-serif)" }}
                 >
                   {study.title}
                 </h3>
-                <p className="mt-3 max-w-2xl text-muted">{study.summary}</p>
+                <p className="mt-3 max-w-2xl text-foreground/70">{study.summary}</p>
               </div>
               <div className="lg:text-right">
                 <p className="data-readout text-3xl font-medium text-foreground">
