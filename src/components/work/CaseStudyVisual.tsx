@@ -1,25 +1,16 @@
 import { cn } from "@/lib/utils";
-import type { ServiceAccent } from "@/content/services";
 
 type CaseStudyVisualProps = {
   slug: string;
-  accent: ServiceAccent;
   className?: string;
 };
 
-const strokeColor: Record<ServiceAccent, string> = {
-  teal: "var(--accent-teal)",
-  violet: "var(--accent-violet)",
-  amber: "var(--accent-amber)",
-  indigo: "var(--accent-indigo)",
-};
+const GOLD = "var(--accent)";
 
-export function CaseStudyVisual({ slug, accent, className }: CaseStudyVisualProps) {
-  const color = strokeColor[accent];
-
+export function CaseStudyVisual({ slug, className }: CaseStudyVisualProps) {
   return (
     <div
-      className={cn("relative overflow-hidden bg-surface-elevated", className)}
+      className={cn("relative overflow-hidden", className)}
       aria-hidden="true"
     >
       <div className="absolute inset-0 grid-pattern opacity-20" />
@@ -35,7 +26,7 @@ export function CaseStudyVisual({ slug, accent, className }: CaseStudyVisualProp
               y1="40"
               x2="108"
               y2="40"
-              stroke={color}
+              stroke={GOLD}
               strokeWidth="0.4"
               opacity="0.25"
             />
@@ -46,7 +37,7 @@ export function CaseStudyVisual({ slug, accent, className }: CaseStudyVisualProp
                   y1="40"
                   x2={x + (i % 2 === 0 ? -8 : 8)}
                   y2={i % 2 === 0 ? 18 : 62}
-                  stroke={color}
+                  stroke={GOLD}
                   strokeWidth="0.45"
                   opacity="0.35"
                 />
@@ -54,12 +45,12 @@ export function CaseStudyVisual({ slug, accent, className }: CaseStudyVisualProp
                   cx={x + (i % 2 === 0 ? -8 : 8)}
                   cy={i % 2 === 0 ? 18 : 62}
                   r="2.5"
-                  fill={color}
+                  fill={GOLD}
                   opacity={0.45 + i * 0.08}
                 />
               </g>
             ))}
-            <circle cx="12" cy="40" r="3" fill={color} opacity="0.55" />
+            <circle cx="12" cy="40" r="3" fill={GOLD} opacity="0.55" />
           </g>
         )}
 
@@ -72,7 +63,7 @@ export function CaseStudyVisual({ slug, accent, className }: CaseStudyVisualProp
                   y1={y}
                   x2="106"
                   y2={y}
-                  stroke={color}
+                  stroke={GOLD}
                   strokeWidth="0.35"
                   opacity={0.2 + i * 0.05}
                   strokeDasharray="2 3"
@@ -83,15 +74,15 @@ export function CaseStudyVisual({ slug, accent, className }: CaseStudyVisualProp
                   width={24 + i * 8}
                   height="6"
                   fill="none"
-                  stroke={color}
+                  stroke={GOLD}
                   strokeWidth="0.45"
                   opacity={0.35 + i * 0.1}
                 />
               </g>
             ))}
-            <polygon points="98,22 106,26 98,30" fill={color} opacity="0.5" />
-            <polygon points="98,40 106,44 98,48" fill={color} opacity="0.55" />
-            <polygon points="98,58 106,62 98,66" fill={color} opacity="0.6" />
+            <polygon points="98,22 106,26 98,30" fill={GOLD} opacity="0.5" />
+            <polygon points="98,40 106,44 98,48" fill={GOLD} opacity="0.55" />
+            <polygon points="98,58 106,62 98,66" fill={GOLD} opacity="0.6" />
           </g>
         )}
 
@@ -105,22 +96,22 @@ export function CaseStudyVisual({ slug, accent, className }: CaseStudyVisualProp
                 rx={12 + i * 10}
                 ry={8 + i * 6}
                 fill="none"
-                stroke={color}
+                stroke={GOLD}
                 strokeWidth="0.4"
                 opacity={0.45 - i * 0.08}
               />
             ))}
-            <circle cx="60" cy="40" r="2.5" fill={color} opacity="0.6" />
+            <circle cx="60" cy="40" r="2.5" fill={GOLD} opacity="0.6" />
             <line
               x1="60"
               y1="40"
               x2="88"
               y2="22"
-              stroke={color}
+              stroke={GOLD}
               strokeWidth="0.4"
               opacity="0.35"
             />
-            <circle cx="88" cy="22" r="1.5" fill={color} opacity="0.45" />
+            <circle cx="88" cy="22" r="1.5" fill={GOLD} opacity="0.45" />
           </g>
         )}
       </svg>

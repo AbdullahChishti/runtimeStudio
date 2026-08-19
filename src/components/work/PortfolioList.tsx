@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/Badge";
 import { CaseStudyVisual } from "@/components/work/CaseStudyVisual";
 
 import { caseStudies } from "@/content/caseStudies";
-import { getCaseStudyAccent } from "@/components/work/caseStudyAccents";
 import { cn } from "@/lib/utils";
 import {
   motionDurations,
@@ -34,7 +33,6 @@ export function PortfolioList() {
       <Container>
         <div className="space-y-0">
           {caseStudies.map((study, index) => {
-            const accent = getCaseStudyAccent(study.slug);
             const isEven = index % 2 === 0;
 
             return (
@@ -64,8 +62,7 @@ export function PortfolioList() {
                     >
                       <CaseStudyVisual
                         slug={study.slug}
-                        accent={accent}
-                        className="aspect-[4/3] w-full bg-surface-elevated"
+                        className="aspect-[4/3] w-full bg-white border border-accent/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
                       />
                     </div>
 
