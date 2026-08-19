@@ -19,9 +19,12 @@ export function AboutPageContent() {
       <section className="border-b border-border pt-24 pb-10 lg:pt-32 lg:pb-14">
         <Container>
           <p className="label-mono text-accent">{company.tagline}</p>
-          <h1 className="heading-display mt-4 max-w-3xl text-balance">
+          <h1
+            className="heading-display mt-4 max-w-3xl text-balance"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
             {company.about.headline.split("trust")[0]}
-            <span className="text-gradient-spectral">trust.</span>
+            <span className="text-accent">trust.</span>
           </h1>
         </Container>
       </section>
@@ -57,7 +60,7 @@ export function AboutPageContent() {
       </Section>
 
       {/* How we work — timeline of principles */}
-      <Section accent="indigo">
+      <Section border>
         <SectionHeader
           label="Process"
           title="How we work"
@@ -76,7 +79,7 @@ export function AboutPageContent() {
                 <div className="pl-14 lg:pl-20">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-baseline">
                     <div className="lg:col-span-3">
-                      <span className="data-readout text-4xl lg:text-5xl font-bold text-accent-indigo">
+                      <span className="data-readout text-4xl lg:text-5xl font-bold text-accent">
                         {stage.stage}
                       </span>
                     </div>
@@ -132,7 +135,7 @@ export function AboutPageContent() {
       </Section>
 
       {/* Team — abstract visual blocks */}
-      <Section accent="coral">
+      <Section border>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-4">
             <SectionHeader
